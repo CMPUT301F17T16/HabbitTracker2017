@@ -2,4 +2,4 @@ Edits:
 - Jonah Cowan (CCID:jcowan github: jocowan)
 - Alexander Mackenzie (almacken)
 - Shu-Ting Lin (CCID: jlin7, github: jstl1025)
-- Jacy Mark (CCID: jmark, github: jacym)
+- Hao Yuan (CCID: hyuan2, github: HaoYuan-Miller)
