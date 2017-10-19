@@ -1,2 +1,2 @@
 # HabbitTracker2017
-CMPUT 300 project
+CMPUT 301 project
