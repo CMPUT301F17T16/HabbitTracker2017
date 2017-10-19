@@ -1,0 +1,41 @@
+Habits:
+  - attributes
+    + String title
+    + String reason
+    + Date   startDate
+    + Dictionary Schedule
+    + ArrayList<HabitEvents> Events
+  -methods
+    + initialization
+    + getters/setters
+    + toString
+    + createEvent
+    + getMostRecentEvent
+    + getTodaysHabits
+
+HabitEvent:
+  - attributes
+    + String comment
+    + File picture
+    + Location currentLocation
+    + Date date
+  - methods
+    + initialization (with or without picture or location)
+    + getters/setters
+    + deleteEvent
+    + getHabit
+    - downsizePhoto
+
+User:
+  - attributes
+    + String name
+    + ArrayList<Habit> habits
+    + ArrayList<HabitEvent> habitEvents
+    + ArrayList<Users> following
+    + ArrayList<Users> followers
+    + ArrayList<Users> requests  
+  - methods
+    + getters/setters
+    
+ 
+    
