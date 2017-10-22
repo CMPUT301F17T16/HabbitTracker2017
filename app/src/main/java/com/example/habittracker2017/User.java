@@ -14,6 +14,10 @@ public class User {
     private ArrayList<String> followers;
     private ArrayList<String> requests;
 
+    User(String name){
+        //TODO
+    }
+
     public String getName() {
         return name;
     }

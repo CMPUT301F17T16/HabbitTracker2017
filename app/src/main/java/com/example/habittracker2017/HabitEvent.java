@@ -9,26 +9,26 @@ import java.util.Date;
  * Created by Alex on 2017-10-20.
  */
 
-class HabitEvent {
+public class HabitEvent {
     private String comment;
     private File picture;
     private Location location;
     private Date date;
     private Habit habit;
 
-    HabitEvent(String comment, Habit habit){
+    HabitEvent(String comment){
         //TODO
     }
 
-    HabitEvent(String comment, Habit habit, File picture){
+    HabitEvent(String comment, File picture){
         //TODO
     }
 
-    HabitEvent(String comment, Habit habit, Location location){
+    HabitEvent(String comment, Location location){
         //TODO
     }
 
-    HabitEvent(String comment, Habit habit, File picture, Location location){
+    HabitEvent(String comment, File picture, Location location){
         //TODO
     }
 
@@ -72,7 +72,7 @@ class HabitEvent {
         this.location = location;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Date date) {        //Used for testing purposes, so don't delete
         this.date = date;
     }
 
