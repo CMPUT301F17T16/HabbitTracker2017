@@ -15,7 +15,7 @@ public class User {
     private ArrayList<String> requests;
 
     User(String name){
-        //TODO
+        this.name = name;
     }
 
     public String getName() {
