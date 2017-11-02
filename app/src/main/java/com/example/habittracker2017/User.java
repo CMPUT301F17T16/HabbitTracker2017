@@ -16,6 +16,11 @@ public class User {
 
     User(String name){
         this.name = name;
+        habits = new ArrayList<Habit>();
+        events = new ArrayList<HabitEvent>();
+        following = new ArrayList<String>();
+        followers = new ArrayList<String>();
+        requests = new ArrayList<String>();
     }
 
     public String getName() {
