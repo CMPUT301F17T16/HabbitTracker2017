@@ -1,5 +1,7 @@
 package com.example.habittracker2017;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 
 import java.io.File;
@@ -7,44 +9,90 @@ import java.util.Date;
 
 /**
  * Created by Alex on 2017-10-20.
+ * Represents a single event of a habit.
  */
 
 public class HabitEvent {
     private String comment;
-    private File picture;
+    private Bitmap picture;
     private Location location;
     private Date date;
     private Habit habit;
 
+    /**
+     * Creates a new event with a given comment.
+     * After creating an event, it must be associated with a habit with Habit.addEvent.
+     * @param comment The comment to use.
+     */
     HabitEvent(String comment){
-        //TODO
+        this.comment = comment;
+        this.picture = null;
+        this.location = null;
+        this.date = new Date();
     }
 
+    /**
+     * Creates a new event with a given comment and picture.
+     * After creating an event, it must be associated with a habit with Habit.addEvent.
+     * @param comment The comment to use.
+     * @param picture The picture to use.
+     */
     HabitEvent(String comment, File picture){
-        //TODO
+        this.comment = comment;
+        this.picture = scaledownPicture(picture);
+        this.location = null;
+        this.date = new Date();
     }
 
+    /**
+     * Creates a new event with a given comment and location.
+     * After creating an event, it must be associated with a habit with Habit.addEvent.
+     * @param comment The comment to use.
+     * @param location The location to use.
+     */
     HabitEvent(String comment, Location location){
-        //TODO
+        this.comment = comment;
+        this.picture = null;
+        this.location = location;
+        this.date = new Date();
     }
 
+    /**
+     * Creates a new event with a given comment, picture, and location.
+     * After creating an event, it must be associated with a habit with Habit.addEvent.
+     * @param comment The comment to use.
+     * @param picture The picture to use.
+     * @param location The location to use.
+     */
     HabitEvent(String comment, File picture, Location location){
-        //TODO
+        this.comment = comment;
+        this.picture = scaledownPicture(picture);
+        this.location = location;
+        this.date = new Date();
     }
 
+    /**
+     * Deletes this event from its parent habit.
+     */
     public void delete(){
-        //TODO
+        habit.getEvents().remove(this);
     }
 
-    private File scaledownPicture(File picture){
-        return null; //TODO, or implement this in a control class
+    /**
+     * Converts an image file to a scaled down bitmap to reduce storage size.
+     * @param file File to convert.
+     * @return Small bitmap.
+     */
+    private Bitmap scaledownPicture(File file){           //This should be moved to a control class
+        Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
+        return Bitmap.createScaledBitmap(image, 64, 64, false);
     }
 
     public String getComment() {
         return comment;
     }
 
-    public File getPicture() {
+    public Bitmap getPicture() {
         return picture;
     }
 
@@ -65,7 +113,7 @@ public class HabitEvent {
     }
 
     public void setPicture(File picture) {
-        this.picture = picture;
+        this.picture = scaledownPicture(picture);
     }
 
     public void setLocation(Location location) {

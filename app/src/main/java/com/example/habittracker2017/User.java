@@ -4,16 +4,21 @@ import java.util.ArrayList;
 
 /**
  * Created by Alex on 2017-10-20.
+ * Represents a user, and includes the usernames of all users associated with this user.
  */
 
 public class User {
     private String name;
     private ArrayList<Habit> habits;
-    private ArrayList<HabitEvent> events;
+    private ArrayList<HabitEvent> events;       //This shouldn't be used, access events through parent habits
     private ArrayList<String> following;
     private ArrayList<String> followers;
     private ArrayList<String> requests;
 
+    /**
+     * Creates a new user with a given username.
+     * @param name The username of the new user.
+     */
     User(String name){
         this.name = name;
         habits = new ArrayList<Habit>();

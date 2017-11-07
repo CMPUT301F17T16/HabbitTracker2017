@@ -6,34 +6,80 @@ import java.util.HashMap;
 
 /**
  * Created by Alex on 2017-10-20.
+ * Represents a class of habits, used to organize habit events.
+ * It also tracks if a event can be created from this habit at the given time.
  */
 
 public class Habit {
     private String title;
     private String reason;
     private Date startDate;
-    private HashMap<String, Boolean> schedule;
+    private HashMap<Integer, Boolean> schedule;
     private ArrayList<HabitEvent> events;
 
-    Habit(String title, String reason, Date startDate, HashMap<String, Boolean> schedule){
-        //TODO
+    /**
+     * Creates a new Habit type.
+     * @param title The name of this habit.
+     * @param reason The given reason for this habit.
+     * @param startDate The date after which new habit events can be made.
+     * @param schedule A map representing the days the habit is due on.
+     */
+    Habit(String title, String reason, Date startDate, HashMap<Integer, Boolean> schedule){
+        this.title = title;
+        this.reason = reason;
+        this.startDate = startDate;
+        this.schedule = schedule;
+        this.events = new ArrayList<>();
     }
 
+    /**
+     * Registers an event as belonging to this habit, as a two-way relationship.
+     * @param event The event to register.
+     */
     public void addEvent(HabitEvent event){
-        //TODO
+        events.add(event);
+        event.setHabit(this);
     }
 
+    /**
+     * Returns the most recent event registered with the habit.
+     * Returns null if there are no events for this habit.
+     * @return The event in events with the most recent date field.
+     */
     public HabitEvent getLastEvent(){
-        return null; //TODO
+        if(events.size() == 0){
+            return null;
+        } else {
+            HabitEvent event = events.get(0);
+            for(int i=1;i<events.size();i++){
+                if(event.getDate().before(events.get(i).getDate())){
+                    event = events.get(i);
+                }
+            }
+            return event;
+        }
     }
 
-    public boolean isDue(){
-        return false; //TODO
+    /**
+     * Returns true iff this habit is scheduled to be done on the given date.
+     * @param date The date to be checked.
+     * @return True if this habit is due, false otherwise.
+     */
+    public boolean isDue(Date date){
+        if(date.before(startDate)){
+            return false;
+        } else {
+            return schedule.get(date.getDay());
+        }
     }
 
+    /**
+     * Returns a String representation of this habit type.
+     * @return String representation of this habit type.
+     */
     @Override
     public String toString() {
-        return null; //TODO
+        return title;       //This will probably get changed to a nicely formatted String later.
     }
 
     public String getTitle(){
@@ -48,7 +94,7 @@ public class Habit {
         return startDate;
     }
 
-    public HashMap<String, Boolean> getSchedule() {
+    public HashMap<Integer, Boolean> getSchedule() {
         return schedule;
     }
 
@@ -68,7 +114,7 @@ public class Habit {
         this.startDate = startDate;
     }
 
-    public void setSchedule(HashMap<String, Boolean> schedule) {
+    public void setSchedule(HashMap<Integer, Boolean> schedule) {
         this.schedule = schedule;
     }
 

@@ -1,7 +1,9 @@
 package com.example.habittracker2017;
 
 import android.location.Location;
+import android.os.Build;
 import android.os.SystemClock;
+import android.support.annotation.RequiresApi;
 
 import org.junit.Test;
 
@@ -9,6 +11,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 
+import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
@@ -20,8 +23,8 @@ import static org.junit.Assert.assertTrue;
 
 public class HabitTrackerUnitTest {
 
-    private HashMap<String, Boolean> testSchedule;
-    private HashMap<String, Boolean> inverseSchedule;
+    private HashMap<Integer, Boolean> testSchedule;
+    private HashMap<Integer, Boolean> inverseSchedule;
     private Date sunday;
     private Date monday;
     private Date tuesday;
@@ -35,29 +38,29 @@ public class HabitTrackerUnitTest {
         testSchedule = new HashMap<>();
         inverseSchedule = new HashMap<>();
 
-        testSchedule.put("sun", false);     //Not sure exactly how we're going to implement these maps
-        testSchedule.put("mon", true);
-        testSchedule.put("tue", false);
-        testSchedule.put("wed", true);
-        testSchedule.put("thr", false);
-        testSchedule.put("fri", true);
-        testSchedule.put("sat", false);
+        testSchedule.put(0, false);
+        testSchedule.put(1, true);
+        testSchedule.put(2, false);
+        testSchedule.put(3, true);
+        testSchedule.put(4, false);
+        testSchedule.put(5, true);
+        testSchedule.put(6, false);
 
-        inverseSchedule.put("sun", true);
-        inverseSchedule.put("mon", false);
-        inverseSchedule.put("tue", true);
-        inverseSchedule.put("wed", false);
-        inverseSchedule.put("thr", true);
-        inverseSchedule.put("fri", false);
-        inverseSchedule.put("sat", true);
+        inverseSchedule.put(0, true);
+        inverseSchedule.put(1, false);
+        inverseSchedule.put(2, true);
+        inverseSchedule.put(3, false);
+        inverseSchedule.put(4, true);
+        inverseSchedule.put(5, false);
+        inverseSchedule.put(6, true);
 
-        sunday = new Date(117, 10, 1);
-        monday = new Date(117, 10, 2);
-        tuesday = new Date(117, 10, 3);
-        wedsday = new Date(117, 10, 4);
-        thursday = new Date(117, 10, 5);
-        friday = new Date(117, 10, 6);
-        saterday = new Date(117, 10, 7);
+        sunday = new Date(117, 9, 1);
+        monday = new Date(117, 9, 2);
+        tuesday = new Date(117, 9, 3);
+        wedsday = new Date(117, 9, 4);
+        thursday = new Date(117, 9, 5);
+        friday = new Date(117, 9, 6);
+        saterday = new Date(117, 9, 7);
     }
 
     @Test
@@ -65,7 +68,7 @@ public class HabitTrackerUnitTest {
         String title = "Title";
         String reason = "Reason";
         Date startDate = new Date();
-        HashMap<String, Boolean> schedule = testSchedule;
+        HashMap<Integer, Boolean> schedule = testSchedule;
         Habit habit = new Habit(title, reason, startDate, schedule);
 
         assertEquals(habit.getTitle(), title);
@@ -93,6 +96,7 @@ public class HabitTrackerUnitTest {
         assertFalse(habit.getEvents().contains(event));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Test
     public void testAdvancedEventCreation() {
         Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
@@ -115,12 +119,12 @@ public class HabitTrackerUnitTest {
 
         assertEquals(eventL.getLocation(), location);
         assertEquals(eventPL.getLocation(), location);
-        assertTrue(eventP.getPicture().exists());           //Confirms scaled-down pictures are used
+        assertNotNull(eventP.getPicture());                 //Confirms scaled-down pictures are used
         assertNotSame(eventP.getPicture(), picture);        //instead of the original
-        assertTrue(eventP.getPicture().getTotalSpace() < 65536);
-        assertTrue(eventPL.getPicture().exists());
+        assertNotNull(eventPL.getPicture());
         assertNotSame(eventPL.getPicture(), picture);
-        assertTrue(eventPL.getPicture().getTotalSpace() < 65536);
+        assertTrue(eventP.getPicture().getAllocationByteCount() < 65536);
+        assertTrue(eventPL.getPicture().getAllocationByteCount() < 65536);
     }
 
     @Test
@@ -141,46 +145,33 @@ public class HabitTrackerUnitTest {
     }
 
     @Test
-    public void testIsDue(){        //This might be simpler based on the implementation of IsDue()
-        Date savedDate = new Date(System.currentTimeMillis());
+    public void testIsDue(){
+        Habit habit = new Habit("Title", "Reason", sunday, testSchedule);
+        Habit otherHabit = new Habit("Title", "Reason", sunday, inverseSchedule);
 
-        Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
-        Habit otherHabit = new Habit("Title", "Reason", new Date(), inverseSchedule);
+        assertFalse(habit.isDue(sunday));
+        assertTrue(otherHabit.isDue(sunday));
 
-        SystemClock.setCurrentTimeMillis(sunday.getTime());
-        assertFalse(habit.isDue());
-        assertTrue(otherHabit.isDue());
+        assertTrue(habit.isDue(monday));
+        assertFalse(otherHabit.isDue(monday));
 
-        SystemClock.setCurrentTimeMillis(monday.getTime());
-        assertTrue(habit.isDue());
-        assertFalse(otherHabit.isDue());
+        assertFalse(habit.isDue(tuesday));
+        assertTrue(otherHabit.isDue(tuesday));
 
-        SystemClock.setCurrentTimeMillis(tuesday.getTime());
-        assertFalse(habit.isDue());
-        assertTrue(otherHabit.isDue());
+        assertTrue(habit.isDue(wedsday));
+        assertFalse(otherHabit.isDue(wedsday));
 
-        SystemClock.setCurrentTimeMillis(wedsday.getTime());
-        assertTrue(habit.isDue());
-        assertFalse(otherHabit.isDue());
+        assertFalse(habit.isDue(thursday));
+        assertTrue(otherHabit.isDue(thursday));
 
-        SystemClock.setCurrentTimeMillis(thursday.getTime());
-        assertFalse(habit.isDue());
-        assertTrue(otherHabit.isDue());
+        assertTrue(habit.isDue(friday));
+        assertFalse(otherHabit.isDue(friday));
 
-        SystemClock.setCurrentTimeMillis(friday.getTime());
-        assertTrue(habit.isDue());
-        assertFalse(otherHabit.isDue());
+        assertFalse(habit.isDue(saterday));
+        assertTrue(otherHabit.isDue(saterday));
 
-        SystemClock.setCurrentTimeMillis(saterday.getTime());
-        assertFalse(habit.isDue());
-        assertTrue(otherHabit.isDue());
-
-        //Tests the habits before start date are not flagged as due
-        SystemClock.setCurrentTimeMillis(monday.getTime());
         habit.setStartDate(friday);
-        assertFalse(habit.isDue());
-
-        SystemClock.setCurrentTimeMillis(savedDate.getTime());      //Should change this to use Clocks
+        assertFalse(habit.isDue(monday));
     }
 
     @Test
