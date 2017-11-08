@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HabitTracker2017</string>
+    <string name="search">Search</string>
+    <string name="show_map">Show Map</string>
 </resources>
