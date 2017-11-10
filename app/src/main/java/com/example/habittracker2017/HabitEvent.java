@@ -1,10 +1,8 @@
 package com.example.habittracker2017;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 
-import java.io.File;
 import java.util.Date;
 
 /**
@@ -37,9 +35,9 @@ public class HabitEvent {
      * @param comment The comment to use.
      * @param picture The picture to use.
      */
-    HabitEvent(String comment, File picture){
+    HabitEvent(String comment, Bitmap picture){
         this.comment = comment;
-        this.picture = scaledownPicture(picture);
+        this.picture = picture;
         this.location = null;
         this.date = new Date();
     }
@@ -64,9 +62,9 @@ public class HabitEvent {
      * @param picture The picture to use.
      * @param location The location to use.
      */
-    HabitEvent(String comment, File picture, Location location){
+    HabitEvent(String comment, Bitmap picture, Location location){
         this.comment = comment;
-        this.picture = scaledownPicture(picture);
+        this.picture = picture;
         this.location = location;
         this.date = new Date();
     }
@@ -76,16 +74,6 @@ public class HabitEvent {
      */
     public void delete(){
         habit.getEvents().remove(this);
-    }
-
-    /**
-     * Converts an image file to a scaled down bitmap to reduce storage size.
-     * @param file File to convert.
-     * @return Small bitmap.
-     */
-    private Bitmap scaledownPicture(File file){           //This should be moved to a control class
-        Bitmap image = BitmapFactory.decodeFile(file.getAbsolutePath());
-        return Bitmap.createScaledBitmap(image, 64, 64, false);
     }
 
     public String getComment() {
@@ -112,8 +100,8 @@ public class HabitEvent {
         this.comment = comment;
     }
 
-    public void setPicture(File picture) {
-        this.picture = scaledownPicture(picture);
+    public void setPicture(Bitmap picture) {
+        this.picture = picture;
     }
 
     public void setLocation(Location location) {

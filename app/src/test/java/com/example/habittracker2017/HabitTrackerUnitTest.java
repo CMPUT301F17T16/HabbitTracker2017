@@ -1,5 +1,6 @@
 package com.example.habittracker2017;
 
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.os.Build;
 import android.os.SystemClock;
@@ -104,7 +105,7 @@ public class HabitTrackerUnitTest {
 
         Location location = null;
 
-        File picture = new File("TestImage.png");   //Or .jpg or any whatever format we end up using
+        Bitmap picture = Bitmap.createBitmap(64, 64, Bitmap.Config.RGBA_F16);   //Or whatever format we end up using
 
         HabitEvent eventL = new HabitEvent(comment, location);
         HabitEvent eventP = new HabitEvent(comment, picture);
@@ -119,12 +120,8 @@ public class HabitTrackerUnitTest {
 
         assertEquals(eventL.getLocation(), location);
         assertEquals(eventPL.getLocation(), location);
-        assertNotNull(eventP.getPicture());                 //Confirms scaled-down pictures are used
-        assertNotSame(eventP.getPicture(), picture);        //instead of the original
-        assertNotNull(eventPL.getPicture());
-        assertNotSame(eventPL.getPicture(), picture);
-        assertTrue(eventP.getPicture().getAllocationByteCount() < 65536);
-        assertTrue(eventPL.getPicture().getAllocationByteCount() < 65536);
+        assertEquals(eventP.getPicture(), picture);
+        assertEquals(eventPL.getPicture(), picture);
     }
 
     @Test
@@ -181,7 +178,6 @@ public class HabitTrackerUnitTest {
 
         assertEquals(user.getName(), name);
         assertTrue(user.getHabits().isEmpty());
-        assertTrue(user.getEvents().isEmpty());
         assertTrue(user.getFollowing().isEmpty());
         assertTrue(user.getFollowers().isEmpty());
         assertTrue(user.getRequests().isEmpty());

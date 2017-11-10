@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class User {
     private String name;
     private ArrayList<Habit> habits;
-    private ArrayList<HabitEvent> events;       //This shouldn't be used, access events through parent habits
     private ArrayList<String> following;
     private ArrayList<String> followers;
     private ArrayList<String> requests;
@@ -22,7 +21,6 @@ public class User {
     User(String name){
         this.name = name;
         habits = new ArrayList<Habit>();
-        events = new ArrayList<HabitEvent>();
         following = new ArrayList<String>();
         followers = new ArrayList<String>();
         requests = new ArrayList<String>();
@@ -76,10 +74,6 @@ public class User {
         return habits;
     }
 
-    public ArrayList<HabitEvent> getEvents() {
-        return events;
-    }
-
     public ArrayList<String> getFollowing() {
         return following;
     }
@@ -98,10 +92,6 @@ public class User {
 
     public void setHabits(ArrayList<Habit> habits) {
         this.habits = habits;
-    }
-
-    public void setEvents(ArrayList<HabitEvent> events) {
-        this.events = events;
     }
 
     public void setFollowing(ArrayList<String> following) {
