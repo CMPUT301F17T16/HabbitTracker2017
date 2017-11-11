@@ -5,7 +5,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.habittracker2017"
-        minSdkVersion 25
+        minSdkVersion 14
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -26,9 +26,8 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:design:26.1.0'
     testCompile 'junit:junit:4.12'
     compile 'org.mockito:mockito-core:2.11.0'
-    implementation 'com.android.support:design:27.0.0'
-    implementation 'com.google.code.gson:gson:2.2.4'
     implementation 'io.searchbox:jest-droid:1.0.0'
 }
