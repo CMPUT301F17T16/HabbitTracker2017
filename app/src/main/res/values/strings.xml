@@ -2,4 +2,7 @@
     <string name="app_name">HabitTracker2017</string>
     <string name="search">Search</string>
     <string name="show_map">Show Map</string>
+    <string name="new_user_prompt">Enter Your Username:</string>
+    <string name="username_hint">Username</string>
+    <string name="ok_button">OK</string>
 </resources>

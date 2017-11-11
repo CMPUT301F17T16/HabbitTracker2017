@@ -26,8 +26,18 @@ public class HabitTracker2017MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_tracker2017);
 
+        //Starts UserManager singleton, if it does not exist.
+        UserManager.init(this.getApplicationContext());
+
+
         //Check current internet status
         connection = InternetStatus.CheckInternetConnection(HabitTracker2017MainActivity.this);
+
+        //Goes to user creation activity is there is no user found
+        if(UserManager.user == null){
+            Intent intent = new Intent(this, CreateUserActivity.class);
+            startActivity(intent);
+        }
 
         //Find TabHosts in main layout
         parentTabs = (TabHost) findViewById(R.id.parentTabs);
