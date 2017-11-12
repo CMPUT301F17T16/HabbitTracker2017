@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/habitStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,4 +49,13 @@
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="148dp" />
+
+    <Button
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="date"
+        app:layout_constraintBaseline_toBaselineOf="@+id/habitStart"
+        app:layout_constraintStart_toEndOf="@+id/habitStart" />
 </android.support.constraint.ConstraintLayout>
