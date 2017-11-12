@@ -19,7 +19,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateUserActivity"></activity>
+        <activity android:name=".CreateUserActivity" />
+        <activity android:name=".viewManageHabits" />
+        <activity
+            android:name=".createHabit"
+            android:parentActivityName=".viewManageHabits">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.habittracker2017.viewManageHabits" />
+        </activity>
     </application>
 
 </manifest>
