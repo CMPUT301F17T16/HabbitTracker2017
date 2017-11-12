@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,20 +28,16 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
     private int month;
     private int year;
 
+    private CheckBox monday;
+    private CheckBox tuesday;
+    private CheckBox wednesday;
+    private CheckBox thursday;
+    private CheckBox friday;
+    private CheckBox saturday;
+    private CheckBox sunday;
+
 
     HashMap<Integer, Boolean> habitHash = new HashMap<Integer, Boolean>();
-    /*Placeholder Schedule*/
-    public void setHabitHash(HashMap<Integer, Boolean> habitSchedule) {
-        this.habitHash = habitSchedule;
-        habitHash.put(1, true);
-        habitHash.put(2, true);
-        habitHash.put(3, true);
-        habitHash.put(4, true);
-        habitHash.put(5, true);
-        habitHash.put(6, true);
-        habitHash.put(7, true);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +53,26 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(this);
 
+        monday = (CheckBox) findViewById(R.id.monday);
+        tuesday = (CheckBox) findViewById(R.id.tuesday);
+        wednesday = (CheckBox) findViewById(R.id.wednesday);
+        thursday = (CheckBox) findViewById(R.id.thursday);
+        friday = (CheckBox) findViewById(R.id.friday);
+        saturday = (CheckBox) findViewById(R.id.saturday);
+        sunday = (CheckBox) findViewById(R.id.sunday);
+
     }
+    public void setHabitHash(HashMap<Integer, Boolean> habitSchedule) {
+        this.habitHash = habitSchedule;
+        habitHash.put(1, monday.isChecked());
+        habitHash.put(2, tuesday.isChecked());
+        habitHash.put(3, wednesday.isChecked());
+        habitHash.put(4, thursday.isChecked());
+        habitHash.put(5, friday.isChecked());
+        habitHash.put(6, saturday.isChecked());
+        habitHash.put(7, sunday.isChecked());
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -67,17 +83,12 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
             day = c.get(Calendar.DAY_OF_MONTH);
 
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                    new DatePickerDialog.OnDateSetListener() {
-
-                        @Override
-                        public void onDateSet(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
-
-                            habitStart.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
-                        }
-                    }, year, month, day);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    habitStart.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                }
+            }, year, month, day);
             datePickerDialog.show();
         }
 
@@ -98,6 +109,7 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
              * Try to create habit from parameters
              */
             try {
+                /*setHabitHash(habitHash);*/
                 createHabitManager.create(habitTitleName, habitStartDate, habitReason, habitHash);
             } catch (Exception e) {
                 e.printStackTrace();
