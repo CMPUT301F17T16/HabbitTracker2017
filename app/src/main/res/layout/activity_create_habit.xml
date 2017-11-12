@@ -45,8 +45,8 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="36dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="136dp" />
+        tools:layout_editor_absoluteX="148dp" />
 </android.support.constraint.ConstraintLayout>

@@ -14,7 +14,7 @@ import android.widget.Button;
  */
 
 public class viewManageHabits extends AppCompatActivity {
-    private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +22,6 @@ public class viewManageHabits extends AppCompatActivity {
         setContentView(R.layout.manage_habits);
 
 
-        FloatingActionButton fab = findViewById(R.id.createHabit);
-        context = this;
-        fab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
-                Intent intent = new Intent(context, createHabit.class);
-                startActivity(intent);
-            }
-        });
     }
 
 }

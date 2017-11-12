@@ -1,6 +1,8 @@
 package com.example.habittracker2017;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +14,7 @@ import android.widget.TabHost;
 public class HabitTracker2017MainActivity extends AppCompatActivity {
 
     boolean connection = false;
-
+    private Context context;
     TabHost parentTabs;
     TabHost childTabs;
     TabManager tabManager;
@@ -113,5 +115,9 @@ public class HabitTracker2017MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    public void createHabit(View view){
+        Intent intent = new Intent(this, createHabit.class);      /* Button that used to create a new habit */
+        startActivity(intent);
     }
 }
