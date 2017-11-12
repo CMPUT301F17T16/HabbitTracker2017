@@ -2,20 +2,15 @@ package com.example.habittracker2017;
 
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.os.Build;
-import android.os.SystemClock;
-import android.support.annotation.RequiresApi;
 
 import org.junit.Test;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -97,15 +92,13 @@ public class HabitTrackerUnitTest {
         assertFalse(habit.getEvents().contains(event));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Test
     public void testAdvancedEventCreation() {
         Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
         String comment = "Test comment";
 
         Location location = null;
-
-        Bitmap picture = Bitmap.createBitmap(64, 64, Bitmap.Config.RGBA_F16);   //Or whatever format we end up using
+        Bitmap picture = null;
 
         HabitEvent eventL = new HabitEvent(comment, location);
         HabitEvent eventP = new HabitEvent(comment, picture);
@@ -181,5 +174,86 @@ public class HabitTrackerUnitTest {
         assertTrue(user.getFollowing().isEmpty());
         assertTrue(user.getFollowers().isEmpty());
         assertTrue(user.getRequests().isEmpty());
+    }
+
+    @Test
+    public void testAddHabits(){
+        User user = new User("Name");
+        Habit habit0 = new Habit("Title", "Reason", new Date(), testSchedule);
+        Habit habit1 = new Habit("Title", "Reason", new Date(), testSchedule);
+        Habit habit2 = new Habit("Title", "Reason", new Date(), testSchedule);
+        HabitEvent event01 = new HabitEvent("Test");
+        HabitEvent event11 = new HabitEvent("Test");
+        HabitEvent event12 = new HabitEvent("Test");
+        HabitEvent event13 = new HabitEvent("Test");
+
+        user.addHabit(habit0);
+        user.addHabit(habit1);
+        user.addHabit(habit2);
+
+        habit0.addEvent(event01);
+        habit1.addEvent(event11);
+        habit1.addEvent(event12);
+        habit1.addEvent(event13);
+
+        //Test that events can get information from habits
+        assertEquals(event01.getHabit(), habit0);
+        assertEquals(event11.getHabit(), habit1);
+        assertEquals(event12.getHabit(), habit1);
+        assertEquals(event13.getHabit(), habit1);
+
+        //Test that all events can be retrieved from the User object
+        ArrayList<HabitEvent> fullList = new ArrayList<>();
+        for(Habit habit : user.getHabits()){
+            for(HabitEvent event : habit.getEvents()){
+                fullList.add(event);
+            }
+        }
+
+        assertEquals(fullList.size(), 4);
+        assertTrue(fullList.contains(event01));
+        assertTrue(fullList.contains(event11));
+        assertTrue(fullList.contains(event12));
+        assertTrue(fullList.contains(event13));
+
+        //Tests the most recent events can be retrieved from the User object
+        ArrayList<HabitEvent> reList = new ArrayList<>();
+        for(Habit habit : user.getHabits()){
+            if(habit.getLastEvent() != null){
+                reList.add(habit.getLastEvent());
+            }
+        }
+
+        assertEquals(reList.size(), 2);
+        assertTrue(reList.contains(event01));
+        assertTrue(reList.contains(event11) || reList.contains(event12) //Since these events are created around the same time,
+                || reList.contains(event13));                                   // this implementation could return any one of them.
+    }
+
+    @Test
+    public void testDeleteHabit(){
+        User user = new User("Name");
+        Habit habit0 = new Habit("Title", "Reason", new Date(), testSchedule);
+        Habit habit1 = new Habit("Title", "Reason", new Date(), testSchedule);
+        Habit habit2 = new Habit("Title", "Reason", new Date(), testSchedule);
+
+        user.addHabit(habit0);
+        user.addHabit(habit1);
+        user.addHabit(habit2);
+
+        user.deleteHabit(habit1);
+
+        assertEquals(user.getHabits().size(), 2);
+        assertTrue(user.getHabits().contains(habit0));
+        assertTrue(user.getHabits().contains(habit2));
+
+        user.deleteHabit(habit2);
+
+        assertEquals(user.getHabits().size(), 1);
+        assertTrue(user.getHabits().contains(habit0));
+
+        user.deleteHabit(habit0);
+
+        assertEquals(user.getHabits().size(), 0);
     }
 }
