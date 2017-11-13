@@ -51,7 +51,6 @@
         android:layout_marginTop="400dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="openMap"
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
