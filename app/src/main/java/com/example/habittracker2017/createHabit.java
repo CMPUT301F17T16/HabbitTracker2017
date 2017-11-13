@@ -1,6 +1,7 @@
 package com.example.habittracker2017;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,13 +10,22 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+
+import static com.example.habittracker2017.UserManager.user;
 
 public class createHabit extends AppCompatActivity implements View.OnClickListener {
 
@@ -47,7 +57,6 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
         datePicker.setOnClickListener(this);
 
         habitName = (EditText) findViewById(R.id.habitName);
-        habitStart = (TextView) findViewById(R.id.habitStart);
         reason = (EditText) findViewById(R.id.reason);
 
         button = (Button) findViewById(R.id.button);
@@ -86,7 +95,7 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    habitStart.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                    datePicker.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                 }
             }, year, month, day);
             datePickerDialog.show();
@@ -96,7 +105,7 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
             setResult(RESULT_OK);
             String habitTitleName = habitName.getText().toString();
             DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-            String habitStartString = habitStart.getText().toString();
+            String habitStartString = datePicker.getText().toString();
             Date habitStartDate = null;
             try {
                 habitStartDate = format.parse(habitStartString);
@@ -109,14 +118,39 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
              * Try to create habit from parameters
              */
             try {
-                /*setHabitHash(habitHash);*/
-                createHabitManager.create(habitTitleName, habitStartDate, habitReason, habitHash);
+                //createHabitManager.create(habitTitleName, habitStartDate, habitReason, habitHash,user.getName());
+                if (habitTitleName.equals("")){
+                    Toast.makeText(getBaseContext(), "Please enter a proper title! ", Toast.LENGTH_SHORT).show();
+                }else if (habitStartDate == null){
+                    Toast.makeText(getBaseContext(), "Please select a start date! ", Toast.LENGTH_SHORT).show();
+                }else {
+                    Habit habit = new Habit(habitTitleName, habitReason, habitStartDate, habitHash,user.getName());
+                    user.addHabit(habit);
+                    viewManageHabits.allHabits.add(habit);
+                    viewManageHabits.adapter.notifyDataSetChanged();
+                    saveToFile();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
             finish();
         }
 
+    }
+    public void saveToFile(){
+        try{
+            FileOutputStream fos = openFileOutput(viewManageHabits.FILENAME, Context.MODE_PRIVATE);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            Gson gson = new Gson();
+            gson.toJson(viewManageHabits.allHabits, writer);
+            writer.flush();
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

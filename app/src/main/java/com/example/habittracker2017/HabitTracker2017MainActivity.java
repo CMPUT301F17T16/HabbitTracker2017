@@ -2,35 +2,39 @@ package com.example.habittracker2017;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TabHost;
 
-public class HabitTracker2017MainActivity extends AppCompatActivity {
+import android.widget.TabHost;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import static com.example.habittracker2017.UserManager.user;
+
+public class HabitTracker2017MainActivity extends AppCompatActivity{
 
     boolean connection = false;
     private Context context;
-    TabHost parentTabs;
-    TabHost childTabs;
-    TabManager tabManager;
+    private SectionsPagerAdapter sectionspagerAdapter;
+    private ViewPager viewPager;
 
-    public View inputViewTab1;
-    public View inputViewTab2;
-    public View inputViewTab3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_tracker2017);
+        context = this;
 
         //Starts UserManager singleton, if it does not exist.
         UserManager.init(this.getApplicationContext());
-
 
         //Check current internet status
         connection = InternetStatus.CheckInternetConnection(HabitTracker2017MainActivity.this);
@@ -41,83 +45,45 @@ public class HabitTracker2017MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        //Find TabHosts in main layout
-        parentTabs = (TabHost) findViewById(R.id.parentTabs);
-        parentTabs.setup();
-        childTabs = (TabHost) findViewById(R.id.childTabs);
-        childTabs.setup();
+        sectionspagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.container);
+        viewPager.setAdapter(sectionspagerAdapter);
 
-        //create new TabManager
-        tabManager = new TabManager(parentTabs,childTabs);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+    }
 
-        //display initial tab setup
-        tabManager.setParentTabs();
-        tabManager.setChildTabsUser();
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        final LayoutInflater inflater = LayoutInflater.from(this);
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-        //show my habits on startup
-        ((LinearLayout) findViewById(R.id.subTab1)).removeView(inputViewTab1);
-        inputViewTab1 = inflater.inflate(R.layout.todays_habits, null);
-        ((LinearLayout) findViewById(R.id.subTab1)).addView(inputViewTab1);
+        @Override
+        public Fragment getItem(int position) {
 
-        //listen for clicks on the parent tabs
-        parentTabs.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String s) {
-                if(parentTabs.getCurrentTab() == 0){
-                    childTabs.setCurrentTab(1);
-                    childTabs.getTabWidget().removeAllViews();
-                    tabManager.setChildTabsUser();
-                }else if(parentTabs.getCurrentTab() == 1){
-                    childTabs.setCurrentTab(1);
-                    childTabs.getTabWidget().removeAllViews();
-                    tabManager.setChildTabsOther();
-                }
+            switch (position) {
+                case 0:
+                    return new MyHabitFragment();
+                default:
+                    return new OthersHabitFragment();
             }
-        });
-
-        //listen for clicks on the child tabs
-        childTabs.setOnTabChangedListener(new TabHost.OnTabChangeListener(){
-            @Override
-            public void onTabChanged(String s) {
-                if(childTabs.getCurrentTab() == 0){
-                    if(tabManager.getUserTabsActive()){
-                        //TODO: Today's habits
-                        ((LinearLayout) findViewById(R.id.subTab1)).removeView(inputViewTab1);
-                        inputViewTab1 = inflater.inflate(R.layout.todays_habits, null);
-                        ((LinearLayout) findViewById(R.id.subTab1)).addView(inputViewTab1);
-                    }else{
-                        //TODO: Other's activity
-                        ((LinearLayout) findViewById(R.id.subTab1)).removeView(inputViewTab1);
-                        inputViewTab1 = inflater.inflate(R.layout.others_activity, null);
-                        ((LinearLayout) findViewById(R.id.subTab1)).addView(inputViewTab1);
-                    }
-                }else if(childTabs.getCurrentTab() == 1){
-                    if(tabManager.getUserTabsActive()){
-                        //TODO: My History
-                        ((LinearLayout) findViewById(R.id.subTab2)).removeView(inputViewTab2);
-                        inputViewTab2 = inflater.inflate(R.layout.my_history, null);
-                        ((LinearLayout) findViewById(R.id.subTab2)).addView(inputViewTab2);
-                    }else{
-                        //TODO: Manage Activity Sharing
-                        ((LinearLayout) findViewById(R.id.subTab2)).removeView(inputViewTab2);
-                        inputViewTab2 = inflater.inflate(R.layout.manage_sharing, null);
-                        ((LinearLayout) findViewById(R.id.subTab2)).addView(inputViewTab2);
-                    }
-                }else if(childTabs.getCurrentTab() == 2){
-                    if(tabManager.getUserTabsActive()) {
-                        //TODO: Manage Habits
-                        ((LinearLayout) findViewById(R.id.subTab3)).removeView(inputViewTab3);
-                        inputViewTab3 = inflater.inflate(R.layout.manage_habits, null);
-                        ((LinearLayout) findViewById(R.id.subTab3)).addView(inputViewTab3);
-                    }
-                }
+        }
+        public int getCount(){return 2;}
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "My Habit";
+                case 1:
+                    return "Other's Habit";
             }
-        });
+            return null;
+        }
     }
     public void createHabit(View view){
         Intent intent = new Intent(this, createHabit.class);      /* Button that used to create a new habit */
         startActivity(intent);
     }
+
 }
