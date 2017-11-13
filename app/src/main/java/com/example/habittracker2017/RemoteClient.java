@@ -17,7 +17,7 @@ import io.searchbox.core.Index;
 class RemoteClient {
     private static JestDroidClient client;
     private static final String DATABASE = "http://cmput301.softwareprocess.es:8080/";
-    private static final String INDEX = "CMPUT301F17T16_HabitTracker2017";
+    private static final String INDEX = "cmput301f17t16_habittracker2017";
 
     public static class saveUser extends AsyncTask<User, Void, Void> {
         @Override
