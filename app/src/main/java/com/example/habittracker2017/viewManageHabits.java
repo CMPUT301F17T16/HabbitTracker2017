@@ -1,11 +1,14 @@
 package com.example.habittracker2017;
 
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -65,6 +68,12 @@ public class viewManageHabits extends Fragment {
         adapter = new ViewHabitAdapter(allHabits,getActivity());
         adapter.sortHabitOwner(user.getName());
         Habits.setAdapter(adapter);
+        Habits.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.habitDialogShow(getActivity(),position,id);
+            }
+        });
     }
 
     /**
