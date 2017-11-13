@@ -50,20 +50,19 @@
                 android:layout_weight="1"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp"
-                android:text="Choose Start Date: " />
+                android:text="Start Date: " />
             <Button
                 android:id="@+id/timePicker"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Date" />
+                android:layout_weight="1" />
 
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Select Schedule:"
+            android:text="Schedule:"
             android:textSize="20sp"
             android:textColor="@color/colorPrimaryDark"/>
         <GridLayout
@@ -141,6 +140,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Create Habit Event"/>
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_delete"
+            android:text="Delete"/>
 
 
 

@@ -35,6 +35,7 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
     private Button datePicker;
     private Button SaveButton;
     private Button CreateEventButton;
+    private Button DeleteButton;
     private int day;
     private int month;
     private int year;
@@ -69,12 +70,10 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         habitName.setText(habit.getTitle());
         reason = (EditText) findViewById(R.id.reason);
         reason.setText(habit.getReason());
-
-
         SaveButton = (Button) findViewById(R.id.button_save);
         SaveButton.setOnClickListener(this);
         CreateEventButton = (Button) findViewById(R.id.button_create_event);
-
+        DeleteButton = (Button) findViewById(R.id.button_delete);
         monday = (CheckBox) findViewById(R.id.monday);
         tuesday = (CheckBox) findViewById(R.id.tuesday);
         wednesday = (CheckBox) findViewById(R.id.wednesday);
@@ -126,6 +125,13 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
             Toast.makeText(getBaseContext(), datePicker.getText().toString(), Toast.LENGTH_SHORT).show();
         }
 
+        if (v==DeleteButton){
+            viewManageHabits.allHabits.remove(position);
+            viewManageHabits.adapter.notifyDataSetChanged();
+            saveToFile();
+            finish();
+        }
+
         if (v == SaveButton) {
             setResult(RESULT_OK);
             String habitTitleName = habitName.getText().toString();
@@ -156,11 +162,11 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
                     habit.setSchedule(habitHash);
                     viewManageHabits.adapter.notifyDataSetChanged();
                     saveToFile();
+                    finish();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            finish();
         }
 
     }
