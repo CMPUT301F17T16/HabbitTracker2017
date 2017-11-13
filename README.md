@@ -1,2 +1,2 @@
-# HabbitTracker2017
+# HabitTracker2017
 CMPUT 301 project
