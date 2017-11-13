@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import static com.example.habittracker2017.UserManager.user;
 
@@ -22,6 +25,8 @@ import static com.example.habittracker2017.UserManager.user;
  */
 
 public class viewMyHistory extends Fragment {
+
+    //private HashMap<Integer, Boolean> testSchedule;
 
     public static viewMyHistory newInstance(int position) {
         viewMyHistory fragment = new viewMyHistory();
@@ -38,39 +43,24 @@ public class viewMyHistory extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.my_history);
-
-        ArrayList<HabitEvent> eventArray= new ArrayList<HabitEvent>();
-//        HistoryAdapter adapter = new HistoryAdapter(this, eventArray);
-//        ListView listView=(ListView) findViewById(R.id.myHistory_list);
-//        listView.setAdapter(adapter);
-
-        /*doesn't show habit event, need to fix*/
-        Habit habit = new Habit("Title", "Reason", new Date(), null,user.getName());
-        String comment = "Test comment";
-
-        Location location = null;
-
-        /*Bitmap picture = Bitmap.createBitmap(64, 64, Bitmap.Config.RGBA_F16);*/   //Or whatever format we end up using
-        Bitmap picture =null;
-        HabitEvent eventL = new HabitEvent(comment, location);
-        HabitEvent eventP = new HabitEvent(comment, picture);
-        HabitEvent eventPL = new HabitEvent(comment, picture, location);
-        habit.addEvent(eventL);
-        habit.addEvent(eventP);
-        habit.addEvent(eventPL);
-
-//        adapter.add(eventL);
-//        adapter.add(eventP);
-//        adapter.add(eventPL);
-//
-//        adapter.notifyDataSetChanged();
-
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_history, container, false);
 
+        /*testSchedule.put(0, false);       this stops the app, so I set schedule to null*/
+
+        /*test create a habit and habit event to display in my history tab*/
+        Habit habit = new Habit("Title", "Reason", new Date(), null,"user1");
+        String comment = "Test comment";
+        HabitEvent event = new HabitEvent(comment);
+        habit.addEvent(event);
+
+        ListView listView=view.findViewById(R.id.myHistory_list);
+        HistoryAdapter adapter = new HistoryAdapter(getActivity(), habit.getEvents());
+        listView.setAdapter(adapter);
 
         return view;
     }
