@@ -8,15 +8,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import static com.example.habittracker2017.UserManager.user;
 
@@ -44,11 +47,29 @@ public class viewMyHistory extends Fragment {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.my_history);
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    //@RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_history, container, false);
+
+        View mapview=inflater.inflate(R.layout.my_history,container,false);
+        FloatingActionButton mapbutton = view.findViewById(R.id.map);
+        mapbutton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+
+                String uri = String.format(Locale.ENGLISH, "geo:53.631,-113.3239");
+                Uri gmmIntentUri = Uri.parse(uri);
+
+
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+                mapIntent.setPackage("com.google.android.apps.maps");
+
+                startActivity(mapIntent);
+            }
+        });
 
         /*testSchedule.put(0, false);       this stops the app, so I set schedule to null*/
 
@@ -64,16 +85,4 @@ public class viewMyHistory extends Fragment {
 
         return view;
     }
-
-
-    /*fix: when click on map, app stops*/
-
-//    public void openMap(View view) {
-//        Uri gmmIntentUri = Uri.parse("geo:37.7749,-122.4194");
-//        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//        mapIntent.setPackage("com.google.android.apps.maps");
-//        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-//            startActivity(mapIntent);
-//        }
-//    }
 }
