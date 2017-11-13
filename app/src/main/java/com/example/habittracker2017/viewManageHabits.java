@@ -1,11 +1,13 @@
 package com.example.habittracker2017;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -17,7 +19,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 
 import static com.example.habittracker2017.UserManager.user;
 
@@ -65,7 +66,16 @@ public class viewManageHabits extends Fragment {
         adapter = new ViewHabitAdapter(allHabits,getActivity());
         adapter.sortHabitOwner(user.getName());
         Habits.setAdapter(adapter);
+        Habits.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(),EditHabitActivity.class);
+                intent.putExtra("Habit",position);
+                getContext().startActivity(intent);
+            }
+        });
     }
+
 
     /**
      * loadFromFile
