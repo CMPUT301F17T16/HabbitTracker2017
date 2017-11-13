@@ -71,15 +71,15 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
         sunday = (CheckBox) findViewById(R.id.sunday);
 
     }
-    public void setHabitHash(HashMap<Integer, Boolean> habitSchedule) {
-        this.habitHash = habitSchedule;
-        habitHash.put(1, monday.isChecked());
-        habitHash.put(2, tuesday.isChecked());
-        habitHash.put(3, wednesday.isChecked());
-        habitHash.put(4, thursday.isChecked());
-        habitHash.put(5, friday.isChecked());
-        habitHash.put(6, saturday.isChecked());
-        habitHash.put(7, sunday.isChecked());
+    public void setHabitHash() {
+        this.habitHash.put(1, sunday.isChecked());
+        this.habitHash.put(2, monday.isChecked());
+        this.habitHash.put(3, tuesday.isChecked());
+        this.habitHash.put(4, wednesday.isChecked());
+        this.habitHash.put(5, thursday.isChecked());
+        this.habitHash.put(6, friday.isChecked());
+        this.habitHash.put(7, saturday.isChecked());
+        this.habitHash.put(1, sunday.isChecked());
     }
 
 
@@ -106,6 +106,7 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
             String habitTitleName = habitName.getText().toString();
             DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             String habitStartString = datePicker.getText().toString();
+            setHabitHash();
             Date habitStartDate = null;
             try {
                 habitStartDate = format.parse(habitStartString);

@@ -1,5 +1,8 @@
 package com.example.habittracker2017;
 
+import android.provider.Settings;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -64,17 +67,22 @@ public class Habit {
     }
 
     /**
-     * Returns true iff this habit is scheduled to be done on the given date.
-     * @param date The date to be checked.
+     * Returns true iff this habit is scheduled to be done today.
      * @return True if this habit is due, false otherwise.
      */
-    public boolean isDue(Date date){
-        if(date.before(startDate)){
+    public boolean isDue(){
+        Date today = new Date();
+        if(today.before(startDate)){
             return false;
         } else {
             Calendar c = Calendar.getInstance();
+            c.setTime(today);
             int weekDay = c.get(Calendar.DAY_OF_WEEK);
-            return schedule.get(weekDay);
+            if (this.schedule.get(weekDay)==null) {
+                return false;
+            }else{
+                return this.schedule.get(weekDay);
+            }
         }
     }
 

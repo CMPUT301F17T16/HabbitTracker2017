@@ -48,4 +48,22 @@ public class ViewHabitAdapter extends BaseAdapter implements ListAdapter {
         info.setText(list.get(position).toString());
         return view;
     }
+    public void sortHabitOwner(String name){
+        ArrayList<Habit> newList = new ArrayList<Habit>();
+        for (int i = 0;i<list.size();i++ ){
+            if (this.list.get(i).getOwner().equals(name)){
+                newList.add(list.get(i));
+            }
+        }
+        this.list = newList;
+    }
+    public void sortTodayHabit(){
+        ArrayList<Habit> newList = new ArrayList<Habit>();
+        for (int i = 0;i<list.size();i++ ){
+            if (this.list.get(i).isDue()){
+                newList.add(list.get(i));
+            }
+        }
+        this.list = newList;
+    }
 }
