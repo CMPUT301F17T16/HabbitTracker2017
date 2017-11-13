@@ -58,7 +58,12 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         habit = viewManageHabits.allHabits.get(position);
         datePicker = (Button) findViewById(R.id.timePicker);
         datePicker.setOnClickListener(this);
-        datePicker.setText(habit.getStartDate().toString());
+
+        Date startDateString = habit.getStartDate();
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String newDateString = df.format(startDateString);
+        datePicker.setText(newDateString);
+
         HashMap<Integer, Boolean> schedule = habit.getSchedule();
         habitName = (EditText) findViewById(R.id.habitName);
         habitName.setText(habit.getTitle());
