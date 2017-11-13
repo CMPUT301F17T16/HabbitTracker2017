@@ -54,16 +54,6 @@ public class viewManageHabits extends Fragment {
         super.onCreate(savedInstanceState);
         Habit habit = new Habit("testTitle","testReason",new Date(),null,user.getName());
         allHabits.add(habit);
-
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-//        loadFromFile();
-//        allHabits = user.getHabits();
-//        adapter = new ViewHabitAdapter(allHabits,this);
-//        Habits.setAdapter(adapter);
     }
 
     @Override
@@ -75,22 +65,31 @@ public class viewManageHabits extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        loadFromFile();
+        Habits = (ListView) getView().findViewById(R.id.listHabits);
+        adapter = new ViewHabitAdapter(allHabits,getActivity());
+        Habits.setAdapter(adapter);
+    }
+
     /**
      * loadFromFile
      *
      * reference https://github.com/joshua2ua/lonelyTwitter
      */
-//    private void loadFromFile() {
-//        try {
-//            FileInputStream fis = openFileInput(FILENAME);
-//            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-//            Gson gson = new Gson();
-//            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
-//            allHabits = gson.fromJson(in, listType);
-//
-//        } catch (FileNotFoundException e) {
-//            allHabits = new ArrayList<Habit>();
-//        }
-//    }
+    private void loadFromFile() {
+        try {
+            FileInputStream fis = getContext().openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
+            allHabits = gson.fromJson(in, listType);
+
+        } catch (FileNotFoundException e) {
+            allHabits = new ArrayList<Habit>();
+        }
+    }
 
 }

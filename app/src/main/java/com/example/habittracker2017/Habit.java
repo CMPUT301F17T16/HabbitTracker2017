@@ -1,6 +1,7 @@
 package com.example.habittracker2017;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -71,7 +72,9 @@ public class Habit {
         if(date.before(startDate)){
             return false;
         } else {
-            return schedule.get(date.getDay());
+            Calendar c = Calendar.getInstance();
+            int weekDay = c.get(Calendar.DAY_OF_WEEK);
+            return schedule.get(weekDay);
         }
     }
 
@@ -81,7 +84,7 @@ public class Habit {
      */
     @Override
     public String toString() {
-        return this.title;       //This will probably get changed to a nicely formatted String later.
+        return "Title:"+ this.title;       //This will probably get changed to a nicely formatted String later.
     }
 
     public String getTitle(){
@@ -104,6 +107,8 @@ public class Habit {
         return events;
     }
 
+    public String getOwner(){return owner;}
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -123,4 +128,5 @@ public class Habit {
     public void setEvents(ArrayList<HabitEvent> events) {
         this.events = events;
     }
+    public void setOwner(String owner){this.owner=owner;}
 }

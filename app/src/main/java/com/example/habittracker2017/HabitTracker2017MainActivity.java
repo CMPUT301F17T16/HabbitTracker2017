@@ -14,6 +14,14 @@ import android.view.View;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -25,6 +33,7 @@ public class HabitTracker2017MainActivity extends AppCompatActivity{
     private Context context;
     private SectionsPagerAdapter sectionspagerAdapter;
     private ViewPager viewPager;
+    protected static final String FILENAME ="habits.sav";
 
 
     @Override
@@ -85,5 +94,4 @@ public class HabitTracker2017MainActivity extends AppCompatActivity{
         Intent intent = new Intent(this, createHabit.class);      /* Button that used to create a new habit */
         startActivity(intent);
     }
-
 }
