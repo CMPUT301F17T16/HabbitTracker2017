@@ -38,6 +38,18 @@ class RemoteClient {
         }
     }
 
+    public static class UpdateUsersHabitTask extends AsyncTask<User, Void, Void> {
+        @Override
+        protected Void doInBackground(User... users){
+            verifySettings();
+
+            for (User user : users){
+                String query = "";
+            }
+            return null;
+        }
+    }
+
     public static void verifySettings() {
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder(DATABASE);

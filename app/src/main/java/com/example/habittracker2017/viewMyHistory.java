@@ -12,6 +12,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.example.habittracker2017.UserManager.user;
+
 /**
  * Created by jlin7 on 2017/11/12.
  */
@@ -28,7 +30,7 @@ public class viewMyHistory extends AppCompatActivity{
         listView.setAdapter(adapter);
 
         /*doesn't show habit event, need to fix*/
-        Habit habit = new Habit("Title", "Reason", new Date(), null);
+        Habit habit = new Habit("Title", "Reason", new Date(), null,user.getName());
         String comment = "Test comment";
 
         Location location = null;

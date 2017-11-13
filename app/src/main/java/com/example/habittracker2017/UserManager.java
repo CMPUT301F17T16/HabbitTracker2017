@@ -79,6 +79,7 @@ public class UserManager {
         save();
     }
 
+
     /**
      * Saves the user's current data to file and to the remote database
      */
@@ -108,6 +109,12 @@ public class UserManager {
         if(pendingSave && InternetStatus.CheckInternetConnection(context)){
             new RemoteClient.saveUser().execute(user);
             pendingSave = false;
+        }
+    }
+
+    public static void load(){
+        if(true){
+
         }
     }
 }

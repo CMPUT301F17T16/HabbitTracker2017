@@ -17,6 +17,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+import static com.example.habittracker2017.UserManager.user;
+
 public class createHabit extends AppCompatActivity implements View.OnClickListener {
 
     private EditText habitName;
@@ -47,7 +49,6 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
         datePicker.setOnClickListener(this);
 
         habitName = (EditText) findViewById(R.id.habitName);
-        habitStart = (TextView) findViewById(R.id.habitStart);
         reason = (EditText) findViewById(R.id.reason);
 
         button = (Button) findViewById(R.id.button);
@@ -86,7 +87,7 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
             DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    habitStart.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                    datePicker.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                 }
             }, year, month, day);
             datePickerDialog.show();
@@ -96,7 +97,7 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
             setResult(RESULT_OK);
             String habitTitleName = habitName.getText().toString();
             DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-            String habitStartString = habitStart.getText().toString();
+            String habitStartString = datePicker.getText().toString();
             Date habitStartDate = null;
             try {
                 habitStartDate = format.parse(habitStartString);
@@ -109,8 +110,7 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
              * Try to create habit from parameters
              */
             try {
-                /*setHabitHash(habitHash);*/
-                createHabitManager.create(habitTitleName, habitStartDate, habitReason, habitHash);
+                createHabitManager.create(habitTitleName, habitStartDate, habitReason, habitHash,user.getName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
