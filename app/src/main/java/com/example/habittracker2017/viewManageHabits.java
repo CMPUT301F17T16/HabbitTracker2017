@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.example.habittracker2017.UserManager.user;
 
@@ -36,6 +37,8 @@ public class viewManageHabits extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Habit habit = new Habit("testTitle","testReason",new Date(),null,user.getName());
+        allHabits.add(habit);
         setContentView(R.layout.manage_habits);
         Habits = (ListView) findViewById(R.id.listHabits);
 
@@ -44,7 +47,7 @@ public class viewManageHabits extends AppCompatActivity {
     @Override
     public void onStart(){
         super.onStart();
-        loadFromFile();
+//        loadFromFile();
 //        allHabits = user.getHabits();
         adapter = new ViewHabitAdapter(allHabits,this);
         Log.d("Array length: ", allHabits.toString());

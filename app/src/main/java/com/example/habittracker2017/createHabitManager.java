@@ -38,7 +38,6 @@ public class createHabitManager {
         try{
             FileOutputStream fos =  context.openFileOutput(FILENAME,Context.MODE_PRIVATE);
             OutputStreamWriter writer = new OutputStreamWriter(fos);
-
             Gson gson = new Gson();
             gson.toJson(viewManageHabits.allHabits, writer);
             writer.flush();

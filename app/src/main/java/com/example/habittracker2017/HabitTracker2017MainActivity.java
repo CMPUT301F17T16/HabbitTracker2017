@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 
+import java.util.Date;
+
+import static com.example.habittracker2017.UserManager.user;
+
 public class HabitTracker2017MainActivity extends AppCompatActivity {
 
     boolean connection = false;
@@ -40,6 +44,8 @@ public class HabitTracker2017MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, CreateUserActivity.class);
             startActivity(intent);
         }
+        Habit habit = new Habit("testTitle","testReason",new Date(),null,user.getName());
+        viewManageHabits.allHabits.add(habit);
 
         //Find TabHosts in main layout
         parentTabs = (TabHost) findViewById(R.id.parentTabs);
