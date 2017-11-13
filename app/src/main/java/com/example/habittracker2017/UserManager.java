@@ -1,6 +1,11 @@
 package com.example.habittracker2017;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -23,6 +28,8 @@ public class UserManager {
     public static User user;
     private static Context context;
     private static final String FILENAME = "user.sav";
+    private static boolean pendingSave;
+    private BroadcastReceiver networkStateReceiver;
 
     /**
      * Loads the current user's data into this object if it exists, otherwise flags user as null.
@@ -30,6 +37,18 @@ public class UserManager {
      */
     private UserManager(Context context){
         this.context = context;
+        pendingSave = false;
+
+        //This implementation of a BroadcastReceiver is taken from Stackoverflow user Xmister,
+        // and was originally posted on Jul 12, 2016. All credit for this receiver ges to him.
+        networkStateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                checkPendingSave();
+            }
+        };
+        context.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+
         try {
             FileInputStream fis = context.openFileInput(FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
@@ -83,7 +102,14 @@ public class UserManager {
         if(InternetStatus.CheckInternetConnection(context)){
             new RemoteClient.saveUser().execute(user);
         } else {
-            //TODO Allow for handling offline behaviour
+            pendingSave = true;
+        }
+    }
+
+    private void checkPendingSave(){
+        if(pendingSave && InternetStatus.CheckInternetConnection(context)){
+            new RemoteClient.saveUser().execute(user);
+            pendingSave = false;
         }
     }
 }
