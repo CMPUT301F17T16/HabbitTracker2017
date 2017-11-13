@@ -1,6 +1,7 @@
 package com.example.habittracker2017;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
