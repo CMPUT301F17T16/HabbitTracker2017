@@ -10,7 +10,14 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -111,13 +118,39 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
              * Try to create habit from parameters
              */
             try {
-                createHabitManager.create(habitTitleName, habitStartDate, habitReason, habitHash,user.getName());
+                //createHabitManager.create(habitTitleName, habitStartDate, habitReason, habitHash,user.getName());
+                if (habitTitleName.equals("")){
+                    Toast.makeText(getBaseContext(), "Please enter a proper title! ", Toast.LENGTH_SHORT).show();
+                }else if (habitStartDate == null){
+                    Toast.makeText(getBaseContext(), "Please select a start date! ", Toast.LENGTH_SHORT).show();
+                }else {
+                    Habit habit = new Habit(habitTitleName, habitReason, habitStartDate, habitHash,user.getName());
+                    user.addHabit(habit);
+                    viewManageHabits.allHabits.add(habit);
+                    viewManageHabits.adapter.notifyDataSetChanged();
+                    saveToFile();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
             finish();
         }
 
+    }
+    public void saveToFile(){
+        try{
+            FileOutputStream fos = openFileOutput(viewManageHabits.FILENAME, Context.MODE_PRIVATE);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            Gson gson = new Gson();
+            gson.toJson(viewManageHabits.allHabits, writer);
+            writer.flush();
+            fos.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
