@@ -5,4 +5,11 @@
     <string name="new_user_prompt">Enter Your Username:</string>
     <string name="username_hint">Username</string>
     <string name="ok_button">OK</string>
+    <string name="habit_name">Habit Name</string>
+    <string name="date">Date</string>
+    <string name="comment">Comment</string>
+    <string name="delete_event">Delete this event</string>
+    <string name="event_pic">Event pic</string>
+    <string name="event_name">Event name</string>
+
 </resources>
