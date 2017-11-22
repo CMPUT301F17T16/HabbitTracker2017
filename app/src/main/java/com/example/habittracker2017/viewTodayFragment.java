@@ -32,6 +32,7 @@ public class viewTodayFragment extends Fragment {
     protected static ArrayList<Habit> allHabits = new ArrayList<Habit>();
     protected static ViewHabitAdapter adapter;
     protected static final String FILENAME ="habits.sav";
+    private boolean allowRefresh = false;
 
     public static viewTodayFragment newInstance(int position) {
         viewTodayFragment fragment = new viewTodayFragment();
@@ -67,17 +68,24 @@ public class viewTodayFragment extends Fragment {
         if (user!=null){adapter.sortHabitOwner(user.getName());}
         adapter.sortTodayHabit();
         todaysHabit.setAdapter(adapter);
-        final Fragment fragment = this;
         todaysHabit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                allowRefresh = true;
                 Intent intent = new Intent(getContext(),CreateEventActivity.class);
                 intent.putExtra("Habit",position);
                 getContext().startActivity(intent);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(fragment).attach(fragment).commit();
             }
         });
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (allowRefresh)
+        {
+            allowRefresh = false;
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        }
     }
     /**
      * loadFromFile

@@ -92,6 +92,7 @@ public class HabitTracker2017MainActivity extends AppCompatActivity{
         }
     }
     public void createHabit(View view){
+        viewManageHabits.allowRefresh = true;
         Intent intent = new Intent(this, createHabit.class);      /* Button that used to create a new habit */
         startActivity(intent);
     }
