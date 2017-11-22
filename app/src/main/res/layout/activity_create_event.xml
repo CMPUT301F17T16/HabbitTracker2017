@@ -59,29 +59,14 @@
         </LinearLayout>
 
 
-        <CheckBox
-            android:id="@+id/finish"
+
+        <Switch
+            android:id="@+id/button_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Finished" />
+            android:text="Share my location"/>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
 
-            <Button
-                android:id="@+id/button_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add location"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
 
         <LinearLayout
         android:layout_width="fill_parent"
@@ -93,12 +78,13 @@
                 android:id="@+id/button_photo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Add Photo"/>
+                android:text="Take Photo"/>
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/photo"
+            <ImageView
+                android:id="@+id/pic"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                />
 
         </LinearLayout>
 

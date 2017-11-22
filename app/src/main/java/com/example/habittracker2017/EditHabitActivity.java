@@ -3,6 +3,8 @@ package com.example.habittracker2017;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -88,6 +90,16 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         thursday.setChecked(schedule.get(5));
         friday.setChecked(schedule.get(6));
         saturday.setChecked(schedule.get(7));
+
+        DeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewManageHabits.allHabits.remove(habit);
+                viewManageHabits.adapter.notifyDataSetChanged();
+                saveToFile();
+                finish();
+            }
+        });
     }
 
     public void setHabitHash() {
@@ -121,16 +133,17 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         }
 
         if (v==CreateEventButton) {
-//            Intent intent = new Intent(this,CreateEventActivity.class);
-            Toast.makeText(getBaseContext(), datePicker.getText().toString(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this,CreateEventActivity.class);
+            intent.putExtra("Habit",position);
+            this.startActivity(intent);
         }
 
-        if (v==DeleteButton){
-            viewManageHabits.allHabits.remove(position);
-            viewManageHabits.adapter.notifyDataSetChanged();
-            saveToFile();
-            finish();
-        }
+//        if (v==DeleteButton){
+//            viewManageHabits.allHabits.remove(habit);
+//            viewManageHabits.adapter.notifyDataSetChanged();
+//            saveToFile();
+//            finish();
+//        }
 
         if (v == SaveButton) {
             setResult(RESULT_OK);

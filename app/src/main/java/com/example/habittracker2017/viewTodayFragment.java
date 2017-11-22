@@ -4,6 +4,7 @@ package com.example.habittracker2017;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,12 +67,15 @@ public class viewTodayFragment extends Fragment {
         if (user!=null){adapter.sortHabitOwner(user.getName());}
         adapter.sortTodayHabit();
         todaysHabit.setAdapter(adapter);
+        final Fragment fragment = this;
         todaysHabit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(),CreateEventActivity.class);
                 intent.putExtra("Habit",position);
                 getContext().startActivity(intent);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(fragment).attach(fragment).commit();
             }
         });
     }

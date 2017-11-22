@@ -63,7 +63,7 @@ public class MyHabitFragment extends Fragment {
                 case 1:
                     return "My History";
                 default:
-                    return "My Habits";
+                    return "All Habits";
             }
 
 

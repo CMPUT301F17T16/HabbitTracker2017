@@ -42,6 +42,7 @@ public class HabitTracker2017MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_habit_tracker2017);
         context = this;
 
+
         //Starts UserManager singleton, if it does not exist.
         UserManager.init(this.getApplicationContext());
 
