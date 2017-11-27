@@ -7,7 +7,12 @@ import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.searchbox.core.Index;
+import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
 
 /**
  * Created by Alex on 2017-11-10.
@@ -38,15 +43,71 @@ class RemoteClient {
         }
     }
 
-    public static class UpdateUsersHabitTask extends AsyncTask<User, Void, Void> {
-        @Override
-        protected Void doInBackground(User... users){
-            verifySettings();
+    public static class loadUsers extends AsyncTask<String, Void, ArrayList<User>> {
 
-            for (User user : users){
-                String query = "";
+        /**
+         * This method takes a list of usernames and return the user objects associated with each of
+         * these names, as long as those users are being followed by the user who runs this search.
+         * @param names A list of users to fetch.
+         * @return A list of users found.
+         */
+        @Override
+        protected ArrayList<User> doInBackground(String... names) {
+            verifySettings();
+            ArrayList<User> results = new ArrayList<>();
+
+            for(String name: names){
+                String query = "{\"query\" : {" +
+                    "\"bool\" : { \"filter\": [" +
+                        "\"term\" : { \"name\" : \"" + name + "\" }" +
+                        "\"term\" : { \"followers\" : \"" + UserManager.user.getName() + "\" }" +
+                    "]}" +
+                "}}";
+                Search search = new Search.Builder(query).addIndex(INDEX).addType("user").build();
+
+                try {
+                    SearchResult result = client.execute(search);
+                    if(result.isSucceeded()){
+                        results.add(result.getSourceAsObject(User.class));
+                    }
+                }
+                catch (Exception e) {
+                    Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+                }
             }
-            return null;
+            return results;
+        }
+    }
+
+    public static class checkRequests extends AsyncTask<Void, Void, ArrayList<String>> {
+
+        /**
+         * This method checks to see which users have tagged themselves as following the local user,
+         * and returns a list of users that are not actually following them.
+         * @return A list of usernames of users that want to follow this user.
+         */
+        @Override
+        protected ArrayList<String> doInBackground(Void... voids) {
+            verifySettings();
+            ArrayList<String> results = new ArrayList<>();
+
+            String query = "{\"query\" : {\"term\" : { \"following\" : \"" + UserManager.user.getName() + "\" }}}";
+            Search search = new Search.Builder(query).addIndex(INDEX).addType("user").build();
+
+            try {
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()){
+                    List<User> users = result.getSourceAsObjectList(User.class);
+                    for(User user: users){
+                        results.add(user.getName());
+                    }
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+
+            return results;
         }
     }
 
