@@ -106,7 +106,7 @@ class RemoteClient {
             catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
-
+            results.removeAll(UserManager.user.getFollowers());
             return results;
         }
     }
