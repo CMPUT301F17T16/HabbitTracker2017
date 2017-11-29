@@ -111,6 +111,33 @@ class RemoteClient {
         }
     }
 
+    public static class checkExists extends AsyncTask<String, Void, Boolean> {
+
+        /**
+         * This method takes a username, checks if it is currently being used, and returns true if it
+         * is and false if it is not.
+         * @param name The username to check.
+         * @return The boolean evaluation of the username's existence.
+         */
+        @Override
+        protected Boolean doInBackground(String... name) {
+            verifySettings();
+
+            String query = "{\"query\" : {\"term\" : { \"name\" : \"" + name[0] + "\" }}}";
+            Search search = new Search.Builder(query).addIndex(INDEX).addType("user").build();
+            try {
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()){
+                    return (result.getTotal() != 0);
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+            return true;
+        }
+    }
+
     public static void verifySettings() {
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder(DATABASE);

@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import java.util.concurrent.ExecutionException;
 
 public class CreateUserActivity extends AppCompatActivity {
     private EditText nameText;
     private Button doneButton;
+    private TextView errorMessage;
     private Context context;
 
     @Override
@@ -20,6 +24,8 @@ public class CreateUserActivity extends AppCompatActivity {
 
         nameText = (EditText) findViewById(R.id.newUsername);
         doneButton = (Button) findViewById(R.id.acceptUsername);
+        errorMessage = (TextView) findViewById(R.id.errorMessage);
+
         context = this;
 
         doneButton.setOnClickListener(new View.OnClickListener() {
@@ -35,7 +41,7 @@ public class CreateUserActivity extends AppCompatActivity {
                     Intent intent = new Intent(context, HabitTracker2017MainActivity.class);
                     startActivity(intent);
                 } else {
-                    //TODO Show some notification here when checkIfNameFree works
+                    errorMessage.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -47,6 +53,15 @@ public class CreateUserActivity extends AppCompatActivity {
      * @return True if the name is available, false otherwise.
      */
     private boolean checkIfNameFree(String name){
-       return true;         //TODO Implement this in Part 5
+        RemoteClient.checkExists test = new RemoteClient.checkExists();
+        test.execute(name);
+        try {
+            return !test.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

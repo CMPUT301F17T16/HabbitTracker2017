@@ -11,5 +11,6 @@
     <string name="delete_event">Delete this event</string>
     <string name="event_pic">Event pic</string>
     <string name="event_name">Event name</string>
+    <string name="username_taken_error">This Username is already in use, or there is a connection error.</string>
 
 </resources>
