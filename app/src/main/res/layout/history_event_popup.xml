@@ -13,7 +13,8 @@
         android:background="@android:color/darker_gray">
 
 
-        <TextView
+        <EditText
+            android:id="@+id/habit_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/habit_name"
@@ -22,6 +23,7 @@
             android:maxLines="1"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:inputType="text"
             />
         <TextView
             android:layout_width="fill_parent"
@@ -40,7 +42,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             />
-        <TextView
+        <EditText
+            android:id="@+id/event_comment"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="@string/comment"
@@ -49,6 +52,7 @@
             android:maxLines="1"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:inputType="text"
             />
         <Button
             android:id="@+id/dismiss"

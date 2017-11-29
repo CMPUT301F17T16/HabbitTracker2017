@@ -15,11 +15,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -55,6 +58,7 @@ public class viewMyHistory extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.my_history);
+        setHasOptionsMenu(true);
     }
     //@RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -77,13 +81,13 @@ public class viewMyHistory extends Fragment {
         /*testSchedule.put(0, false);       this stops the app, so I set schedule to null*/
 
         /*test create a habit and habit event to display in my history tab*/
-        final Habit habit = new Habit("Title", "Reason", new Date(), null,"user1");
+        final Habit habit = new Habit("My Event", "Reason", new Date(), null,"user1");
         String comment = "Test comment";
         HabitEvent event = new HabitEvent(comment);
         habit.addEvent(event);
 
         final ListView listView=view.findViewById(R.id.myHistory_list);
-        HistoryAdapter adapter = new HistoryAdapter(getActivity(), habit.getEvents());
+        final HistoryAdapter adapter = new HistoryAdapter(getActivity(), habit.getEvents());
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,27 +96,18 @@ public class viewMyHistory extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Object slectedEvent= listView.getItemAtPosition(position);
-                showDetailPopup(getActivity());
+                adapter.showDetailPopup(getActivity());
             }
         });
 
         return view;
     }
 
-    private void showDetailPopup(final Activity context) {
+    /*@Override
+    public void  onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        //MenuInflater inflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.search, menu);
 
-    ConstraintLayout viewGroup = context.findViewById(R.id.linearLayout2);
-    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
-    View layout = layoutInflater.inflate(R.layout.history_event_popup,null);
-
-    final PopupWindow changeStatusPopUp = new PopupWindow(context);
-    changeStatusPopUp.setContentView(layout);
-    changeStatusPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-    changeStatusPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-    changeStatusPopUp.setFocusable(true);
-
-    changeStatusPopUp.setBackgroundDrawable(new BitmapDrawable());
-
-    changeStatusPopUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
-    }
+        //return true;
+    }*/
 }
