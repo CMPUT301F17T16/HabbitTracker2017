@@ -13,6 +13,7 @@ import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,9 +66,14 @@ public class viewMyHistory extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.my_history, container, false);
 
         View mapview=inflater.inflate(R.layout.my_history,container,false);
+
+        Toolbar toolbar=(Toolbar)view.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
         FloatingActionButton mapbutton = view.findViewById(R.id.map);
         mapbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -103,11 +110,17 @@ public class viewMyHistory extends Fragment {
         return view;
     }
 
-    /*@Override
+    @Override
     public void  onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         //MenuInflater inflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.search, menu);
+        menuInflater.inflate(R.menu.options_menu, menu);
 
         //return true;
+    }
+
+  /*  @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.layout.menu_sample, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }*/
 }
