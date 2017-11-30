@@ -2,12 +2,15 @@ package com.example.habittracker2017;
 
 import java.util.ArrayList;
 
+import io.searchbox.annotations.JestId;
+
 /**
  * Created by Alex on 2017-10-20.
  * Represents a user, and includes the usernames of all users associated with this user.
  */
 
 public class User {
+    @JestId
     private String name;
     private ArrayList<Habit> habits;
     private ArrayList<String> following;
