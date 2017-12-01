@@ -31,4 +31,5 @@ dependencies {
     compile 'org.mockito:mockito-core:2.11.0'
     implementation 'com.google.android.gms:play-services:11.6.0'
     implementation files('src/include/jest-droid-2.0.1-SNAPSHOT.jar')
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }
