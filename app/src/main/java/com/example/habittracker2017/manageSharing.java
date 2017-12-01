@@ -3,6 +3,7 @@ package com.example.habittracker2017;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -75,7 +77,7 @@ public class manageSharing extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
-        //Get requests to this user, and adds adapter to them.
+        //Get requests to this user, and adds an adapter to them.
         RemoteClient.checkRequests task = new RemoteClient.checkRequests();
         task.execute();
         try {
@@ -85,5 +87,6 @@ public class manageSharing extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        list.setAdapter(adapter);
     }
 }
