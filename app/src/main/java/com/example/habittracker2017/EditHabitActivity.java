@@ -15,6 +15,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.google.gson.Gson;
 
 import java.io.FileNotFoundException;
@@ -24,9 +28,11 @@ import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.example.habittracker2017.UserManager.user;
 
@@ -90,6 +96,18 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         thursday.setChecked(schedule.get(5));
         friday.setChecked(schedule.get(6));
         saturday.setChecked(schedule.get(7));
+
+        PieChart chart = (PieChart) findViewById(R.id.pieChart);
+
+        List<PieEntry> entries = new ArrayList<>();
+
+        entries.add(new PieEntry(50f, "Completed"));
+        entries.add(new PieEntry(50f, "Missed"));
+
+        PieDataSet set = new PieDataSet(entries, "Election Results");
+        PieData data = new PieData(set);
+        chart.setData(data);
+        chart.invalidate();
 
         DeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
