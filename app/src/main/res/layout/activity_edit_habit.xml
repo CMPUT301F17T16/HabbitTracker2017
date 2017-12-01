@@ -130,6 +130,12 @@
         </GridLayout>
 
         <Button
+            android:id="@+id/view_Stats"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="view stats" />
+
+        <Button
             android:id="@+id/button_save"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

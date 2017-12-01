@@ -44,6 +44,7 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
     private Button SaveButton;
     private Button CreateEventButton;
     private Button DeleteButton;
+    private Button ViewStatsButton;
     private int day;
     private int month;
     private int year;
@@ -81,6 +82,9 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         SaveButton = (Button) findViewById(R.id.button_save);
         SaveButton.setOnClickListener(this);
         CreateEventButton = (Button) findViewById(R.id.button_create_event);
+
+        ViewStatsButton = (Button) findViewById(R.id.view_Stats);
+
         DeleteButton = (Button) findViewById(R.id.button_delete);
         monday = (CheckBox) findViewById(R.id.monday);
         tuesday = (CheckBox) findViewById(R.id.tuesday);
@@ -96,6 +100,14 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         thursday.setChecked(schedule.get(5));
         friday.setChecked(schedule.get(6));
         saturday.setChecked(schedule.get(7));
+
+        ViewStatsButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getBaseContext(),StatView.class);
+                startActivity(intent);
+            }
+        });
 
         DeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
