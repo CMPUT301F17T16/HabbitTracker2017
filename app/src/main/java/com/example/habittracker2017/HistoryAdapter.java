@@ -1,94 +1,112 @@
 package com.example.habittracker2017;
 
-
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.constraint.ConstraintLayout;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
+
+import org.mockito.internal.matchers.Null;
+
 import java.util.ArrayList;
 
 /**
  * Created by jlin7 on 2017/11/12.
  */
 
-public class HistoryAdapter extends ArrayAdapter<HabitEvent> {
-    private String eventName;
-    private String comment;
+public class HistoryAdapter extends BaseAdapter implements Filterable {
+    private Context context;
+    private ArrayList<HabitEvent> eventsList;
+    private ArrayList<HabitEvent> filteredEvents;
+    private EventFilter eventFilter;
 
-    private static class ViewHolder{
+    private static class ViewHolder {
         TextView title;
         TextView date;
-        EditText habitName;
     }
 
-    public HistoryAdapter(Context context, ArrayList<HabitEvent> events){
-        super(context, R.layout.history_list, events);
+    public HistoryAdapter(Context context, ArrayList<HabitEvent> eventsList) {
+        this.context = context;
+        this.eventsList = eventsList;
+        this.filteredEvents = filteredEvents;
+    }
+    //fix
+    @Override
+    public int getCount() {
+        return /*filteredEvents.size()*/0;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        //View pop;
-        HabitEvent event = getItem(position);
-        ViewHolder viewHolder;
+    public Object getItem(int i) {
+        return filteredEvents.get(i);
+    }
 
-        //LayoutInflater inflator = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //pop = inflator.inflate(R.layout.history_event_popup, null);
+    @Override
+    public long getItemId(int i) {
+        return 0;
+    }
 
-        if(convertView== null){
-            viewHolder=new ViewHolder();
-            LayoutInflater inflater=LayoutInflater.from(getContext());
-            convertView=inflater.inflate(R.layout.history_list, parent,false);
-            viewHolder.title= convertView.findViewById(R.id.event_name);
-            viewHolder.date= convertView.findViewById(R.id.event_date);
-            //viewHolder.habitName=(EditText)pop.findViewById(R.id.habit_name);
+    @Override
+    public View getView(int position, View view, ViewGroup parent) {
+        final ViewHolder viewHolder;
+        final HabitEvent event = (HabitEvent) getItem(position);
 
-            convertView.setTag(viewHolder);
-        }else{
-            viewHolder=(ViewHolder) convertView.getTag();
-            }
-
+        if (view == null) {
+            viewHolder = new ViewHolder();
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.history_list, null);
+            viewHolder.title = view.findViewById(R.id.event_name);
+            viewHolder.date = view.findViewById(R.id.event_date);
+            view.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
+        }
         viewHolder.title.setText(event.getHabit().getTitle());
-        //viewHolder.habitName.setText("hello");
-        this.eventName=event.getHabit().getTitle();
         viewHolder.date.setText(event.getDate().toString());
-        this.comment=event.getComment();
+        return view;
 
-        return convertView;
     }
 
-    public void showDetailPopup(final Activity context) {
-
-        ConstraintLayout viewGroup = context.findViewById(R.id.linearLayout2);
-
-
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.history_event_popup,null);
-
-        final PopupWindow changeStatusPopUp = new PopupWindow(context);
-        EditText name= (EditText)layout.findViewById(R.id.habit_name);
-        name.setText(this.eventName);
-        EditText comment=(EditText) layout.findViewById(R.id.event_comment);
-        comment.setText(this.comment);
-        changeStatusPopUp.setContentView(layout);
-        changeStatusPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-        changeStatusPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        changeStatusPopUp.setFocusable(true);
-
-        changeStatusPopUp.setBackgroundDrawable(new BitmapDrawable());
-
-        changeStatusPopUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
+    @Override
+    public Filter getFilter() {
+        if (eventFilter == null) {
+            eventFilter = new EventFilter();
+        }
+        return eventFilter;
     }
 
+    private class EventFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+            if (constraint!=null && constraint.length()>0) {
+                ArrayList<HabitEvent> tempList = new ArrayList<HabitEvent>();
+
+                for(HabitEvent event : eventsList){
+                    if (event.getComment().toLowerCase().contains(constraint.toString().toLowerCase())){
+                        tempList.add(event);
+                    }
+                }
+                filterResults.count=tempList.size();
+                filterResults.values=tempList;
+
+            }else{
+                filterResults.count=eventsList.size();
+                filterResults.values=eventsList;
+            }
+            return filterResults;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filteredEvents = (ArrayList<HabitEvent>) results.values;
+            notifyDataSetChanged();
+        }
+    }
 }
-
-
-

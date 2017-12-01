@@ -42,7 +42,9 @@ public class viewMyHistory extends Fragment {
     protected static ArrayList<HabitEvent> allEvents = new ArrayList<HabitEvent>();
     protected static final String FILENAME ="events.sav";
     protected ListView habitEvents;
-    protected static viewHistoryAdapter adapter;
+    private HistoryAdapter adapter;
+    private SearchView searchView;
+    private MenuItem searchMenuItem;
 
     public static viewMyHistory newInstance(int position) {
         viewMyHistory fragment = new viewMyHistory();
@@ -113,7 +115,13 @@ public class viewMyHistory extends Fragment {
         super.onActivityCreated(savedInstanceState);
         loadFromFile();
         habitEvents =(ListView)getView().findViewById(R.id.myHistory_list);
-        adapter= new viewHistoryAdapter(allEvents,getActivity());
+
+        /*final Habit habit = new Habit("My Event", "Reason", new Date(), null,"user1");
+        String comment = "Test comment";
+        HabitEvent event = new HabitEvent(comment);
+        viewMyHistory.allEvents.add(event);*/
+
+        adapter= new HistoryAdapter(getActivity(),allEvents);
         habitEvents.setAdapter(adapter);
         habitEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -132,8 +140,8 @@ public class viewMyHistory extends Fragment {
         menuInflater.inflate(R.menu.options_menu, menu);
 
         SearchManager searchManager=(SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchMenuItem=menu.findItem(R.id.search);
-        SearchView searchView= (SearchView) searchMenuItem .getActionView();
+        searchMenuItem=menu.findItem(R.id.search);
+        searchView= (SearchView) searchMenuItem .getActionView();
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSubmitButtonEnabled(true);
@@ -144,6 +152,7 @@ public class viewMyHistory extends Fragment {
             }
             @Override
             public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
                 return true;
             }
         });
