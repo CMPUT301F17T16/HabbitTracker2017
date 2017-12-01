@@ -65,7 +65,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.title.setText(event.getHabit().getTitle());
+        viewHolder.title.setText(event.getHabit());
         viewHolder.date.setText(event.getDate().toString());
         return view;
 

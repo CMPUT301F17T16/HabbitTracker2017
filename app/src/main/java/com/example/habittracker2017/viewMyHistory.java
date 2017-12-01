@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.example.habittracker2017.UserManager.user;
+
 /**
  * Created by jlin7 on 2017/11/12.
  */
@@ -113,7 +115,7 @@ public class viewMyHistory extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        loadFromFile();
+        try{allEvents = user.getAllEvents();}catch (Exception e){allEvents = new ArrayList<HabitEvent>();}
         habitEvents =(ListView)getView().findViewById(R.id.myHistory_list);
 
         /*final Habit habit = new Habit("My Event", "Reason", new Date(), null,"user1");
@@ -158,6 +160,8 @@ public class viewMyHistory extends Fragment {
         });
         //return true;
     }
+
+
 
 
 

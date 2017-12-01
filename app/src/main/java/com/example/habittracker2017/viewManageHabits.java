@@ -63,11 +63,13 @@ public class viewManageHabits extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        loadFromFile();
+//        loadFromFile();
+        try{ allHabits = user.getHabits();}catch (Exception e){}
         Habits = (ListView) getView().findViewById(R.id.listHabits);
         adapter = new ViewHabitAdapter(allHabits,getActivity());
         adapter.sortHabitOwner(user.getName());
         Habits.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         Habits.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

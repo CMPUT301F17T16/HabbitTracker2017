@@ -43,7 +43,7 @@ class RemoteClient {
         }
     }
 
-    public static class loadUsers extends AsyncTask<String, Void, ArrayList<User>> {
+    public static class loadUsers extends AsyncTask<ArrayList<String>, Void, ArrayList<User>> {
 
         /**
          * This method takes a list of usernames and return the user objects associated with each of
@@ -52,11 +52,11 @@ class RemoteClient {
          * @return A list of users found.
          */
         @Override
-        protected ArrayList<User> doInBackground(String... names) {
+        protected ArrayList<User> doInBackground(ArrayList<String>... names) {
             verifySettings();
             ArrayList<User> results = new ArrayList<>();
 
-            for(String name: names){
+            for(String name: names[0]){
                 String query = "{\"query\" : {" +
                     "\"bool\" : { \"filter\": [" +
                         "\"term\" : { \"name\" : \"" + name + "\" }" +

@@ -108,4 +108,12 @@ public class User {
     public void setRequests(ArrayList<String> requests) {
         this.requests = requests;
     }
+
+    public ArrayList<HabitEvent> getAllEvents(){
+        ArrayList<HabitEvent> allEvents = new ArrayList<HabitEvent>();
+        for (Habit habit : this.habits){
+            allEvents.addAll(habit.getEvents());
+        }
+        return allEvents;
+    }
 }
