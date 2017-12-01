@@ -1,41 +1,36 @@
 package com.example.habittracker2017;
 
 
-import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MotionEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-
-import static com.example.habittracker2017.UserManager.user;
 
 /**
  * Created by jlin7 on 2017/11/12.
@@ -44,6 +39,10 @@ import static com.example.habittracker2017.UserManager.user;
 public class viewMyHistory extends Fragment {
 
     //private HashMap<Integer, Boolean> testSchedule;
+    protected static ArrayList<HabitEvent> allEvents = new ArrayList<HabitEvent>();
+    protected static final String FILENAME ="events.sav";
+    protected ListView habitEvents;
+    protected static viewHistoryAdapter adapter;
 
     public static viewMyHistory newInstance(int position) {
         viewMyHistory fragment = new viewMyHistory();
@@ -60,7 +59,7 @@ public class viewMyHistory extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.my_history);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
     }
     //@RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -68,8 +67,6 @@ public class viewMyHistory extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.my_history, container, false);
-
-        View mapview=inflater.inflate(R.layout.my_history,container,false);
 
         Toolbar toolbar=(Toolbar)view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -88,7 +85,8 @@ public class viewMyHistory extends Fragment {
         /*testSchedule.put(0, false);       this stops the app, so I set schedule to null*/
 
         /*test create a habit and habit event to display in my history tab*/
-        final Habit habit = new Habit("My Event", "Reason", new Date(), null,"user1");
+
+        /*final Habit habit = new Habit("My Event", "Reason", new Date(), null,"user1");
         String comment = "Test comment";
         HabitEvent event = new HabitEvent(comment);
         habit.addEvent(event);
@@ -105,9 +103,27 @@ public class viewMyHistory extends Fragment {
                 Object slectedEvent= listView.getItemAtPosition(position);
                 adapter.showDetailPopup(getActivity());
             }
-        });
+        });*/
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        loadFromFile();
+        habitEvents =(ListView)getView().findViewById(R.id.myHistory_list);
+        adapter= new viewHistoryAdapter(allEvents,getActivity());
+        habitEvents.setAdapter(adapter);
+        habitEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Object slectedEvent= habitEvents.getItemAtPosition(position);
+                //adapter.showDetailPopup(getActivity());
+            }
+        });
+
+
     }
 
     @Override
@@ -115,12 +131,42 @@ public class viewMyHistory extends Fragment {
         //MenuInflater inflater = getActivity().getMenuInflater();
         menuInflater.inflate(R.menu.options_menu, menu);
 
+        SearchManager searchManager=(SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchMenuItem=menu.findItem(R.id.search);
+        SearchView searchView= (SearchView) searchMenuItem .getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
         //return true;
     }
 
-  /*  @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.layout.menu_sample, menu);
-        super.onCreateOptionsMenu(menu,inflater);
-    }*/
+
+
+    /**
+     * loadFromFile
+     *
+     * reference https://github.com/joshua2ua/lonelyTwitter
+     */
+    private void loadFromFile() {
+        try {
+            FileInputStream fis = getContext().openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
+            allEvents = gson.fromJson(in, listType);
+
+        } catch (FileNotFoundException e) {
+            allEvents = new ArrayList<HabitEvent>();
+        }
+    }
 }

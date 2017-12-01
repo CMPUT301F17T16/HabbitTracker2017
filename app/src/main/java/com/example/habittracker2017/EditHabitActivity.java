@@ -100,6 +100,15 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
                 finish();
             }
         });
+
+        CreateEventButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getBaseContext(),CreateEventActivity.class);
+                intent.putExtra("Habit",position);
+                getBaseContext().startActivity(intent);
+            }
+        });
     }
 
     public void setHabitHash() {
@@ -132,11 +141,11 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
             datePickerDialog.show();
         }
 
-        if (v==CreateEventButton) {
+        /*if (v==CreateEventButton) {
             Intent intent = new Intent(this,CreateEventActivity.class);
             intent.putExtra("Habit",position);
             this.startActivity(intent);
-        }
+        }*/
 
 //        if (v==DeleteButton){
 //            viewManageHabits.allHabits.remove(habit);

@@ -202,6 +202,9 @@ public class CreateEventActivity extends AppCompatActivity {
                     }
                     habitevent.setLocation(currentLocation);
                 }
+                ////added 2 lines
+                /*viewMyHistory.allEvents.add(habitevent);*/
+                /*viewMyHistory.adapter.notifyDataSetChanged();*/
                 saveToFile();
                 finish();
             }
@@ -294,7 +297,7 @@ public class CreateEventActivity extends AppCompatActivity {
             FileOutputStream fos = openFileOutput(viewManageHabits.FILENAME, Context.MODE_PRIVATE);
             OutputStreamWriter writer = new OutputStreamWriter(fos);
             Gson gson = new Gson();
-            gson.toJson(viewManageHabits.allHabits, writer);
+            gson.toJson(viewMyHistory.allEvents, writer); ///changed
             writer.flush();
             fos.close();
 
