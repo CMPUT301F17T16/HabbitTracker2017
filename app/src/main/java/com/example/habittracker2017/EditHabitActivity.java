@@ -105,7 +105,8 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(getBaseContext(),StatView.class);
-                startActivity(intent);
+                intent.putExtra("Habit",position);
+                getBaseContext().startActivity(intent);
             }
         });
 

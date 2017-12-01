@@ -3,6 +3,7 @@ package com.example.habittracker2017;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -10,6 +11,10 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.w3c.dom.Text;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,19 +35,42 @@ import java.util.List;
 public class StatView extends AppCompatActivity {
 
     Date currentDay = Calendar.getInstance().getTime();
+    private int position;
+    private Habit habit;
+    private Date startDate;
+    private TextView StatStartDate;
+    private TextView StatEndDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stat_view);
 
+        position = this.getIntent().getIntExtra("Habit", 0);
+        habit = viewTodayFragment.allHabits.get(position);
+
+        StatStartDate = (TextView) findViewById(R.id.startDate);
+        StatEndDate = (TextView) findViewById(R.id.todaysDate);
+        startDate = habit.getStartDate();
+
+        /*
+        change variables and clean up
+         */
+        DateFormat simpleDate =  new SimpleDateFormat("dd-MM-yyyy");
+
+        String strDt = simpleDate.format(startDate);
+        String strEDT = simpleDate.format(currentDay);
+
+        StatStartDate.setText(strDt);
+        StatEndDate.setText(strEDT);
+
         PieChart chart = (PieChart) findViewById(R.id.pieChart);
 
         List<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
-        entries.add(new PieEntry(50f, "Completed"));
-        entries.add(new PieEntry(50f, "Missed"));
+        entries.add(new PieEntry(75.3f, "Completed"));
+        entries.add(new PieEntry(24.7f, "Missed"));
 
         chart.setHoleRadius(0f);
         chart.getDescription().setEnabled(false);
@@ -54,6 +82,7 @@ public class StatView extends AppCompatActivity {
         PieDataSet set = new PieDataSet(entries,"Habits");
         set.setColors(colors);
         PieData data = new PieData(set);
+        data.setValueTextSize(20f);
         data.setValueTextColor(Color.BLACK);
         chart.setData(data);
         chart.invalidate();

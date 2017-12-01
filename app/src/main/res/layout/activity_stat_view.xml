@@ -12,6 +12,22 @@
         android:orientation="vertical"
         android:background="#F5FFFA">
 
+        <TextView
+            android:id="@+id/startDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="61dp"
+            tools:layout_editor_absoluteY="223dp" />
+
+        <TextView
+            android:id="@+id/todaysDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="230dp" />
+
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
