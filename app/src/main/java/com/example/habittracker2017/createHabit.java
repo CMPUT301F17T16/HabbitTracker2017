@@ -127,8 +127,9 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
                 }else {
                     Habit habit = new Habit(habitTitleName, habitReason, habitStartDate, habitHash,user.getName());
                     user.addHabit(habit);
-                    viewManageHabits.allHabits.add(habit);
-                    viewManageHabits.adapter.notifyDataSetChanged();
+//                    viewManageHabits.allHabits.add(habit);
+//                    viewManageHabits.adapter.notifyDataSetChanged();
+                    UserManager.save();
                     saveToFile();
                 }
             } catch (Exception e) {

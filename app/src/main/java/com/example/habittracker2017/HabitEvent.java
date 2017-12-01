@@ -15,7 +15,7 @@ public class HabitEvent {
     private Bitmap picture;
     private Location location;
     private Date date;
-    private Habit habit;
+    private String habit;
 
     /**
      * Creates a new event with a given comment.
@@ -69,12 +69,7 @@ public class HabitEvent {
         this.date = new Date();
     }
 
-    /**
-     * Deletes this event from its parent habit.
-     */
-    public void delete(){
-        habit.getEvents().remove(this);
-    }
+
 
     public String getComment() {
         return comment;
@@ -92,7 +87,7 @@ public class HabitEvent {
         return date;
     }
 
-    public Habit getHabit() {
+    public String getHabit() {
         return habit;
     }
 
@@ -112,7 +107,7 @@ public class HabitEvent {
         this.date = date;
     }
 
-    public void setHabit(Habit habit) {
+    public void setHabit(String habit) {
         this.habit = habit;
     }
 }

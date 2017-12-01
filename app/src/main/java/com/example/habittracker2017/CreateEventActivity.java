@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.Date;
 
+import static com.example.habittracker2017.UserManager.user;
+
 /**
  * Created by hyuan2 on 2017-11-12.
  */
@@ -59,7 +61,7 @@ public class CreateEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         position = this.getIntent().getIntExtra("Habit",0);
-        habit = viewTodayFragment.allHabits.get(position);
+        habit = user.getHabits().get(position);
         title = (TextView) findViewById(R.id.habitName);
         title.setText(habit.getTitle());
         comment = (EditText) findViewById(R.id.comment);
@@ -159,7 +161,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 //TODO add event
                 habitevent = new HabitEvent(comment.getText().toString(),null,null);
                 habitevent.setDate(new Date());
-                habitevent.setHabit(habit);
+                habitevent.setHabit(habit.getTitle());
                 if (IMG.getDrawable() != null) {
                     // (128 * 128) * 4 = 65536 bytes which is the maximum allowed
                     // limits every bitmap image to 65536 bytes.
@@ -205,7 +207,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 ////added 2 lines
                 /*viewMyHistory.allEvents.add(habitevent);*/
                 /*viewMyHistory.adapter.notifyDataSetChanged();*/
-                saveToFile();
+                habit.addEvent(habitevent);
+                UserManager.save();
                 finish();
             }
         });

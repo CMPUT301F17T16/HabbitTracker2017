@@ -44,7 +44,6 @@ public class Habit {
      */
     public void addEvent(HabitEvent event){
         events.add(event);
-        event.setHabit(this);
     }
 
     /**

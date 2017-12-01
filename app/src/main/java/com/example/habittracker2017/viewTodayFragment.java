@@ -62,7 +62,7 @@ public class viewTodayFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        loadFromFile();
+        try{ allHabits = user.getHabits();}catch (Exception e){}
         todaysHabit = (ListView) getView().findViewById(R.id.todaysHabit);
         adapter = new ViewHabitAdapter(allHabits,getActivity());
         if (user!=null){adapter.sortHabitOwner(user.getName());}
