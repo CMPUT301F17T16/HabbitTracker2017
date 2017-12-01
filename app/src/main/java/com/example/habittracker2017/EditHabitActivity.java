@@ -97,18 +97,6 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         friday.setChecked(schedule.get(6));
         saturday.setChecked(schedule.get(7));
 
-        PieChart chart = (PieChart) findViewById(R.id.pieChart);
-
-        List<PieEntry> entries = new ArrayList<>();
-
-        entries.add(new PieEntry(50f, "Completed"));
-        entries.add(new PieEntry(50f, "Missed"));
-
-        PieDataSet set = new PieDataSet(entries, "Election Results");
-        PieData data = new PieData(set);
-        chart.setData(data);
-        chart.invalidate();
-
         DeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
