@@ -41,11 +41,12 @@
                 android:value="@integer/google_play_services_version" />
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"></meta-data>
+                android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".EditHabitActivity" />
         <activity android:name=".CreateEventActivity" />
-        <activity android:name=".StatView"></activity>
+        <activity android:name=".StatView" />
+        <activity android:name=".AddLocationActivity"></activity>
     </application>
 
 </manifest>

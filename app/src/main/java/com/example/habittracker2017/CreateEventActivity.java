@@ -1,14 +1,10 @@
 package com.example.habittracker2017;
 
-import android.*;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -19,15 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.Date;
 
 import static com.example.habittracker2017.UserManager.user;
@@ -41,37 +30,39 @@ public class CreateEventActivity extends AppCompatActivity {
     private EditText comment;
     private TextView date;
     private Button CreateButton;
-    private Switch LocationSwitch;
+    private Button LocationButton;
+    private TextView AddressLine;
     private Button PhotoButton;
     private int position;
     private Habit habit;
     private HabitEvent habitevent;
-    private Location currentLocation;
+    private Location currentLocation = new Location("gps");
     private ImageView IMG;
     private Bitmap photo;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
     private final static int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private final static int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     private final static int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 3;
     public static final int REQUEST_CODE = 1;
+    private static final int ADD_NEW_LOCATION_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         position = this.getIntent().getIntExtra("Habit",0);
-        habit = user.getHabits().get(position);
+        habit = viewTodayFragment.allHabits.get(position);
         title = (TextView) findViewById(R.id.habitName);
         title.setText(habit.getTitle());
         comment = (EditText) findViewById(R.id.comment);
         CreateButton = (Button) findViewById(R.id.button_create);
-        LocationSwitch = (Switch) findViewById(R.id.button_location);
+        LocationButton = (Button) findViewById(R.id.button_location);
+        AddressLine = (TextView) findViewById(R.id.address);
         PhotoButton = (Button) findViewById(R.id.button_photo);
         IMG = (ImageView) findViewById(R.id.pic);
         date = (TextView) findViewById(R.id.Date);
         date.setText(new Date().toString());
-
+        final Context context = this;
+        habitevent = new HabitEvent(null);
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -142,6 +133,16 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         }
 
+        LocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,AddLocationActivity.class);
+                if (intent.resolveActivity(getPackageManager())!=null){
+                    startActivityForResult(intent, ADD_NEW_LOCATION_CODE);
+                }
+            }
+        });
+
 
         PhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +160,7 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO add event
-                habitevent = new HabitEvent(comment.getText().toString(),null,null);
+                habitevent.setComment(comment.getText().toString());
                 habitevent.setDate(new Date());
                 habitevent.setHabit(habit.getTitle());
                 if (IMG.getDrawable() != null) {
@@ -173,40 +174,7 @@ public class CreateEventActivity extends AppCompatActivity {
                         habitevent.setPicture(convertedImage);
                     }
                 }
-                if (LocationSwitch.isChecked()){
-                    locationManager = (LocationManager) getApplicationContext().getSystemService(getApplicationContext().LOCATION_SERVICE);
-                    locationListener = new LocationListener() {
-                        public void onLocationChanged(Location location) {
-                            // Called when a new location is found by the network location provider.
-                            currentLocation = location;
-                        }
 
-                        public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-                        public void onProviderEnabled(String provider) {}
-
-                        public void onProviderDisabled(String provider) {}
-                    };
-
-                    // Register the listener with the Location Manager to receive location updates
-                    try {
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                    }
-                    catch (SecurityException e){
-                        Log.d("location", e.toString());
-                    }
-                    try {
-                        currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        locationManager.removeUpdates(locationListener);
-                    }
-                    catch(SecurityException e){
-                        Log.d("Location error", e.toString());
-                    }
-                    habitevent.setLocation(currentLocation);
-                }
-                ////added 2 lines
-                /*viewMyHistory.allEvents.add(habitevent);*/
-                /*viewMyHistory.adapter.notifyDataSetChanged();*/
                 habit.addEvent(habitevent);
                 UserManager.save();
                 finish();
@@ -227,6 +195,19 @@ public class CreateEventActivity extends AppCompatActivity {
                 IMG.setImageBitmap(convertedImage);
             }
         }
+
+        if(requestCode == ADD_NEW_LOCATION_CODE){
+            if (resultCode == RESULT_OK){
+                Double latitude = data.getDoubleExtra("new_latitude",0);
+                Double longtitude = data.getDoubleExtra("new_longitude",0);
+                String address = data.getStringExtra("new_address");
+                currentLocation.setLatitude(latitude);
+                currentLocation.setLongitude(longtitude);
+                AddressLine.setText(address);
+                habitevent.setLocation(currentLocation);
+            }
+        }
+
     }
 
     @Override
@@ -294,21 +275,6 @@ public class CreateEventActivity extends AppCompatActivity {
         int height = maxHeight;
 
         return Bitmap.createScaledBitmap(image, width, height, true);
-    }
-    public void saveToFile(){
-        try{
-            FileOutputStream fos = openFileOutput(viewManageHabits.FILENAME, Context.MODE_PRIVATE);
-            OutputStreamWriter writer = new OutputStreamWriter(fos);
-            Gson gson = new Gson();
-            gson.toJson(viewMyHistory.allEvents, writer); ///changed
-            writer.flush();
-            fos.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
 
