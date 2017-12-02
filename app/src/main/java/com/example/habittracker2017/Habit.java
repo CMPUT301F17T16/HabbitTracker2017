@@ -3,6 +3,7 @@ package com.example.habittracker2017;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -107,6 +108,8 @@ public class Habit {
     public Date getStartDate() {
         return startDate;
     }
+
+    public String getStartDateString() {return new SimpleDateFormat("yyyy-MM-dd").format(startDate);}
 
     public HashMap<Integer, Boolean> getSchedule() {
         return schedule;

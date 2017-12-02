@@ -57,7 +57,7 @@ public class ViewHabitAdapter extends BaseAdapter implements ListAdapter {
         TextView info =  view.findViewById(R.id.info);
         TextView startDate = view.findViewById(R.id.start_date);
         info.setText(list.get(position).toString());
-        startDate.setText(list.get(position).getStartDate().toString());
+        startDate.setText("Start date: " + list.get(position).getStartDateString());
         return view;
     }
 
