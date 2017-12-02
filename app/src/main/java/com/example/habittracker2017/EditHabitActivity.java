@@ -113,9 +113,8 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         DeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewManageHabits.allHabits.remove(habit);
-                viewManageHabits.adapter.notifyDataSetChanged();
-                saveToFile();
+                user.deleteHabit(habit);
+                UserManager.save();
                 finish();
             }
         });
@@ -123,9 +122,14 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         CreateEventButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(getBaseContext(),CreateEventActivity.class);
-                intent.putExtra("Habit",position);
-                getBaseContext().startActivity(intent);
+                if (habit.isDue() == true) {
+                    Intent intent = new Intent(getBaseContext(), CreateEventActivity.class);
+                    intent.putExtra("Habit", position);
+                    getBaseContext().startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Habit not due today!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -202,7 +206,7 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
                     habit.setReason(habitReason);
                     habit.setSchedule(habitHash);
                     viewManageHabits.adapter.notifyDataSetChanged();
-                    saveToFile();
+                    UserManager.save();
                     finish();
                 }
             } catch (Exception e) {
@@ -210,21 +214,6 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
             }
         }
 
-    }
-    public void saveToFile(){
-        try{
-            FileOutputStream fos = openFileOutput(viewManageHabits.FILENAME, Context.MODE_PRIVATE);
-            OutputStreamWriter writer = new OutputStreamWriter(fos);
-            Gson gson = new Gson();
-            gson.toJson(viewManageHabits.allHabits, writer);
-            writer.flush();
-            fos.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
 
