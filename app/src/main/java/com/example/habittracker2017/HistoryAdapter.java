@@ -1,6 +1,7 @@
 package com.example.habittracker2017;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,12 +33,12 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
     public HistoryAdapter(Context context, ArrayList<HabitEvent> eventsList) {
         this.context = context;
         this.eventsList = eventsList;
-        this.filteredEvents = filteredEvents;
+        this.filteredEvents = eventsList;
     }
     //fix
     @Override
     public int getCount() {
-        return /*filteredEvents.size()*/0;
+        return filteredEvents.size();
     }
 
     @Override
@@ -67,6 +68,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         }
         viewHolder.title.setText(event.getHabit());
         viewHolder.date.setText(event.getDate().toString());
+        Log.i("called:",viewHolder.title.toString());
         return view;
 
     }
@@ -108,5 +110,11 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
             filteredEvents = (ArrayList<HabitEvent>) results.values;
             notifyDataSetChanged();
         }
+    }
+
+    public void swapEvents(ArrayList<HabitEvent> eventsList)  {
+        this.eventsList = eventsList;
+        notifyDataSetChanged();                    //should refresh list but didn't, need fix
+        Log.i("notify change","true");  //for debugging
     }
 }

@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" >
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="6dp">
 
-
-
-    <LinearLayout android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/event_name"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/event_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/event_name"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:padding="2dp"
-            android:textColor="#33CC33" />
-
-
-        <TextView
-            android:id="@+id/event_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/date"
-            android:layout_marginStart="10dp"/>
-
-
-
-
-    </LinearLayout>
-
-
-    <ImageView
-        android:id="@+id/event_pic"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="180dp"
-        android:contentDescription="@string/event_pic"
+        android:layout_width="wrap_content"
+        android:lines="1"
+        android:layout_alignParentStart="true"
+        android:text="@string/event_name"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginStart="10dp"
+        android:padding="2dp"
+        android:textSize="30sp"
+        android:textColor="#000000"
         />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/event_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/event_name"
+        android:layout_below="@+id/event_name"
+        android:background="@null"
+        android:textSize="15sp"
+        android:text="@string/date"
+        android:textColor="#000000"/>
+
+
+    <CheckBox
+        android:id="@+id/mapCheck"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:background="@null"
+        android:padding="3dp"/>
+</RelativeLayout>

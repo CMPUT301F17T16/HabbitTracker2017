@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,7 +41,6 @@ import static com.example.habittracker2017.UserManager.user;
 
 public class viewMyHistory extends Fragment {
 
-    //private HashMap<Integer, Boolean> testSchedule;
     protected static ArrayList<HabitEvent> allEvents = new ArrayList<HabitEvent>();
     protected static final String FILENAME ="events.sav";
     protected ListView habitEvents;
@@ -78,36 +78,16 @@ public class viewMyHistory extends Fragment {
         FloatingActionButton mapbutton = view.findViewById(R.id.map);
         mapbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String uri = String.format(Locale.ENGLISH, "geo:53.631,-113.3239");
+                String uri = String.format(Locale.ENGLISH, "geo:53.521,-113.521");
                 Uri gmmIntentUri = Uri.parse(uri);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
+                /*Intent intent = new Intent(v.getContext(), MapMarker.class);
+                viewMyHistory.this.startActivity(intent);*/
+
             }
         });
-
-        /*testSchedule.put(0, false);       this stops the app, so I set schedule to null*/
-
-        /*test create a habit and habit event to display in my history tab*/
-
-        /*final Habit habit = new Habit("My Event", "Reason", new Date(), null,"user1");
-        String comment = "Test comment";
-        HabitEvent event = new HabitEvent(comment);
-        habit.addEvent(event);
-
-        final ListView listView=view.findViewById(R.id.myHistory_list);
-        final HistoryAdapter adapter = new HistoryAdapter(getActivity(), habit.getEvents());
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Object slectedEvent= listView.getItemAtPosition(position);
-                adapter.showDetailPopup(getActivity());
-            }
-        });*/
 
         return view;
     }
@@ -115,16 +95,14 @@ public class viewMyHistory extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        try{allEvents = user.getAllEvents();}catch (Exception e){allEvents = new ArrayList<HabitEvent>();}
+        try{ allEvents = user.getAllEvents();}catch (Exception e){}
+        /*Log.i("here length:",String.valueOf(viewMyHistory.allEvents.size()));
+        Log.i("here title:",allEvents.get(0).getHabit());*/
         habitEvents =(ListView)getView().findViewById(R.id.myHistory_list);
-
-        /*final Habit habit = new Habit("My Event", "Reason", new Date(), null,"user1");
-        String comment = "Test comment";
-        HabitEvent event = new HabitEvent(comment);
-        viewMyHistory.allEvents.add(event);*/
 
         adapter= new HistoryAdapter(getActivity(),allEvents);
         habitEvents.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         habitEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -134,6 +112,14 @@ public class viewMyHistory extends Fragment {
         });
 
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        allEvents=user.getAllEvents();
+        adapter.swapEvents(allEvents);
+        Log.i("onResume:",String.valueOf(user.getAllEvents().size()));
     }
 
     @Override
@@ -160,8 +146,6 @@ public class viewMyHistory extends Fragment {
         });
         //return true;
     }
-
-
 
 
 
