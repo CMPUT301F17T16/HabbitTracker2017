@@ -20,7 +20,6 @@ public class Habit {
     private Date startDate;
     private HashMap<Integer, Boolean> schedule;
     private ArrayList<HabitEvent> events;
-    private String owner;
 
     /**
      * Creates a new Habit type.
@@ -29,13 +28,12 @@ public class Habit {
      * @param startDate The date after which new habit events can be made.
      * @param schedule A map representing the days the habit is due on.
      */
-    Habit(String title, String reason, Date startDate, HashMap<Integer, Boolean> schedule,String owner){
+    Habit(String title, String reason, Date startDate, HashMap<Integer, Boolean> schedule){
         this.title = title;
         this.reason = reason;
         this.startDate = startDate;
         this.schedule = schedule;
         this.events = new ArrayList<>();
-        this.owner = owner;
     }
 
     /**
@@ -44,6 +42,10 @@ public class Habit {
      */
     public void addEvent(HabitEvent event){
         events.add(event);
+    }
+
+    public void deleteEvent(HabitEvent event){
+        events.remove(event);
     }
 
     /**
@@ -114,8 +116,6 @@ public class Habit {
         return events;
     }
 
-    public String getOwner(){return owner;}
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -135,5 +135,4 @@ public class Habit {
     public void setEvents(ArrayList<HabitEvent> events) {
         this.events = events;
     }
-    public void setOwner(String owner){this.owner=owner;}
 }

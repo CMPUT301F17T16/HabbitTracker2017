@@ -31,7 +31,6 @@ public class viewTodayFragment extends Fragment {
     protected ListView todaysHabit;
     protected static ArrayList<Habit> allHabits = new ArrayList<Habit>();
     protected static ViewHabitAdapter adapter;
-    protected static final String FILENAME ="habits.sav";
     private boolean allowRefresh = false;
 
     public static viewTodayFragment newInstance(int position) {
@@ -62,10 +61,9 @@ public class viewTodayFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        try{ allHabits = user.getHabits();}catch (Exception e){}
+        try{ allHabits = user.getHabits();}catch (Exception e){e.printStackTrace();}
         todaysHabit = (ListView) getView().findViewById(R.id.todaysHabit);
         adapter = new ViewHabitAdapter(allHabits,getActivity());
-        if (user!=null){adapter.sortHabitOwner(user.getName());}
         adapter.sortTodayHabit();
         todaysHabit.setAdapter(adapter);
         todaysHabit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,23 +83,6 @@ public class viewTodayFragment extends Fragment {
         {
             allowRefresh = false;
             getFragmentManager().beginTransaction().detach(this).attach(this).commit();
-        }
-    }
-    /**
-     * loadFromFile
-     *
-     * reference https://github.com/joshua2ua/lonelyTwitter
-     */
-    private void loadFromFile() {
-        try {
-            FileInputStream fis = getContext().openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
-            allHabits = gson.fromJson(in, listType);
-
-        } catch (FileNotFoundException e) {
-            allHabits = new ArrayList<Habit>();
         }
     }
 }

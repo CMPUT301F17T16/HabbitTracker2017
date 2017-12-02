@@ -1,6 +1,9 @@
 package com.example.habittracker2017;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 import io.searchbox.annotations.JestId;
 
@@ -21,7 +24,7 @@ public class User {
      * Creates a new user with a given username.
      * @param name The username of the new user.
      */
-    User(String name){
+    public User(String name){
         this.name = name;
         habits = new ArrayList<Habit>();
         following = new ArrayList<String>();
@@ -114,6 +117,12 @@ public class User {
         for (Habit habit : this.habits){
             allEvents.addAll(habit.getEvents());
         }
+        Collections.sort(allEvents, new Comparator<HabitEvent>() {
+            @Override
+            public int compare(HabitEvent o1, HabitEvent o2) {
+                return o2.getDate().compareTo(o1.getDate());
+            }
+        });
         return allEvents;
     }
 }
