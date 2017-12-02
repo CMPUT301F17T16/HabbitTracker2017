@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:hint="Habit title"
             android:inputType="text"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:maxLength="20"/>
 
         <EditText
             android:id="@+id/reason"
@@ -34,7 +35,8 @@
             android:layout_height="wrap_content"
             android:hint="habit reason"
             android:inputType="text"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:maxLength="30"/>
 
 
         <LinearLayout
