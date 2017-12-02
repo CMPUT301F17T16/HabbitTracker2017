@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -108,6 +109,7 @@ public class viewMyHistory extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Object slectedEvent= habitEvents.getItemAtPosition(position);
                 //adapter.showDetailPopup(getActivity());
+                Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -118,8 +120,9 @@ public class viewMyHistory extends Fragment {
     public void onResume(){
         super.onResume();
         allEvents=user.getAllEvents();
-        adapter.swapEvents(allEvents);
-        Log.i("onResume:",String.valueOf(user.getAllEvents().size()));
+        habitEvents.setAdapter(new HistoryAdapter(getActivity(),allEvents));
+        /*adapter.swapEvents(allEvents);*/
+        Log.i("on Resume:",String.valueOf(user.getAllEvents().size()));
     }
 
     @Override
