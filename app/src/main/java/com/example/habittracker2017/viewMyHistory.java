@@ -42,11 +42,12 @@ public class viewMyHistory extends Fragment {
 
     //private HashMap<Integer, Boolean> testSchedule;
     protected static ArrayList<HabitEvent> allEvents = new ArrayList<HabitEvent>();
-    protected static final String FILENAME ="events.sav";
+    protected static final String FILENAME = "events.sav";
     protected ListView habitEvents;
     private HistoryAdapter adapter;
     private SearchView searchView;
     private MenuItem searchMenuItem;
+    private Boolean allowRefresh = false;
 
     public static viewMyHistory newInstance(int position) {
         viewMyHistory fragment = new viewMyHistory();
@@ -57,7 +58,8 @@ public class viewMyHistory extends Fragment {
         return fragment;
     }
 
-    public viewMyHistory(){}
+    public viewMyHistory() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class viewMyHistory extends Fragment {
 //        setContentView(R.layout.my_history);
         //setHasOptionsMenu(true);
     }
+
     //@RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,8 +75,8 @@ public class viewMyHistory extends Fragment {
 
         View view = inflater.inflate(R.layout.my_history, container, false);
 
-        Toolbar toolbar=(Toolbar)view.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         FloatingActionButton mapbutton = view.findViewById(R.id.map);
         mapbutton.setOnClickListener(new View.OnClickListener() {
@@ -113,23 +116,24 @@ public class viewMyHistory extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState){
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        try{allEvents = user.getAllEvents();}catch (Exception e){allEvents = new ArrayList<HabitEvent>();}
-        habitEvents =(ListView)getView().findViewById(R.id.myHistory_list);
+        allEvents = user.getAllEvents();
+        habitEvents = (ListView) getView().findViewById(R.id.myHistory_list);
 
         /*final Habit habit = new Habit("My Event", "Reason", new Date(), null,"user1");
         String comment = "Test comment";
         HabitEvent event = new HabitEvent(comment);
         viewMyHistory.allEvents.add(event);*/
 
-        adapter= new HistoryAdapter(getActivity(),allEvents);
+        adapter = new HistoryAdapter(getActivity(), allEvents);
         habitEvents.setAdapter(adapter);
         habitEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Object slectedEvent= habitEvents.getItemAtPosition(position);
-                //adapter.showDetailPopup(getActivity());
+                allowRefresh = true;
+                Object slectedEvent = habitEvents.getItemAtPosition(position);
+//                adapter.showDetailPopup(getActivity());
             }
         });
 
@@ -137,13 +141,13 @@ public class viewMyHistory extends Fragment {
     }
 
     @Override
-    public void  onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         //MenuInflater inflater = getActivity().getMenuInflater();
         menuInflater.inflate(R.menu.options_menu, menu);
 
-        SearchManager searchManager=(SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        searchMenuItem=menu.findItem(R.id.search);
-        searchView= (SearchView) searchMenuItem .getActionView();
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        searchMenuItem = menu.findItem(R.id.search);
+        searchView = (SearchView) searchMenuItem.getActionView();
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSubmitButtonEnabled(true);
@@ -152,6 +156,7 @@ public class viewMyHistory extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
@@ -161,25 +166,15 @@ public class viewMyHistory extends Fragment {
         //return true;
     }
 
-
-
-
-
-    /**
-     * loadFromFile
-     *
-     * reference https://github.com/joshua2ua/lonelyTwitter
-     */
-    private void loadFromFile() {
-        try {
-            FileInputStream fis = getContext().openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
-            allEvents = gson.fromJson(in, listType);
-
-        } catch (FileNotFoundException e) {
-            allEvents = new ArrayList<HabitEvent>();
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (allowRefresh)
+        {
+            allowRefresh = false;
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
         }
     }
+
+
 }

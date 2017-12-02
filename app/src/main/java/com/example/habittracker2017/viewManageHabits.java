@@ -91,23 +91,4 @@ public class viewManageHabits extends Fragment {
         }
     }
 
-
-    /**
-     * loadFromFile
-     *
-     * reference https://github.com/joshua2ua/lonelyTwitter
-     */
-    private void loadFromFile() {
-        try {
-            FileInputStream fis = getContext().openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
-            allHabits = gson.fromJson(in, listType);
-
-        } catch (FileNotFoundException e) {
-            allHabits = new ArrayList<Habit>();
-        }
-    }
-
 }
