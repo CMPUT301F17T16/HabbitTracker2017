@@ -41,7 +41,7 @@ public class OthersFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.others_activity, container, false);
 
-/*        User currentUser = UserManager.user;
+        User currentUser = UserManager.user;
         if(currentUser == null){
             return view;
         }
@@ -59,7 +59,7 @@ public class OthersFragment extends Fragment {
 
         ListView othersActivities = (ListView) view.findViewById(R.id.followedUserListView);
         OthersEventsListAdapter adapter = new OthersEventsListAdapter(getContext(), followedUsers);
-        othersActivities.setAdapter(adapter);*/
+        othersActivities.setAdapter(adapter);
 
 
         return view;
