@@ -14,6 +14,8 @@ import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
+import static com.google.android.gms.internal.zzben.NULL;
+
 /**
  * Created by Alex on 2017-11-10.
  * This class controls the remote saving and loading of user classes.
@@ -90,6 +92,10 @@ class RemoteClient {
         protected ArrayList<String> doInBackground(Void... voids) {
             verifySettings();
             ArrayList<String> results = new ArrayList<>();
+
+            if(UserManager.user == null){
+                return results;
+            }
 
             String query = "{\"query\" : {\"term\" : { \"following\" : \"" + UserManager.user.getName() + "\" }}}";
             Search search = new Search.Builder(query).addIndex(INDEX).addType("user").build();

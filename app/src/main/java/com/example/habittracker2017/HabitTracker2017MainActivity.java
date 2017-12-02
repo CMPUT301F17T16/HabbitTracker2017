@@ -29,7 +29,6 @@ import static com.example.habittracker2017.UserManager.user;
 
 public class HabitTracker2017MainActivity extends AppCompatActivity{
 
-    boolean connection = false;
     private Context context;
     private SectionsPagerAdapter sectionspagerAdapter;
     private ViewPager viewPager;
@@ -45,9 +44,6 @@ public class HabitTracker2017MainActivity extends AppCompatActivity{
 
         //Starts UserManager singleton, if it does not exist.
         UserManager.init(this.getApplicationContext());
-
-        //Check current internet status
-        connection = InternetStatus.CheckInternetConnection(HabitTracker2017MainActivity.this);
 
         //Goes to user creation activity is there is no user found
         if(UserManager.user == null){
