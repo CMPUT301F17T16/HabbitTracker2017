@@ -86,7 +86,6 @@ public class viewMyHistory extends Fragment {
                 startActivity(mapIntent);
                 /*Intent intent = new Intent(v.getContext(), MapMarker.class);
                 viewMyHistory.this.startActivity(intent);*/
-
             }
         });
 
@@ -148,25 +147,5 @@ public class viewMyHistory extends Fragment {
             }
         });
         //return true;
-    }
-
-
-
-    /**
-     * loadFromFile
-     *
-     * reference https://github.com/joshua2ua/lonelyTwitter
-     */
-    private void loadFromFile() {
-        try {
-            FileInputStream fis = getContext().openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
-            allEvents = gson.fromJson(in, listType);
-
-        } catch (FileNotFoundException e) {
-            allEvents = new ArrayList<HabitEvent>();
-        }
     }
 }

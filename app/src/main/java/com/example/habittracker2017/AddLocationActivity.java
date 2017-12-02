@@ -276,8 +276,8 @@ public class AddLocationActivity extends AppCompatActivity {
                     T_address.append(knownName);
 
 
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Cannot get current location", Toast.LENGTH_LONG).show();
                 }
             }
         });
