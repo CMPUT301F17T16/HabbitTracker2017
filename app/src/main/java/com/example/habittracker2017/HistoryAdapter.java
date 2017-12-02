@@ -68,7 +68,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         }
         viewHolder.title.setText(event.getHabit());
         viewHolder.date.setText(event.getDate().toString());
-        Log.i("called:",viewHolder.title.toString());
+        Log.i("gotView:",viewHolder.title.toString());
         return view;
 
     }
@@ -112,9 +112,10 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         }
     }
 
-    public void swapEvents(ArrayList<HabitEvent> eventsList)  {
+    public void Update(ArrayList<HabitEvent> eventsList)  {
         this.eventsList = eventsList;
-        notifyDataSetChanged();                    //should refresh list but didn't, need fix
+        this.notifyDataSetChanged();                    //should refresh list but didn't, need fix
         Log.i("notify change","true");  //for debugging
+        Log.i("this eventList:",String.valueOf(this.eventsList.size()));
     }
 }
