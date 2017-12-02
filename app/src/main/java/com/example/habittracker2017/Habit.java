@@ -93,7 +93,7 @@ public class Habit {
      */
     @Override
     public String toString() {
-        return "Title:"+ this.title;       //This will probably get changed to a nicely formatted String later.
+        return this.title;       //This will probably get changed to a nicely formatted String later.
     }
 
     public String getTitle(){
