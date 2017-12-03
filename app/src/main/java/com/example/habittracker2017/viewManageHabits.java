@@ -64,10 +64,9 @@ public class viewManageHabits extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 //        loadFromFile();
-        try{ allHabits = user.getHabits();}catch (Exception e){}
+        try{ allHabits = user.getHabits();}catch (Exception e){e.printStackTrace();}
         Habits = (ListView) getView().findViewById(R.id.listHabits);
         adapter = new ViewHabitAdapter(allHabits,getActivity());
-        adapter.sortHabitOwner(user.getName());
         Habits.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         Habits.setOnItemClickListener(new AdapterView.OnItemClickListener() {

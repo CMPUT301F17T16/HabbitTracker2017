@@ -119,9 +119,9 @@ public class viewMyHistory extends Fragment {
     public void onResume(){
         super.onResume();
         allEvents=user.getAllEvents();
-        habitEvents.setAdapter(new HistoryAdapter(getActivity(),allEvents));
-        /*adapter.swapEvents(allEvents);*/
-        Log.i("on Resume:",String.valueOf(user.getAllEvents().size()));
+        /*habitEvents.setAdapter(new HistoryAdapter(getActivity(),allEvents));*/
+        adapter.update(allEvents);
+        Log.i("allEvents:",String.valueOf(allEvents.size()));
     }
 
     @Override

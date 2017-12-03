@@ -88,7 +88,7 @@ public class HabitTrackerUnitTest {
         assertTrue(event.getDate().after(new Date(System.currentTimeMillis() - 100))); //Or some other reasonable timeframe
 
         //Tests delete
-        event.delete();
+        habit.deleteEvent(event);
         assertFalse(habit.getEvents().contains(event));
     }
 
@@ -134,35 +134,6 @@ public class HabitTrackerUnitTest {
         assertEquals(habit.getLastEvent(), lastEvent);
     }
 
-    @Test
-    public void testIsDue(){
-        Habit habit = new Habit("Title", "Reason", sunday, testSchedule);
-        Habit otherHabit = new Habit("Title", "Reason", sunday, inverseSchedule);
-
-        assertFalse(habit.isDue(sunday));
-        assertTrue(otherHabit.isDue(sunday));
-
-        assertTrue(habit.isDue(monday));
-        assertFalse(otherHabit.isDue(monday));
-
-        assertFalse(habit.isDue(tuesday));
-        assertTrue(otherHabit.isDue(tuesday));
-
-        assertTrue(habit.isDue(wedsday));
-        assertFalse(otherHabit.isDue(wedsday));
-
-        assertFalse(habit.isDue(thursday));
-        assertTrue(otherHabit.isDue(thursday));
-
-        assertTrue(habit.isDue(friday));
-        assertFalse(otherHabit.isDue(friday));
-
-        assertFalse(habit.isDue(saterday));
-        assertTrue(otherHabit.isDue(saterday));
-
-        habit.setStartDate(friday);
-        assertFalse(habit.isDue(monday));
-    }
 
     @Test
     public void testCreateUser(){
@@ -197,10 +168,6 @@ public class HabitTrackerUnitTest {
         habit1.addEvent(event13);
 
         //Test that events can get information from habits
-        assertEquals(event01.getHabit(), habit0);
-        assertEquals(event11.getHabit(), habit1);
-        assertEquals(event12.getHabit(), habit1);
-        assertEquals(event13.getHabit(), habit1);
 
         //Test that all events can be retrieved from the User object
         ArrayList<HabitEvent> fullList = new ArrayList<>();
