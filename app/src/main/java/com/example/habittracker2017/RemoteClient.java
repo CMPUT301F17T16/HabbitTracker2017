@@ -10,11 +10,10 @@ import com.searchly.jestdroid.JestDroidClient;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.searchbox.core.Delete;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
-
-import static com.google.android.gms.internal.zzben.NULL;
 
 /**
  * Created by Alex on 2017-11-10.
@@ -144,7 +143,28 @@ class RemoteClient {
         }
     }
 
-    public static void verifySettings() {
+    public static class deleteUser extends AsyncTask<Void, Void, Void> {
+
+        /**
+         * This method deletes the currently existing server object for the user.
+         */
+        @Override
+        protected Void doInBackground(Void... voids) {
+            verifySettings();
+
+            Delete search = new Delete.Builder(UserManager.user.getName()).index(INDEX).type("user").build();
+
+            try {
+                client.execute(search);
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+            return null;
+        }
+    }
+
+    private static void verifySettings() {
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder(DATABASE);
             DroidClientConfig config = builder.build();

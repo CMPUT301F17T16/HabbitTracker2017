@@ -78,13 +78,8 @@ public class viewMyHistory extends Fragment {
         FloatingActionButton mapbutton = view.findViewById(R.id.map);
         mapbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                String uri = String.format(Locale.ENGLISH, "geo:53.521,-113.521");
-//                Uri gmmIntentUri = Uri.parse(uri);
                 Intent mapIntent = new Intent(getContext(),mapsActivity.class);
-//                mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
-                /*Intent intent = new Intent(v.getContext(), MapMarker.class);
-                viewMyHistory.this.startActivity(intent);*/
             }
         });
 

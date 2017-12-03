@@ -95,14 +95,15 @@ public class manageSharing extends Fragment {
         }
         requestList.setAdapter(adapter);
 
-        ArrayList<String> followers = UserManager.user.getFollowers();
+        try{ArrayList<String> followers = UserManager.user.getFollowers();
         ArrayList<String> following = UserManager.user.getFollowing();
 
         adapter1 = new FollowManagerAdapter(followers,getActivity());
         adapter2 = new FollowManagerAdapter(following,getActivity());
 
         followerList.setAdapter(adapter1);
-        followingList.setAdapter(adapter2);
+        followingList.setAdapter(adapter2);}
+        catch ( Exception e){e.printStackTrace();}
     }
 
  /*   public void onResume() {
