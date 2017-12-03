@@ -58,18 +58,16 @@ class RemoteClient {
             ArrayList<User> results = new ArrayList<>();
 
             for(String name: names[0]){
-                String query = "{\"query\" : {" +
-                    "\"bool\" : { \"filter\": [" +
-                        "\"term\" : { \"name\" : \"" + name + "\" }" +
-                        "\"term\" : { \"followers\" : \"" + UserManager.user.getName() + "\" }" +
-                    "]}" +
-                "}}";
+                String query = "{\"query\" : {\"term\" : { \"name\" : \"" + name + "\" }}}";
                 Search search = new Search.Builder(query).addIndex(INDEX).addType("user").build();
 
                 try {
                     SearchResult result = client.execute(search);
                     if(result.isSucceeded()){
-                        results.add(result.getSourceAsObject(User.class));
+                        User user = result.getSourceAsObject(User.class);
+                        if(user.getFollowers().contains(UserManager.user.getName())){
+                            results.add(user);
+                        }
                     }
                 }
                 catch (Exception e) {
