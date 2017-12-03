@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.example.habittracker2017.UserManager.user;
 
@@ -72,9 +73,18 @@ public class viewTodayFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 allowRefresh = true;
-                if(DateUtils.isToday(allHabits.get(position).getLastEvent().getDate().getTime())){
-                    Toast.makeText(getContext(), "You have already done this habit today!", Toast.LENGTH_LONG).show();
-                }else {
+                HabitEvent todayEvent = allHabits.get(position).getLastEvent();
+                if (todayEvent != null) {
+                    if (DateUtils.isToday(todayEvent.getDate().getTime())) {
+                        Toast.makeText(getContext(), "You have already done this habit today!", Toast.LENGTH_LONG).show();
+                    } else {
+                        Intent intent = new Intent(getContext(), CreateEventActivity.class);
+                        intent.putExtra("Habit", position);
+                        getContext().startActivity(intent);
+                    }
+                }
+                //If no events exist create the event
+                else {
                     Intent intent = new Intent(getContext(), CreateEventActivity.class);
                     intent.putExtra("Habit", position);
                     getContext().startActivity(intent);
