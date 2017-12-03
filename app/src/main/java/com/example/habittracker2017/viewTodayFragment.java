@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -70,9 +72,13 @@ public class viewTodayFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 allowRefresh = true;
-                Intent intent = new Intent(getContext(),CreateEventActivity.class);
-                intent.putExtra("Habit",position);
-                getContext().startActivity(intent);
+                if(DateUtils.isToday(allHabits.get(position).getLastEvent().getDate().getTime())){
+                    Toast.makeText(getContext(), "You have already done this habit today!", Toast.LENGTH_LONG).show();
+                }else {
+                    Intent intent = new Intent(getContext(), CreateEventActivity.class);
+                    intent.putExtra("Habit", position);
+                    getContext().startActivity(intent);
+                }
             }
         });
     }
