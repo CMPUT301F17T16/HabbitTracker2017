@@ -47,6 +47,8 @@ public class FollowManagerAdapter extends BaseAdapter implements ListAdapter{
             view = inflater.inflate(R.layout.list_item,null);
         }
         TextView info = view.findViewById(R.id.info);
+        TextView date = view.findViewById(R.id.start_date);
+        date.setText("");
         info.setText(list.get(position).toString());
         return view;
     }

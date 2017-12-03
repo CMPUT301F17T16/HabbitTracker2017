@@ -15,6 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!--
+             The API key for Google Maps-based APIs.
+        -->
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBRVYXB-J21elZl9q57QfK3wnDzbPJkHo8" />
+
         <activity android:name=".HabitTracker2017MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +38,7 @@
         <activity android:name=".viewManageHabits" />
         <activity
             android:name=".createHabit"
-            android:parentActivityName=".viewManageHabits" />
+            />
         <activity android:name=".viewMyHistory">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -34,19 +46,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.habittracker2017.viewManageHabits" />
             <meta-data
-                android:name="com.google.android.maps.v2.API_KEY"
-                android:value="MyActualKey" />
-            <meta-data
-                android:name="com.google.android.gms.version"
-                android:value="@integer/google_play_services_version" />
-            <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".EditHabitActivity" />
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".StatView" />
-        <activity android:name=".AddLocationActivity"></activity>
+        <activity android:name=".AddLocationActivity" />
+
+        <activity
+            android:name=".mapsActivity">
+        </activity>
     </application>
 
 </manifest>
