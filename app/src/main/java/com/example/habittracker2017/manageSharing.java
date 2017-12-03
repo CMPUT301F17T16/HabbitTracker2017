@@ -80,9 +80,20 @@ public class manageSharing extends Fragment {
                 //allowRefresh = true;
                 String username = nameText.getText().toString();
                 nameText.setText("");
-                if(!username.equals("")){
-                    UserManager.user.addRequest(username);
-                    UserManager.save();
+                RemoteClient.checkExists task = new RemoteClient.checkExists();
+                task.execute(username);
+                try {
+                    if(task.get()){
+                        nameText.setHint("User does not exist");
+                    } else if(!username.equals("")){
+                        UserManager.user.addRequest(username);
+                        nameText.setHint("Request sent");
+                        UserManager.save();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
                 }
             }
         });
