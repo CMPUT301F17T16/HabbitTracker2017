@@ -26,6 +26,10 @@ public class manageSharing extends Fragment {
     private static RequestAdapter<String> adapter;
     private static FollowManagerAdapter adapter1,adapter2;
 
+    private ArrayList<String> followers;
+    private ArrayList<String> following;
+    private ArrayList<String> requests;
+
     private Button addRequest;
     private EditText nameText;
     private ListView requestList,followerList,followingList;
@@ -87,7 +91,8 @@ public class manageSharing extends Fragment {
         RemoteClient.checkRequests task = new RemoteClient.checkRequests();
         task.execute();
         try {
-            adapter = new RequestAdapter<>(this.getContext(), R.layout.request_list_item, task.get());
+            requests = task.get();
+            adapter = new RequestAdapter<>(this.getContext(), R.layout.request_list_item, requests);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -95,8 +100,8 @@ public class manageSharing extends Fragment {
         }
         requestList.setAdapter(adapter);
 
-        try{ArrayList<String> followers = UserManager.user.getFollowers();
-        ArrayList<String> following = UserManager.user.getFollowing();
+        try{followers = UserManager.user.getFollowers();
+        following = UserManager.user.getFollowing();
 
         adapter1 = new FollowManagerAdapter(followers,getActivity());
         adapter2 = new FollowManagerAdapter(following,getActivity());
@@ -106,11 +111,22 @@ public class manageSharing extends Fragment {
         catch ( Exception e){e.printStackTrace();}
     }
 
- /*   public void onResume() {
+
+    public void onResume() {
         super.onResume();
-        if(allowRefresh) {
-            allowRefresh = false;
-            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        followers = UserManager.user.getFollowers();
+        following = UserManager.user.getFollowing();
+        adapter1.notifyDataSetChanged();
+        adapter2.notifyDataSetChanged();
+        RemoteClient.checkRequests task = new RemoteClient.checkRequests();
+        task.execute();
+        try {
+            requests = task.get();
+            adapter.notifyDataSetChanged();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
-    }*/
+    }
 }
