@@ -67,6 +67,9 @@ class RemoteClient {
                         User user = result.getSourceAsObject(User.class);
                         if(user.getFollowers().contains(UserManager.user.getName())){
                             results.add(user);
+                            if(!UserManager.user.getFollowing().contains(user.getName())){
+                                UserManager.user.addFollowing(user.getName());
+                            }
                         }
                     }
                 }
@@ -94,7 +97,7 @@ class RemoteClient {
                 return results;
             }
 
-            String query = "{\"query\" : {\"term\" : { \"following\" : \"" + UserManager.user.getName() + "\" }}}";
+            String query = "{\"query\" : {\"term\" : { \"requests\" : \"" + UserManager.user.getName() + "\" }}}";
             Search search = new Search.Builder(query).addIndex(INDEX).addType("user").build();
 
             try {
