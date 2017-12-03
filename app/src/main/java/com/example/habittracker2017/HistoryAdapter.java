@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -78,6 +79,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         DateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         String eventDate= simpleDate.format(event.getDate());
         viewHolder.date.setText(eventDate);
+
         return view;
 
     }
@@ -147,6 +149,11 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         date.setText(popDate);
         EditText comment=(EditText) layout.findViewById(R.id.event_comment);
         comment.setText(popEvent.getComment());
+        ImageView image=(ImageView) layout.findViewById(R.id.popEvent_pic);
+        if (popEvent.getPicture()!=null){
+            image.setImageBitmap(popEvent.getPicture());
+        }
+
         changeStatusPopUp.setContentView(layout);
         changeStatusPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         changeStatusPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -165,6 +172,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
                 for (Habit habit:userHabit){
                     if (popEvent.getHabit().equals(habit.getTitle())){
                         habit.deleteEvent(popEvent);
+                        UserManager.save();
                         eventsList.remove(popEvent);
                         filteredEvents=eventsList;
                         notifyDataSetChanged();
