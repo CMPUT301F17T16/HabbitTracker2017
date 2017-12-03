@@ -29,6 +29,7 @@ public class manageSharing extends Fragment {
     private Button addRequest;
     private EditText nameText;
     private ListView requestList,followerList,followingList;
+    //boolean allowRefresh = false;
 
 
     public static manageSharing newInstance(int position) {
@@ -72,6 +73,7 @@ public class manageSharing extends Fragment {
 
         addRequest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
+                //allowRefresh = true;
                 String username = nameText.getText().toString();
                 nameText.setText("");
                 if(!username.equals("")){
@@ -103,8 +105,11 @@ public class manageSharing extends Fragment {
         followingList.setAdapter(adapter2);
     }
 
-/*    public void onResume() {
+ /*   public void onResume() {
         super.onResume();
-        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        if(allowRefresh) {
+            allowRefresh = false;
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        }
     }*/
 }

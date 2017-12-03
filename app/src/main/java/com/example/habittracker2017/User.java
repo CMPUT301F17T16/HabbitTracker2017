@@ -53,7 +53,9 @@ public class User {
      * @param name The username to add.
      */
     public void addFollowing(String name){
-        following.add(name);
+        if(!following.contains(name)){
+            following.add(name);
+        }
     }
 
     /**
