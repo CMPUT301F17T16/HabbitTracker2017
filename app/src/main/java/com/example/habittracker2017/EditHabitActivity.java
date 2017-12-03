@@ -122,7 +122,7 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         CreateEventButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                if (habit.isDue() == true) {
+                if (habit.isDue()) {
                     Intent intent = new Intent(getBaseContext(), CreateEventActivity.class);
                     intent.putExtra("Habit", position);
                     getBaseContext().startActivity(intent);

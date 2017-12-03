@@ -125,7 +125,7 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
                 }else if (habitStartDate == null){
                     Toast.makeText(getBaseContext(), "Please select a start date! ", Toast.LENGTH_SHORT).show();
                 }else {
-                    Habit habit = new Habit(habitTitleName, habitReason, habitStartDate, habitHash,user.getName());
+                    Habit habit = new Habit(habitTitleName, habitReason, habitStartDate, habitHash);
                     user.addHabit(habit);
 //                    viewManageHabits.allHabits.add(habit);
 //                    viewManageHabits.adapter.notifyDataSetChanged();
