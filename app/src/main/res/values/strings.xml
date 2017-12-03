@@ -8,12 +8,13 @@
     <string name="habit_name">Habit Name</string>
     <string name="date">Date</string>
     <string name="comment">Comment</string>
-    <string name="delete_event">Delete this event</string>
+    <string name="delete_event">Delete event</string>
     <string name="event_pic">Event pic</string>
     <string name="event_name">Event name</string>
     <string name="username_taken_error">This Username is already in use, or there is a connection error.</string>
     <string name="request_button">Send Request</string>
     <string name="request_hint">Enter a username here</string>
     <string name="request_accept_button">Accept</string>
+    <string name="event_change">Save changes</string>
 
 </resources>

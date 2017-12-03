@@ -33,6 +33,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
     private ArrayList<HabitEvent> eventsList;
     private ArrayList<HabitEvent> filteredEvents;
     private EventFilter eventFilter;
+    private PopupWindow changeStatusPopUp;
 
     private static class ViewHolder {
         TextView title;
@@ -44,6 +45,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         this.eventsList = eventsList;
         this.filteredEvents = eventsList;
     }
+
     //fix
     @Override
     public int getCount() {
@@ -77,7 +79,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         }
         viewHolder.title.setText(event.getHabit() + " event");
         DateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
-        String eventDate= simpleDate.format(event.getDate());
+        String eventDate = simpleDate.format(event.getDate());
         viewHolder.date.setText(eventDate);
 
         return view;
@@ -97,20 +99,20 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults filterResults = new FilterResults();
-            if (constraint!=null && constraint.length()>0) {
+            if (constraint != null && constraint.length() > 0) {
                 ArrayList<HabitEvent> tempList = new ArrayList<HabitEvent>();
 
-                for(HabitEvent event : eventsList){
-                    if (event.getComment().toLowerCase().contains(constraint.toString().toLowerCase())){
+                for (HabitEvent event : eventsList) {
+                    if (event.getComment().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         tempList.add(event);
                     }
                 }
-                filterResults.count=tempList.size();
-                filterResults.values=tempList;
+                filterResults.count = tempList.size();
+                filterResults.values = tempList;
 
-            }else{
-                filterResults.count=eventsList.size();
-                filterResults.values=eventsList;
+            } else {
+                filterResults.count = eventsList.size();
+                filterResults.values = eventsList;
             }
             return filterResults;
         }
@@ -123,7 +125,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         }
     }
 
-    public void update(ArrayList<HabitEvent> eventsList)  {
+    public void update(ArrayList<HabitEvent> eventsList) {
         this.eventsList = eventsList;
         this.filteredEvents = eventsList;
         this.notifyDataSetChanged();
@@ -134,24 +136,24 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
 
     public void showDetailPopup(Context context, int pos) {
 
-        final HabitEvent popEvent=filteredEvents.get(pos);
+        final HabitEvent popEvent = filteredEvents.get(pos);
 
 
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.history_event_popup,null);
+        View layout = layoutInflater.inflate(R.layout.history_event_popup, null);
 
-        final PopupWindow changeStatusPopUp = new PopupWindow(context);
-        EditText name= (EditText)layout.findViewById(R.id.habit_name);
+        changeStatusPopUp = new PopupWindow(context);
+        TextView name = (TextView) layout.findViewById(R.id.habit_name);
         name.setText(popEvent.getHabit());
-        TextView date=(TextView)layout.findViewById(R.id.popEvent_date);
+        TextView date = (TextView) layout.findViewById(R.id.popEvent_date);
         DateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
-        String popDate= simpleDate.format(popEvent.getDate());
+        String popDate = simpleDate.format(popEvent.getDate());
         date.setText(popDate);
-        EditText comment=(EditText) layout.findViewById(R.id.event_comment);
+        final EditText comment = (EditText) layout.findViewById(R.id.event_comment);
         comment.setText(popEvent.getComment());
-        ImageView image=(ImageView) layout.findViewById(R.id.popEvent_pic);
-        if (popEvent.getPicture()!=null){
-            image.setImageBitmap(popEvent.getPicture());
+        ImageView image = (ImageView) layout.findViewById(R.id.popEvent_pic);
+        if (popEvent.getPicture() != null) {
+            /*image.setImageBitmap(popEvent.getPicture());*/
         }
 
         changeStatusPopUp.setContentView(layout);
@@ -168,13 +170,13 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Habit> userHabit=user.getHabits();
-                for (Habit habit:userHabit){
-                    if (popEvent.getHabit().equals(habit.getTitle())){
+                ArrayList<Habit> userHabit = user.getHabits();
+                for (Habit habit : userHabit) {
+                    if (popEvent.getHabit().equals(habit.getTitle())) {
                         habit.deleteEvent(popEvent);
                         UserManager.save();
                         eventsList.remove(popEvent);
-                        filteredEvents=eventsList;
+                        filteredEvents = eventsList;
                         notifyDataSetChanged();
                     }
                 }
@@ -182,5 +184,15 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
             }
         });
 
+        Button save = (Button) layout.findViewById(R.id.event_change);
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popEvent.setComment(comment.getText().toString());
+                notifyDataSetChanged();
+                UserManager.save();
+                changeStatusPopUp.dismiss();
+            }
+        });
     }
 }
