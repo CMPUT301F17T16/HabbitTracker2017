@@ -81,7 +81,7 @@ public class manageSharing extends Fragment {
                 String username = nameText.getText().toString();
                 nameText.setText("");
                 if(!username.equals("")){
-                    UserManager.user.addFollowing(username);
+                    UserManager.user.addRequest(username);
                     UserManager.save();
                 }
             }
