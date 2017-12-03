@@ -38,11 +38,14 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
     //fix
     @Override
     public int getCount() {
+        Log.i("getCount:",String.valueOf(this.filteredEvents.size()));
         return filteredEvents.size();
     }
 
     @Override
     public Object getItem(int i) {
+        Log.i("index:",String.valueOf(i));
+        Log.i("title:",filteredEvents.get(i).getHabit());
         return filteredEvents.get(i);
     }
 
@@ -112,10 +115,12 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         }
     }
 
-    public void Update(ArrayList<HabitEvent> eventsList)  {
+    public void update(ArrayList<HabitEvent> eventsList)  {
         this.eventsList = eventsList;
+        this.filteredEvents = eventsList;
         this.notifyDataSetChanged();                    //should refresh list but didn't, need fix
         Log.i("notify change","true");  //for debugging
         Log.i("this eventList:",String.valueOf(this.eventsList.size()));
+        Log.i("filteredEvents:",String.valueOf(this.filteredEvents.size()));
     }
 }
