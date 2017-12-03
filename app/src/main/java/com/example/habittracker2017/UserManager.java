@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.concurrent.ExecutionException;
 
 import com.google.gson.Gson;
 
@@ -102,6 +103,20 @@ public class UserManager {
             new RemoteClient.saveUser().execute(user);
         } else {
             pendingSave = true;
+        }
+    }
+
+    public void deleteUser(){
+        RemoteClient.deleteUser task = new RemoteClient.deleteUser();
+        task.execute();
+        context.deleteFile(FILENAME);
+        try {
+            task.get();         //Cofirms the user was deleted from the server.
+            user = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
     }
 
