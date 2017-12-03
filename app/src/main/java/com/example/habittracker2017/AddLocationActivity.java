@@ -72,7 +72,19 @@ public class AddLocationActivity extends AppCompatActivity {
                     List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                     Address myAddress = addressList.get(0);
 
-                    knownName = myAddress.getFeatureName();
+                    knownName = myAddress.getAddressLine(0) + "\n" +
+                            myAddress.getAddressLine(1) + "\n";
+                    if (myAddress.getAddressLine(2) != null) {
+                        knownName = knownName + myAddress.getAddressLine(2);
+                    }
+                    latitude = myAddress.getLatitude();
+                    longitude = myAddress.getLongitude();
+
+                    T_coord.setText("");
+                    T_address.setText("");
+
+                    T_coord.append("Coordinates:" + myAddress.getLatitude() + " " + myAddress.getLongitude());
+
                     T_address.append(knownName);
 
 
@@ -190,7 +202,7 @@ public class AddLocationActivity extends AppCompatActivity {
                         T_coord.setText("");
                         T_address.setText("");
 
-                        T_coord.append("Coordinates:\n" + myAddress.getLatitude() + " " + myAddress.getLongitude());
+                        T_coord.append("Coordinates:" + myAddress.getLatitude() + " " + myAddress.getLongitude());
 
                         T_address.append(knownName);
 
@@ -271,7 +283,7 @@ public class AddLocationActivity extends AppCompatActivity {
                     T_coord.setText("");
                     T_address.setText("");
 
-                    T_coord.append("Coordinates:\n" + myAddress.getLatitude() + " " + myAddress.getLongitude());
+                    T_coord.append("Coordinates:" + myAddress.getLatitude() + " " + myAddress.getLongitude());
 
                     T_address.append(knownName);
 
