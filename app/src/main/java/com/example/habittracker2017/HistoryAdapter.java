@@ -1,7 +1,9 @@
 package com.example.habittracker2017;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +11,14 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import org.mockito.internal.matchers.Null;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -70,7 +76,9 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.title.setText(event.getHabit() + " event");
-        viewHolder.date.setText(event.getDate().toString());
+        DateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+        String eventDate= simpleDate.format(event.getDate());
+        viewHolder.date.setText(eventDate);
         Log.i("gotView:",viewHolder.title.toString());
         return view;
 
@@ -118,9 +126,36 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
     public void update(ArrayList<HabitEvent> eventsList)  {
         this.eventsList = eventsList;
         this.filteredEvents = eventsList;
-        this.notifyDataSetChanged();                    //should refresh list but didn't, need fix
-        Log.i("notify change","true");  //for debugging
+        this.notifyDataSetChanged();
+        /*Log.i("notify change","true");  //for debugging
         Log.i("this eventList:",String.valueOf(this.eventsList.size()));
-        Log.i("filteredEvents:",String.valueOf(this.filteredEvents.size()));
+        Log.i("filteredEvents:",String.valueOf(this.filteredEvents.size()));*/
+    }
+
+    public void showDetailPopup(Context context, int pos) {
+
+        HabitEvent popEvent=filteredEvents.get(pos);
+
+
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.history_event_popup,null);
+
+        /*final */PopupWindow changeStatusPopUp = new PopupWindow(context);
+        EditText name= (EditText)layout.findViewById(R.id.habit_name);
+        name.setText(popEvent.getHabit());
+        TextView date=(TextView)layout.findViewById(R.id.popEvent_date);
+        DateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+        String popDate= simpleDate.format(popEvent.getDate());
+        date.setText(popDate);
+        EditText comment=(EditText) layout.findViewById(R.id.event_comment);
+        comment.setText(popEvent.getComment());
+        changeStatusPopUp.setContentView(layout);
+        changeStatusPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+        changeStatusPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        changeStatusPopUp.setFocusable(true);
+
+        changeStatusPopUp.setBackgroundDrawable(new BitmapDrawable());
+
+        changeStatusPopUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
     }
 }
