@@ -4,34 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.habittracker2017.StatView">
+    tools:context="com.example.habittracker2017.StatView"
+    android:id="@+id/statView">
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="200dp"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
         android:background="#F5FFFA">
 
         <TextView
-            android:id="@+id/startDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="61dp"
-            tools:layout_editor_absoluteY="223dp" />
-
-        <TextView
-            android:id="@+id/todaysDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="30dp"
-            tools:layout_editor_absoluteY="230dp" />
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pieChart"
+            android:id="@+id/statsHeader"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="50dp"
+            android:background="@color/colorSecondary"
+            android:gravity="center"
+            android:textColor="#ffff"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:background="#F5FFFA">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:text="From: " />
+            <Button
+                android:id="@+id/startDatePicker"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:background="#F5FFFA">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:text="To: " />
+            <Button
+                android:id="@+id/endDatePicker"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Pie Chart"
+                android:textSize="30sp"
+                android:gravity="center_horizontal"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:background="#F5FFFA">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

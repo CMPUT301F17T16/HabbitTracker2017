@@ -1,8 +1,13 @@
 package com.example.habittracker2017;
 
+import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -14,10 +19,12 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import org.w3c.dom.Text;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,14 +39,20 @@ import java.util.List;
  * todo: changeable dates
  */
 
-public class StatView extends AppCompatActivity {
+public class StatView extends AppCompatActivity implements View.OnClickListener {
 
-    Date currentDay = Calendar.getInstance().getTime();
     private int position;
     private Habit habit;
     private Date startDate;
-    private TextView StatStartDate;
-    private TextView StatEndDate;
+    private Date currentDay;
+    private ArrayList<Float> completed;
+    private Button startDatePickerButton;
+    private Button endDatePickerButton;
+    private int year;
+    private int month;
+    private int day;
+    private PieChart chart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,28 +62,98 @@ public class StatView extends AppCompatActivity {
         position = this.getIntent().getIntExtra("Habit", 0);
         habit = viewTodayFragment.allHabits.get(position);
 
-        StatStartDate = (TextView) findViewById(R.id.startDate);
-        StatEndDate = (TextView) findViewById(R.id.todaysDate);
+        TextView statTitle = (TextView) findViewById(R.id.statsHeader);
+        statTitle.setText("Statistics for " + habit.getTitle());
+
+        currentDay = Calendar.getInstance().getTime();
         startDate = habit.getStartDate();
+        startDatePickerButton = (Button) findViewById(R.id.startDatePicker);
+        endDatePickerButton = (Button) findViewById(R.id.endDatePicker);
+        startDatePickerButton.setOnClickListener(this);
+        endDatePickerButton.setOnClickListener(this);
+        DateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String newStartDateString = simpleDateFormat.format(startDate);
+        startDatePickerButton.setText(newStartDateString);
+        String newEndDateString = simpleDateFormat.format(currentDay);
+        endDatePickerButton.setText(newEndDateString);
+
+        completed = StatManager.completedStats(startDate,currentDay,habit);
 
         /*
-        change variables and clean up
+        draw pie chart
          */
-        DateFormat simpleDate =  new SimpleDateFormat("dd-MM-yyyy");
+        float completedNumber = completed.get(0);
+        float missingNumber = completed.get(1);
+        pieChartDraw( completedNumber, missingNumber);
 
-        String strDt = simpleDate.format(startDate);
-        String strEDT = simpleDate.format(currentDay);
 
-        StatStartDate.setText(strDt);
-        StatEndDate.setText(strEDT);
+    }
 
-        PieChart chart = (PieChart) findViewById(R.id.pieChart);
+    @Override
+    public void onClick(View v) {
+        if (v == startDatePickerButton) {
+            final Calendar c = Calendar.getInstance();
+            year = c.get(Calendar.YEAR);
+            month = c.get(Calendar.MONTH);
+            day = c.get(Calendar.DAY_OF_MONTH);
 
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    startDatePickerButton.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                    DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                    String startString = startDatePickerButton.getText().toString();
+                    try {
+                        startDate = format.parse(startString);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    completed = StatManager.completedStats(startDate,currentDay,habit);
+                    float complete = completed.get(0);
+                    float missed = completed.get(1);
+                    pieChartDraw(complete, missed);
+                }
+            }, year, month, day);
+            datePickerDialog.show();
+        }
+
+        if (v == endDatePickerButton) {
+            final Calendar c = Calendar.getInstance();
+            year = c.get(Calendar.YEAR);
+            month = c.get(Calendar.MONTH);
+            day = c.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    endDatePickerButton.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                    DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                    String endString = endDatePickerButton.getText().toString();
+                    try {
+                        currentDay = format.parse(endString);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    completed = StatManager.completedStats(startDate,currentDay,habit);
+                    float complete = completed.get(0);
+                    float missed = completed.get(1);
+                    pieChartDraw(complete, missed);
+                }
+            }, year, month, day);
+            datePickerDialog.show();
+        }
+    }
+    private void pieChartDraw(float complete, float miss){
+        /*
+        Pie chart filling and colouring stuff
+         */
+        chart = (PieChart) findViewById(R.id.pieChart);
         List<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
-        entries.add(new PieEntry(75.3f, "Completed"));
-        entries.add(new PieEntry(24.7f, "Missed"));
+        entries.add(new PieEntry(complete, "Completed"));
+        entries.add(new PieEntry(miss, "Missed"));
 
         chart.setHoleRadius(0f);
         chart.getDescription().setEnabled(false);
