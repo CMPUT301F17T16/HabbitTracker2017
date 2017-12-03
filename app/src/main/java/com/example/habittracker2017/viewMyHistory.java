@@ -107,8 +107,8 @@ public class viewMyHistory extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Object slectedEvent= habitEvents.getItemAtPosition(position);
-                //adapter.showDetailPopup(getActivity());
-                Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+                adapter.showDetailPopup(getActivity(),position);
+                /*Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();*/
             }
         });
 
@@ -121,7 +121,7 @@ public class viewMyHistory extends Fragment {
         allEvents=user.getAllEvents();
         /*habitEvents.setAdapter(new HistoryAdapter(getActivity(),allEvents));*/
         adapter.update(allEvents);
-        Log.i("allEvents:",String.valueOf(allEvents.size()));
+        /*Log.i("allEvents:",String.valueOf(allEvents.size()));*/
     }
 
     @Override
