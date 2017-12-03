@@ -9,11 +9,14 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -22,21 +25,27 @@ import java.util.ArrayList;
 public class mapsActivity extends AppCompatActivity implements OnMapReadyCallback{
     private ArrayList<HabitEvent> toBeDisplayed;
     private ArrayList<HabitEvent> toBeHighlighted = new ArrayList<HabitEvent>();
+    private ArrayList<HabitEvent> notWithIn5KM = new ArrayList<HabitEvent>();
     private LocationManager locationManager;
     private LocationListener listener;
     private double latitude;
     private double longitude;
+    private Button highlightButton;
+    private Boolean highlighted = false;
+    private Location currentLocation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Get the SupportMapFragment and request notification
         // when the map is ready to be used.
+        highlightButton = (Button) findViewById(R.id.Highlight);
         toBeDisplayed = viewMyHistory.allEvents;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
 
         listener = new LocationListener() {
             @Override
@@ -66,8 +75,8 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(i);
             }
         };
-
     }
+
 
     private void getDeviceLocation() {
         /*
@@ -96,27 +105,76 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
+        highlighted = false;
         LatLng latLng;
         getDeviceLocation();
-        Location currentLocation = new Location("gps");
+        currentLocation = new Location("gps");
         currentLocation.setLongitude(longitude);
         currentLocation.setLatitude(latitude);
         for (HabitEvent event : toBeDisplayed) {
             if (event.getLocation() != null) {
                 if (currentLocation.distanceTo(event.getLocation()) <= 5000) {
                     toBeHighlighted.add(event);
+                } else {
+                    notWithIn5KM.add(event);
                 }
                 latLng = new LatLng(event.getLocation().getLatitude(), event.getLocation().getLongitude());
                 googleMap.addMarker(new MarkerOptions().position(latLng)
-                        .title(event.getComment()));
+                        .title(event.getComment())
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_normal)));
             }
         }
         latLng = new LatLng(latitude,longitude);
         googleMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,8));
+
+        highlightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LatLng latLng;
+                googleMap.clear();
+                if (highlighted){
+                    highlightButton.setText("Highlight Events Within 5KM");
+                    for (HabitEvent event : toBeDisplayed) {
+                        if (event.getLocation() != null) {
+                            latLng = new LatLng(event.getLocation().getLatitude(), event.getLocation().getLongitude());
+                            googleMap.addMarker(new MarkerOptions().position(latLng)
+                                    .title(event.getComment())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_normal)));
+                        }
+                    }
+                    highlighted = false;
+                }else{
+                    highlightButton.setText("Stop Highlighting");
+                    for (HabitEvent event : notWithIn5KM){
+                        if (event.getLocation() != null) {
+                            latLng = new LatLng(event.getLocation().getLatitude(), event.getLocation().getLongitude());
+                            googleMap.addMarker(new MarkerOptions().position(latLng)
+                                    .title(event.getComment())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_normal)));
+                        }
+                    }
+                    for (HabitEvent event : toBeHighlighted){
+                        if (event.getLocation() != null) {
+                            latLng = new LatLng(event.getLocation().getLatitude(), event.getLocation().getLongitude());
+                            googleMap.addMarker(new MarkerOptions().position(latLng)
+                                    .title(event.getComment())
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_highlight)));
+                        }
+                    }
+                    highlighted = true;
+                }
+                latLng = new LatLng(latitude,longitude);
+                googleMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            }
+        });
+
     }
+
+
 
 
 }
