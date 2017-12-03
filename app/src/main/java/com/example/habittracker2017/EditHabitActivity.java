@@ -191,11 +191,18 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
             DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             String habitStartString = datePicker.getText().toString();
             setHabitHash();
+            Boolean CorrectStartDate = true;
             Date habitStartDate = null;
             try {
                 habitStartDate = format.parse(habitStartString);
             } catch (ParseException e) {
                 e.printStackTrace();
+            }
+            for (HabitEvent event:habit.getEvents()){
+                if(event.getDate().before(habitStartDate)){
+                    CorrectStartDate = false;
+                    break;
+                }
             }
             String habitReason = reason.getText().toString();
 
@@ -208,7 +215,7 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
                     Toast.makeText(getBaseContext(), "Please enter a proper title! ", Toast.LENGTH_SHORT).show();
                 }else if (habitStartDate == null){
                     Toast.makeText(getBaseContext(), "Please select a start date! ", Toast.LENGTH_SHORT).show();
-                }else if(habit.getLastEvent().getDate().before(habitStartDate)){
+                }else if(!CorrectStartDate){
                     Toast.makeText(getApplicationContext(), "There is a habit event before the new start date! Select Again!", Toast.LENGTH_LONG).show();
                 }
                 else {
