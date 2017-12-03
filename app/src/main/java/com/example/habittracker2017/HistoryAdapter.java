@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -20,6 +21,7 @@ import org.mockito.internal.matchers.Null;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import static com.example.habittracker2017.UserManager.user;
 
 /**
  * Created by jlin7 on 2017/11/12.
@@ -44,14 +46,11 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
     //fix
     @Override
     public int getCount() {
-        Log.i("getCount:",String.valueOf(this.filteredEvents.size()));
         return filteredEvents.size();
     }
 
     @Override
     public Object getItem(int i) {
-        Log.i("index:",String.valueOf(i));
-        Log.i("title:",filteredEvents.get(i).getHabit());
         return filteredEvents.get(i);
     }
 
@@ -79,7 +78,6 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         DateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         String eventDate= simpleDate.format(event.getDate());
         viewHolder.date.setText(eventDate);
-        Log.i("gotView:",viewHolder.title.toString());
         return view;
 
     }
@@ -134,13 +132,13 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
 
     public void showDetailPopup(Context context, int pos) {
 
-        HabitEvent popEvent=filteredEvents.get(pos);
+        final HabitEvent popEvent=filteredEvents.get(pos);
 
 
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.history_event_popup,null);
 
-        /*final */PopupWindow changeStatusPopUp = new PopupWindow(context);
+        final PopupWindow changeStatusPopUp = new PopupWindow(context);
         EditText name= (EditText)layout.findViewById(R.id.habit_name);
         name.setText(popEvent.getHabit());
         TextView date=(TextView)layout.findViewById(R.id.popEvent_date);
@@ -157,5 +155,24 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         changeStatusPopUp.setBackgroundDrawable(new BitmapDrawable());
 
         changeStatusPopUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+
+        Button delete = layout.findViewById(R.id.event_delete);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Habit> userHabit=user.getHabits();
+                for (Habit habit:userHabit){
+                    if (popEvent.getHabit().equals(habit.getTitle())){
+                        habit.deleteEvent(popEvent);
+                        eventsList.remove(popEvent);
+                        filteredEvents=eventsList;
+                        notifyDataSetChanged();
+                    }
+                }
+                changeStatusPopUp.dismiss();
+            }
+        });
+
     }
 }

@@ -59,7 +59,7 @@
             android:textColor="#000000"
             />
         <Button
-            android:id="@+id/dismiss"
+            android:id="@+id/event_delete"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/delete_event"
