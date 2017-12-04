@@ -1,5 +1,6 @@
 package com.example.habittracker2017;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,6 +18,10 @@ import java.util.HashMap;
  */
 
 public class OthersFragment extends Fragment {
+
+    private ArrayList<User> followedUsers;
+    ArrayList<String> followedUserNames;
+
     public static OthersFragment newInstance(int position) {
         OthersFragment fragment = new OthersFragment();
         Bundle args = new Bundle();
@@ -47,12 +52,12 @@ public class OthersFragment extends Fragment {
         if(currentUser == null){
             return view;
         }
-        ArrayList<String> followedUserNames = currentUser.getFollowing();
+       followedUserNames = currentUser.getFollowing();
 
         //Load in followed users
         RemoteClient.loadUsers task = new RemoteClient.loadUsers();
         task.execute(followedUserNames);
-        ArrayList<User> followedUsers = new ArrayList<>();
+        followedUsers = new ArrayList<>();
         try{
             followedUsers = task.get();
         }catch(Exception e){
@@ -63,15 +68,15 @@ public class OthersFragment extends Fragment {
 
         ArrayList<Habit> habits;
         ArrayList<String> habitTitles = new ArrayList<>();
-        HashMap<String, ArrayList<String>> userHabits = new HashMap<>();
+        HashMap<String, ArrayList<Habit>> userHabits = new HashMap<>();
 
         for(int i=0;i<followedUsers.size();i++){
             habits = followedUsers.get(i).getHabits();
-            habitTitles.clear();
+/*            habitTitles.clear();
             for(int j=0;j<habits.size();j++){
                 habitTitles.add(habits.get(j).getTitle());
-            }
-            userHabits.put(followedUserNames.get(i),habitTitles);
+            }*/
+            userHabits.put(followedUserNames.get(i),habits);
 
         }
 
@@ -82,7 +87,11 @@ public class OthersFragment extends Fragment {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+                Intent intent = new Intent(getContext(), OthersStatView.class);
+                intent.putExtra("Username",followedUserNames.get(groupPosition));
+                intent.putExtra("habitLocation",childPosition);
 
+                getContext().startActivity(intent);
                 return false;
             }
         });
