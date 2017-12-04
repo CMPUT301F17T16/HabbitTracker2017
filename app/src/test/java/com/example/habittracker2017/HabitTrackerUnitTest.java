@@ -75,7 +75,7 @@ public class HabitTrackerUnitTest {
     }
 
     @Test
-    public void testBasicEventCreation() {
+    public void testBasicEventCreationAndDeletion() {
         Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
         String comment = "Test comment";
         HabitEvent event = new HabitEvent(comment);
@@ -92,6 +92,7 @@ public class HabitTrackerUnitTest {
         assertFalse(habit.getEvents().contains(event));
     }
 
+    /*
     @Test
     public void testAdvancedEventCreation() {
         Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
@@ -119,7 +120,7 @@ public class HabitTrackerUnitTest {
         assertEquals(eventP.getBitmapString(),bitmapString);
         assertEquals(eventPL.getBitmapString(),bitmapString);
     }
-
+*/
     @Test
     public void testGetLastEvent(){
         Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
@@ -136,7 +137,6 @@ public class HabitTrackerUnitTest {
 
         assertEquals(habit.getLastEvent(), lastEvent);
     }
-
 
     @Test
     public void testCreateUser(){

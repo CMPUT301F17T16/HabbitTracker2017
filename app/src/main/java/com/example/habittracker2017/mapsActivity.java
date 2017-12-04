@@ -61,7 +61,11 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Get the SupportMapFragment and request notification
         // when the map is ready to be used.
         highlightButton = (Button) findViewById(R.id.Highlight);
-        toBeDisplayed = viewMyHistory.allEvents;
+        if (getIntent().getStringExtra("Caller") == "mine"){
+            toBeDisplayed = viewMyHistory.allEvents;
+        }else{
+            toBeDisplayed = OthersFragment.allEvents;
+        }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -77,6 +81,18 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onLocationChanged(Location location) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
+                currentLocation = location;
+                toBeHighlighted= new ArrayList<HabitEvent>();
+                notWithIn5KM = new ArrayList<HabitEvent>();
+                for (HabitEvent event : toBeDisplayed) {
+                    if (event.getLocation() != null) {
+                        if (currentLocation.distanceTo(event.getLocation()) <= 5000) {
+                            toBeHighlighted.add(event);
+                        } else {
+                            notWithIn5KM.add(event);
+                        }
+                    }
+                }
             }
 
             @Override

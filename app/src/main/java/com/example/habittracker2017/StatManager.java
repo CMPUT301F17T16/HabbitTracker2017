@@ -102,7 +102,6 @@ public class StatManager {
 
         DateTime startDay = new DateTime(begin);
         DateTime endDay = new DateTime(end);
-        Log.i("days",endDay.toString());
         DateTimeFormatter formater = DateTimeFormat.forPattern("DD-MM-yyyy");
 
 

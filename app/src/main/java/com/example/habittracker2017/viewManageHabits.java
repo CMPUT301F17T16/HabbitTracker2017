@@ -49,7 +49,6 @@ public class viewManageHabits extends Fragment {
     protected ListView Habits;
     protected static ArrayList<Habit> allHabits = new ArrayList<Habit>();
     protected static ViewHabitAdapter adapter;
-    protected static final String FILENAME ="habits.sav";
     protected static boolean allowRefresh = false;
 
     public static viewManageHabits newInstance(int position) {

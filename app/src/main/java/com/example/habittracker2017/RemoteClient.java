@@ -38,7 +38,10 @@ import io.searchbox.core.SearchResult;
 
 class RemoteClient {
     private static JestDroidClient client;
-    private static final String DATABASE = "http://cmput301.softwareprocess.es:8080/";
+    //private static final String DATABASE = "http://cmput301.softwareprocess.es:8080/";
+    //use replacement DataBase for now
+    //Todo: revert back to original elasticsearch
+    private static final String DATABASE = "https://search-cmput301serverdown-mkym7akdpae65i5n7ej56ptjqe.us-east-1.es.amazonaws.com";
     private static final String INDEX = "cmput301f17t16_habittracker2017";
 
     public static class saveUser extends AsyncTask<User, Void, Void> {

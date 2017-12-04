@@ -99,6 +99,7 @@ public class UserManager {
     /**
      * Saves the user's current data to file and to the remote database
      */
+
     public static void save(){
         try {
             FileOutputStream fos = context.openFileOutput(FILENAME,

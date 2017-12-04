@@ -26,6 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * Created by Jonah Cowan on 2017-12-03.
+ * Takes two arrays of habits and associated username's and makes a expandable list
+ *
+ * Code Largely learned from https://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/
  * Activities the viewHistory does, subclass of fragment
  *
  * @author team 16
@@ -38,9 +42,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
     private ArrayList<String> userNames;
-    private HashMap<String, ArrayList<String>> habits;
+    private HashMap<String, ArrayList<Habit>> habits;
 
-    public ExpandableListAdapter(Context context, ArrayList<String> userNames, HashMap<String, ArrayList<String>> habits) {
+    public ExpandableListAdapter(Context context, ArrayList<String> userNames, HashMap<String, ArrayList<Habit>> habits) {
         this.context = context;
         this.userNames = userNames;
         this.habits = habits;
@@ -48,7 +52,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition){
-        return this.habits.get(this.userNames.get(groupPosition)).get(childPosition);
+        return this.habits.get(this.userNames.get(groupPosition)).get(childPosition).getTitle();
     }
 
     @Override
