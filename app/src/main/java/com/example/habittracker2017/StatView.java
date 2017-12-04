@@ -10,14 +10,26 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.joda.time.DateTime;
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,10 +60,13 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
     private ArrayList<Float> completed;
     private Button startDatePickerButton;
     private Button endDatePickerButton;
+    private TextView completeText;
+    private TextView missText;
     private int year;
     private int month;
     private int day;
     private PieChart chart;
+    private LineChart lineChart;
 
 
     @Override
@@ -62,8 +77,8 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
         position = this.getIntent().getIntExtra("Habit", 0);
         habit = viewTodayFragment.allHabits.get(position);
 
-        TextView completeText = (TextView) findViewById(R.id.complete);
-        TextView missText = (TextView) findViewById(R.id.miss);
+        completeText = (TextView) findViewById(R.id.complete);
+        missText = (TextView) findViewById(R.id.miss);
         TextView statTitle = (TextView) findViewById(R.id.statsHeader);
         statTitle.setText("Statistics for " + habit.getTitle());
 
@@ -80,16 +95,10 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
         endDatePickerButton.setText(newEndDateString);
 
         completed = StatManager.completedStats(startDate,currentDay,habit);
-        completeText.setText("Missed: " + completed.get(2));
-        missText.setText("Completed: " + completed.get(3));
-
         /*
-        draw pie chart
+        draw pie chart and textViews
          */
-        float completedNumber = completed.get(0);
-        float missingNumber = completed.get(1);
-        pieChartDraw( completedNumber, missingNumber);
-
+        pieChartDraw(completed);
 
     }
 
@@ -114,9 +123,7 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
                         e.printStackTrace();
                     }
                     completed = StatManager.completedStats(startDate,currentDay,habit);
-                    float complete = completed.get(0);
-                    float missed = completed.get(1);
-                    pieChartDraw(complete, missed);
+                    pieChartDraw(completed);
                 }
             }, year, month, day);
             datePickerDialog.show();
@@ -139,19 +146,32 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
+                    currentDay = new Date(currentDay.getTime() + (1000 * 60 * 60 * 24));
                     completed = StatManager.completedStats(startDate,currentDay,habit);
-                    float complete = completed.get(0);
-                    float missed = completed.get(1);
-                    pieChartDraw(complete, missed);
+                    pieChartDraw(completed);
                 }
             }, year, month, day);
             datePickerDialog.show();
         }
     }
-    private void pieChartDraw(float complete, float miss){
+
+    /**
+     * Creates the pieChart and the writes the amount of completed and missed habits
+     *
+     * @param chartData
+     */
+    private void pieChartDraw(ArrayList<Float> chartData){
+
+        completeText = (TextView) findViewById(R.id.complete);
+        missText = (TextView) findViewById(R.id.miss);
+        completeText.setText("Missed: " + chartData.get(2));
+        missText.setText("Completed: " + chartData.get(3));
+
         /*
         Pie chart filling and colouring stuff
          */
+        float complete = chartData.get(0);
+        float miss = chartData.get(1);
         chart = (PieChart) findViewById(R.id.pieChart);
         List<PieEntry> entries = new ArrayList<>();
         ArrayList<Integer> colors = new ArrayList<Integer>();
@@ -172,6 +192,7 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
         data.setValueTextSize(20f);
         data.setValueTextColor(Color.BLACK);
         chart.setData(data);
+        chart.animateXY(1000, 1000);
         chart.invalidate();
     }
 }

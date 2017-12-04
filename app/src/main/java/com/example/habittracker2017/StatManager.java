@@ -2,6 +2,8 @@ package com.example.habittracker2017;
 
 import android.util.Log;
 
+import com.github.mikephil.charting.data.Entry;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by jmark on 2017-12-02.
@@ -21,18 +24,25 @@ public class StatManager {
     private static HashMap<Integer, Boolean> schedule;
     private static ArrayList<String> dueDates;
     private static ArrayList<HabitEvent> events;
-    private Date startDate;
-    private Date endDate;
 
+    /**
+     * returns an array list with floats of
+     * percent of completed habits,
+     * percent of missed habits,
+     * number of missed habits,
+     * and number of completed habits.
+     *
+     * @param startDate
+     * @param endDate
+     * @param habit
+     * @return
+     */
     public static ArrayList<Float> completedStats(Date startDate, Date endDate, Habit habit){
 
         schedule = habit.getSchedule();
         dueDates = daysBetween(startDate, endDate, schedule);
         int maxDays = dueDates.size();
 
-        for (String day: dueDates){
-            Log.i("days",day);
-        }
         /*
         Find number of missed days by removing the amount of days completed from the valid days list
         and finding the number of remaining days
@@ -70,11 +80,12 @@ public class StatManager {
      * @param daysOfWeek
      * @return
      */
-    private static ArrayList<String> daysBetween(Date begin, Date end, HashMap<Integer, Boolean> daysOfWeek){
+    public static ArrayList<String> daysBetween(Date begin, Date end, HashMap<Integer, Boolean> daysOfWeek){
         ArrayList<String> days = new ArrayList<>();
 
         DateTime startDay = new DateTime(begin);
         DateTime endDay = new DateTime(end);
+        Log.i("days",endDay.toString());
         DateTimeFormatter formater = DateTimeFormat.forPattern("DD-MM-yyyy");
 
 
