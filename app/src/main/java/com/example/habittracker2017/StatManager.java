@@ -24,6 +24,18 @@ public class StatManager {
     private Date startDate;
     private Date endDate;
 
+    /**
+     * returns an array list with floats of
+     * percent of completed habits,
+     * percent of missed habits,
+     * number of missed habits,
+     * and number of completed habits.
+     *
+     * @param startDate
+     * @param endDate
+     * @param habit
+     * @return
+     */
     public static ArrayList<Float> completedStats(Date startDate, Date endDate, Habit habit){
 
         schedule = habit.getSchedule();
@@ -75,6 +87,7 @@ public class StatManager {
 
         DateTime startDay = new DateTime(begin);
         DateTime endDay = new DateTime(end);
+        Log.i("days",endDay.toString());
         DateTimeFormatter formater = DateTimeFormat.forPattern("DD-MM-yyyy");
 
 
