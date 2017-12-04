@@ -19,9 +19,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <!--
-             The API key for Google Maps-based APIs.
-        -->
+        <!--              The API key for Google Maps-based APIs. -->
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -36,9 +34,7 @@
         </activity>
         <activity android:name=".CreateUserActivity" />
         <activity android:name=".viewManageHabits" />
-        <activity
-            android:name=".createHabit"
-            />
+        <activity android:name=".createHabit" />
         <activity android:name=".viewMyHistory">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -53,10 +49,7 @@
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".StatView" />
         <activity android:name=".AddLocationActivity" />
-
-        <activity
-            android:name=".mapsActivity">
-        </activity>
+        <activity android:name=".mapsActivity"></activity>
     </application>
 
 </manifest>

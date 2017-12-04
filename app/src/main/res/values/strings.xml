@@ -17,5 +17,6 @@
     <string name="request_accept_button">Accept</string>
     <string name="event_change">Save changes</string>
     <string name="event_location">Event location</string>
+    <string name="request_search">Search</string>
 
 </resources>
