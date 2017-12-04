@@ -4,6 +4,8 @@ import android.location.Location;
 
 import org.junit.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -20,13 +22,14 @@ public class HabitEventTest {
 
     @Test
     public void testBasicEventCreation() {
-        Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
+        String testTitle = "Title";
+        String testReason = "Reason";
+        Habit habit = new Habit(testTitle, testReason, new Date(), testSchedule);
         String comment = "Test comment";
         HabitEvent event = new HabitEvent(comment);
         habit.addEvent(event);
 
         assertTrue(habit.getEvents().contains(event));
-        assertEquals(event.getHabit(), habit);
         assertEquals(event.getComment(), comment);
         assertFalse(event.getDate().after(new Date(System.currentTimeMillis())));
         assertTrue(event.getDate().after(new Date(System.currentTimeMillis() - 100))); //Or some other reasonable timeframe
@@ -46,20 +49,16 @@ public class HabitEventTest {
 
     @Test
     public void testGetComment(){
-        Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
         String comment = "Test comment";
         HabitEvent event = new HabitEvent(comment);
-        habit.addEvent(event);
 
         assertEquals("wrong comment returned",comment,event.getComment());
     }
 
     @Test
     public void testSetComment(){
-        Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
         String comment = "Original test comment";
         HabitEvent event = new HabitEvent(comment);
-        habit.addEvent(event);
         String newComment = "New test comment";
         event.setComment(newComment);
 
@@ -68,13 +67,67 @@ public class HabitEventTest {
 
     @Test
     public void testGetLocation(){
+        String comment = "Test comment";
+        Location testLocation = null;
+        HabitEvent event = new HabitEvent(comment, testLocation);
+
+        assertEquals("wrong location gotten", testLocation, event.getLocation());
+    }
+
+    @Test
+    public void testSetDate(){
+        String comment = "Test comment";
+        Location testLocation = null;
+        HabitEvent event = new HabitEvent(comment, testLocation);
+
+        String newTestDate = "22-11-2017";
+        SimpleDateFormat converter = new SimpleDateFormat("dd-MM-yyyy");
+        Date newDate = new Date();
+        try {
+            newDate = converter.parse(newTestDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        event.setDate(newDate);
+
+        assertEquals("new date not set", newDate, event.getDate());
+    }
+
+    @Test
+    public void testGetDate(){
+        String comment = "Test comment";
+        Location testLocation = null;
+        HabitEvent event = new HabitEvent(comment, testLocation);
+        Date newDate = new Date();
+
+        assertEquals("date gotten is not the same as date set", newDate, event.getDate());
+
+    }
+
+    @Test
+    public void testSetHabit() {
         Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
         String comment = "Test comment";
         Location testLocation = null;
         HabitEvent event = new HabitEvent(comment, testLocation);
         habit.addEvent(event);
 
-        assertEquals("wrong location gotten", testLocation, event.getLocation());
+        String newString = "New Title";
+        event.setHabit(newString);
+        assertEquals("new title not set", newString, event.getHabit());
     }
+
+    @Test
+    public void testGetAndSetBitmapString(){
+        String comment = "Test comment";
+        Location testLocation = null;
+        HabitEvent event = new HabitEvent(comment, testLocation);
+
+        String test = "testString";
+        event.setBitmapString(test);
+
+        assertEquals("bitmap string not getting string or not setting string",test, event.getBitmapString());
+    }
+
 
 }
