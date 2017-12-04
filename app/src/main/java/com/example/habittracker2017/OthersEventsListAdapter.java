@@ -49,18 +49,12 @@ public class OthersEventsListAdapter extends BaseAdapter{
 
         User currentUser = (User)getItem(position);
         ArrayList<Habit> currentUserHabits = currentUser.getHabits();
-        ArrayList<HabitEvent> currentUserEvents = new ArrayList<>();
-
-        //get all habit events
-        for(int i=0; i<currentUserHabits.size();i++){
-            currentUserEvents.addAll(currentUserHabits.get(i).getEvents());
-        }
 
         TextView followedUserName = (TextView) convertView.findViewById(R.id.followedUserNameView);
-        ListView followedUserEvents = (ListView) convertView.findViewById(R.id.followedUserEventsList);
+        ListView followedUserHabits = (ListView) convertView.findViewById(R.id.followedUserEventsList);
 
-        HistoryAdapter adapter = new HistoryAdapter(context, currentUserEvents);
-        followedUserEvents.setAdapter(adapter);
+        OthersEventsListElementAdapter adapter = new OthersEventsListElementAdapter(context, currentUserHabits);
+        followedUserHabits.setAdapter(adapter);
 
         followedUserName.setText(currentUser.getName());
 

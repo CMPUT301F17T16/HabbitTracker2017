@@ -77,7 +77,6 @@ public class manageSharing extends Fragment {
 
         addRequest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                //allowRefresh = true;
                 String username = nameText.getText().toString();
                 nameText.setText("");
                 if(!username.equals("")){

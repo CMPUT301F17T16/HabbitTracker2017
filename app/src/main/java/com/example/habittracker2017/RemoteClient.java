@@ -121,7 +121,7 @@ class RemoteClient {
          * is and false if it is not.
          * @param name The username to check.
          * @return The boolean evaluation of the username's existence.
-         */
+                */
         @Override
         protected Boolean doInBackground(String... name) {
             verifySettings();

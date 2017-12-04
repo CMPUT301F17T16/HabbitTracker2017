@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by hyuan2 on 2017-11-12.
@@ -39,7 +41,7 @@ public class OthersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.others_activity, container, false);
+        View view = inflater.inflate(R.layout.expandable_list, container, false);
 
         User currentUser = UserManager.user;
         if(currentUser == null){
@@ -57,9 +59,29 @@ public class OthersFragment extends Fragment {
             Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
         }
 
-        ListView othersActivities = (ListView) view.findViewById(R.id.followedUserListView);
-        OthersEventsListAdapter adapter = new OthersEventsListAdapter(getContext(), followedUsers);
-        othersActivities.setAdapter(adapter);
+        ExpandableListView expandableListView = (ExpandableListView) view.findViewById(R.id.mainList);
+
+        ArrayList<Habit> habits;
+        ArrayList<String> habitTitles = new ArrayList<>();
+        HashMap<String, ArrayList<String>> userHabits = new HashMap<>();
+
+        for(int i=0;i<followedUsers.size();i++){
+            habits = followedUsers.get(i).getHabits();
+            habitTitles.clear();
+            for(int j=0;j<habits.size();j++){
+                habitTitles.add(habits.get(j).getTitle());
+            }
+            userHabits.put(followedUserNames.get(i),habitTitles);
+
+        }
+
+        ExpandableListAdapter adapter = new ExpandableListAdapter(getContext(),followedUserNames, userHabits);
+
+        expandableListView.setAdapter(adapter);
+
+/*        ListView othersActivities = (ListView) view.findViewById(R.id.followedUserListView);
+        ExpandableListAdapter adapter = new ExpandableListAdapter(getContext(), followedUsers);
+        othersActivities.setAdapter(adapter);*/
 
 
         return view;
