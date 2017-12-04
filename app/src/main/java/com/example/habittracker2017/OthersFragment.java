@@ -47,7 +47,7 @@ public class OthersFragment extends Fragment {
         if(currentUser == null){
             return view;
         }
-        ArrayList<String> followedUserNames = currentUser.getRequests();
+        ArrayList<String> followedUserNames = currentUser.getFollowing();
 
         //Load in followed users
         RemoteClient.loadUsers task = new RemoteClient.loadUsers();
@@ -78,6 +78,14 @@ public class OthersFragment extends Fragment {
         ExpandableListAdapter adapter = new ExpandableListAdapter(getContext(),followedUserNames, userHabits);
 
         expandableListView.setAdapter(adapter);
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+
+                return false;
+            }
+        });
 
 /*        ListView othersActivities = (ListView) view.findViewById(R.id.followedUserListView);
         ExpandableListAdapter adapter = new ExpandableListAdapter(getContext(), followedUsers);
