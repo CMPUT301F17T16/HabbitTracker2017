@@ -189,7 +189,8 @@ public class manageSharing extends Fragment {
         RemoteClient.checkRequests task = new RemoteClient.checkRequests();
         task.execute();
         try {
-            requests = task.get();
+            requests.clear();
+            requests.addAll(task.get());
             adapter.notifyDataSetChanged();
         } catch (InterruptedException e) {
             e.printStackTrace();
