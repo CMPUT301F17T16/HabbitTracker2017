@@ -84,7 +84,7 @@ public class OthersFragment extends Fragment {
         User currentUser = UserManager.user;
         if(currentUser != null) {
 
-            followedUserNames = currentUser.getFollowing();
+            followedUserNames = currentUser.getRequests();
             for (String us : followedUserNames) {
                 Log.i("us", us);
             }
