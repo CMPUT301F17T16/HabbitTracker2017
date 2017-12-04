@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +41,11 @@ public class OthersFragment extends Fragment {
     private ArrayList<User> followedUsers;
     ArrayList<String> followedUserNames;
     protected static ArrayList<HabitEvent> allEvents = new ArrayList<HabitEvent>();
+    private ExpandableListAdapter adapter;
+    private ExpandableListView expandableListView;
+    private ArrayList<Habit> habits;
+//    private ArrayList<String> habitTitles = new ArrayList<>();
+    private HashMap<String, ArrayList<Habit>> userHabits = new HashMap<>();
 
     public static OthersFragment newInstance(int position) {
         OthersFragment fragment = new OthersFragment();
@@ -67,61 +73,70 @@ public class OthersFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.expandable_list, container, false);
 
+
+        return view;
+    }
+
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         User currentUser = UserManager.user;
-        if(currentUser == null){
-            return view;
-        }
-        followedUserNames = currentUser.getFollowing();
-        for (String us : followedUserNames){
-            Log.i("us", us);
-        }
+        if(currentUser != null) {
 
-        //Load in followed users
-        RemoteClient.loadUsers task = new RemoteClient.loadUsers();
-        task.execute(followedUserNames);
-        followedUsers = new ArrayList<>();
-        try{
-            followedUsers = task.get();
-        }catch(Exception e){
-            Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
-        }
-
-        ExpandableListView expandableListView = (ExpandableListView) view.findViewById(R.id.mainList);
-
-        ArrayList<Habit> habits;
-        ArrayList<String> habitTitles = new ArrayList<>();
-        HashMap<String, ArrayList<Habit>> userHabits = new HashMap<>();
-
-        for(int i=0;i<followedUsers.size();i++){
-            habits = followedUsers.get(i).getHabits();
-            for (Habit habit : habits){
-                allEvents.add(habit.getLastEvent());
+            followedUserNames = currentUser.getFollowing();
+            for (String us : followedUserNames) {
+                Log.i("us", us);
             }
+
+            //Load in followed users
+            RemoteClient.loadUsers task = new RemoteClient.loadUsers();
+            task.execute(followedUserNames);
+            followedUsers = new ArrayList<>();
+            try {
+                followedUsers = task.get();
+            } catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+
+            expandableListView = (ExpandableListView) getView().findViewById(R.id.mainList);
+
+//        ArrayList<String> habitTitles = new ArrayList<>();
+            userHabits = new HashMap<>();
+
+            for (int i = 0; i < followedUsers.size(); i++) {
+                habits = followedUsers.get(i).getHabits();
+                for (Habit habit : habits) {
+                    allEvents.add(habit.getLastEvent());
+                }
 /*            habitTitles.clear();
             for(int j=0;j<habits.size();j++){
                 habitTitles.add(habits.get(j).getTitle());
             }*/
-            userHabits.put(followedUserNames.get(i),habits);
+                userHabits.put(followedUserNames.get(i), habits);
 
-        }
-
-        ExpandableListAdapter adapter = new ExpandableListAdapter(getContext(),followedUserNames, userHabits);
-
-        expandableListView.setAdapter(adapter);
-
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
-                Intent intent = new Intent(getContext(), OthersStatView.class);
-                intent.putExtra("Username",followedUserNames.get(groupPosition));
-                intent.putExtra("habitLocation",childPosition);
-
-                getContext().startActivity(intent);
-                return false;
             }
-        });
 
-        FloatingActionButton mapbutton = view.findViewById(R.id.map);
+            adapter = new ExpandableListAdapter(getContext(), followedUserNames, userHabits);
+
+            expandableListView.setAdapter(adapter);
+
+
+            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+                    Intent intent = new Intent(getContext(), OthersStatView.class);
+                    intent.putExtra("Username", followedUserNames.get(groupPosition));
+                    intent.putExtra("habitLocation", childPosition);
+
+                    getContext().startActivity(intent);
+                    return false;
+                }
+            });
+
+        }else {Toast.makeText(getContext(), "Cannot load user object!", Toast.LENGTH_LONG).show();}
+
+        FloatingActionButton mapbutton = getView().findViewById(R.id.map);
         mapbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent mapIntent = new Intent(getContext(),mapsActivity.class);
@@ -130,11 +145,6 @@ public class OthersFragment extends Fragment {
             }
         });
 
-/*        ListView othersActivities = (ListView) view.findViewById(R.id.followedUserListView);
-        ExpandableListAdapter adapter = new ExpandableListAdapter(getContext(), followedUsers);
-        othersActivities.setAdapter(adapter);*/
-
-
-        return view;
     }
+
 }

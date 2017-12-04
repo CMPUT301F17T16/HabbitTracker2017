@@ -47,6 +47,8 @@ public class OthersHabitFragment extends Fragment {
     }
 
 
+
+
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {

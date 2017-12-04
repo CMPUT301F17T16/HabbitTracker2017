@@ -57,7 +57,8 @@ public class manageSharing extends Fragment {
     private String selection;
 
     private Button addRequest;
-    private ListView requestList,followerList,followingList;
+    private ListView requestList;
+    private TextView followerList,followingList;
     //boolean allowRefresh = false;
 
     /**
@@ -119,7 +120,7 @@ public class manageSharing extends Fragment {
         addRequest = getView().findViewById(R.id.requestButton);
         requestList = getView().findViewById(R.id.requestList);
         followerList = getView().findViewById(R.id.followedList);
-        followingList = getView().findViewById(R.id.followingList);
+//        followingList = getView().findViewById(R.id.followingList);
 
         addRequest.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
@@ -143,23 +144,48 @@ public class manageSharing extends Fragment {
         try{followers = UserManager.user.getFollowers();
             following = UserManager.user.getFollowing();
 
-            adapter1 = new FollowManagerAdapter(followers,getActivity());
-            adapter2 = new FollowManagerAdapter(following,getActivity());
-
-            followerList.setAdapter(adapter1);
-            followingList.setAdapter(adapter2);}
+//            adapter1 = new FollowManagerAdapter(followers,getActivity());
+//            adapter2 = new FollowManagerAdapter(following,getActivity());
+//
+//            followerList.setAdapter(adapter1);
+//            followingList.setAdapter(adapter2);
+        }
         catch ( Exception e){e.printStackTrace();}
+        if (followers.size()>0) {
+            followerList.setText("");
+            for (String otherUser : followers) {
+                followerList.append(otherUser + "\n");
+            }
+            followerList.append("----------------------------------------------------------------");
+        }
+//        followingList.setText("");
+//        for (String otherUser: following){
+//            followingList.append(otherUser+"\n");
+//        }
+
     }
 
     /**
      * On activity resume, update follower, following, request list to view
      */
+    @Override
     public void onResume() {
         super.onResume();
         followers = UserManager.user.getFollowers();
         following = UserManager.user.getFollowing();
-        adapter1.notifyDataSetChanged();
-        adapter2.notifyDataSetChanged();
+        if (followers.size()>0) {
+            followerList.setText("");
+            for (String otherUser : followers) {
+                followerList.append(otherUser + "\n");
+            }
+            followerList.append("----------------------------------------------------------------");
+        }
+//        followingList.setText("");
+//        for (String otherUser: following){
+//            followingList.append(otherUser+"\n");
+//        }
+//        adapter1.notifyDataSetChanged();
+//        adapter2.notifyDataSetChanged();
         RemoteClient.checkRequests task = new RemoteClient.checkRequests();
         task.execute();
         try {
@@ -169,6 +195,38 @@ public class manageSharing extends Fragment {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser){
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            followers = UserManager.user.getFollowers();
+            following = UserManager.user.getFollowing();
+            if (followers.size()>0) {
+                followerList.setText("");
+                for (String otherUser : followers) {
+                    followerList.append(otherUser + "\n");
+                }
+                followerList.append("----------------------------------------------------------------");
+            }
+//            followingList.setText("");
+//            for (String otherUser: following){
+//                followingList.append(otherUser+"\n");
+//            }
+//        adapter1.notifyDataSetChanged();
+//        adapter2.notifyDataSetChanged();
+            RemoteClient.checkRequests task = new RemoteClient.checkRequests();
+            task.execute();
+            try {
+                requests = task.get();
+                adapter.notifyDataSetChanged();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         }
     }
 

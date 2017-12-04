@@ -25,61 +25,89 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/requestButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:gravity="center"
         android:text="Pending Requests:"
+        android:textColor="#000000"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/followingList" />
+        app:layout_constraintTop_toBottomOf="@+id/table" />
 
-    <ListView
-        android:id="@+id/followingList"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="22dp"
-        android:gravity="center"
-        android:text="You Are Following:"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/followedList" />
-
-    <ListView
-        android:id="@+id/followedList"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/table"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
-        android:text="You Are Followed By:"
-        android:textSize="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:weightSum="2">
+
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="2">-->
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:gravity="center_horizontal"
+                android:text="You Are Followed By:"
+                android:textColor="#66ccff"
+                android:textSize="16dp" />
+
+
+            <!--<TextView-->
+                <!--android:id="@+id/textView2"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:text="You Are Following:"-->
+                <!--android:textColor="#f28e4a"-->
+                <!--android:textSize="16dp" />-->
+
+
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="2">-->
+
+            <TextView
+                android:id="@+id/followedList"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#66ccff"
+                android:gravity="center_horizontal"
+                android:text="No one!"
+                android:layout_weight="1" />
+
+            <!--<TextView-->
+                <!--android:id="@+id/followingList"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="120dp"-->
+                <!--android:textColor="#66ccff"-->
+                <!--android:layout_weight="1" />-->
+
+        <!--</LinearLayout>-->
+
+</LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

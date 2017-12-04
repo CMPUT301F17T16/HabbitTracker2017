@@ -136,7 +136,7 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         viewHolder.title.setText(event.getHabit() + " event");
         DateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
         String eventDate = simpleDate.format(event.getDate());
-        viewHolder.date.setText(eventDate);
+        viewHolder.date.setText(eventDate+"  Comment: "+event.getComment());
 
         return view;
 
