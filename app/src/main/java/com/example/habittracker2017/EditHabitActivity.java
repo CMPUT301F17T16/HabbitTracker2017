@@ -125,9 +125,16 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View v){
                 if (habit.getStartDate().before(new Date())) {
                     if (habit.isDue()) {
-                        if (DateUtils.isToday(habit.getLastEvent().getDate().getTime())) {
-                            Toast.makeText(getBaseContext(), "You have already done this habit today!", Toast.LENGTH_LONG).show();
-                        } else {
+                        HabitEvent checkNull = habit.getLastEvent();
+                        if (checkNull != null) {
+                            if (DateUtils.isToday(checkNull.getDate().getTime())){
+                                Toast.makeText(getBaseContext(), "You have already done this habit today!", Toast.LENGTH_LONG).show();
+                            } else{
+                                Intent intent = new Intent(getBaseContext(), CreateEventActivity.class);
+                                intent.putExtra("Habit", position);
+                                getBaseContext().startActivity(intent);
+                            }
+                        }else {
                             Intent intent = new Intent(getBaseContext(), CreateEventActivity.class);
                             intent.putExtra("Habit", position);
                             getBaseContext().startActivity(intent);
