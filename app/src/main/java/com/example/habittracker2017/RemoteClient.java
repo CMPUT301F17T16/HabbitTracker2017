@@ -144,6 +144,35 @@ class RemoteClient {
         }
     }
 
+    public static class searchUsername extends AsyncTask<String, Void, ArrayList<String>> {
+
+        /**
+         * This method takes a username, and returns usernames simular to it.
+         * @param name The username to check.
+         * @return Exixting usernames simular to the given username.
+         */
+        @Override
+        protected ArrayList<String> doInBackground(String... name) {
+            verifySettings();
+            ArrayList<String> names = new ArrayList<>();
+
+            String query = "{\"query\" : {\"fuzzy\" : { \"name\" : \"" + name[0] + "\" }}}";
+            Search search = new Search.Builder(query).addIndex(INDEX).addType("user").build();
+            try {
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()){
+                    for(User user: result.getSourceAsObjectList(User.class)){
+                        names.add(user.getName());
+                    }
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+            return names;
+        }
+    }
+
     public static class deleteUser extends AsyncTask<Void, Void, Void> {
 
         /**
