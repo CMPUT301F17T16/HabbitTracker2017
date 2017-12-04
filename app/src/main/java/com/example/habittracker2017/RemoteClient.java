@@ -95,6 +95,7 @@ class RemoteClient {
                     Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
                 }
             }
+            UserManager.save();
             return results;
         }
     }
