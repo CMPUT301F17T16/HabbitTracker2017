@@ -9,15 +9,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -45,8 +44,7 @@ public class viewMyHistory extends Fragment {
     protected static ArrayList<HabitEvent> allEvents = new ArrayList<HabitEvent>();
     protected ListView habitEvents;
     private HistoryAdapter adapter;
-    private SearchView searchView;
-    private MenuItem searchMenuItem;
+    private EditText searchEvent;
 
     public static viewMyHistory newInstance(int position) {
         viewMyHistory fragment = new viewMyHistory();
@@ -62,10 +60,8 @@ public class viewMyHistory extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.my_history);
-        //setHasOptionsMenu(true);
     }
-    //@RequiresApi(api = Build.VERSION_CODES.O)
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,8 +86,6 @@ public class viewMyHistory extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         try{ allEvents = user.getAllEvents();}catch (Exception e){}
-        /*Log.i("here length:",String.valueOf(viewMyHistory.allEvents.size()));
-        Log.i("here title:",allEvents.get(0).getHabit());*/
         habitEvents =(ListView)getView().findViewById(R.id.myHistory_list);
 
         adapter= new HistoryAdapter(getActivity(),allEvents);
@@ -106,6 +100,24 @@ public class viewMyHistory extends Fragment {
             }
         });
 
+        searchEvent=(EditText)getView().findViewById(R.id.searchEvent);
+        searchEvent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                adapter.getFilter().filter(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
     }
 
@@ -113,33 +125,7 @@ public class viewMyHistory extends Fragment {
     public void onResume(){
         super.onResume();
         allEvents=user.getAllEvents();
-        /*habitEvents.setAdapter(new HistoryAdapter(getActivity(),allEvents));*/
         adapter.update(allEvents);
-        /*Log.i("allEvents:",String.valueOf(allEvents.size()));*/
-    }
 
-    @Override
-    public void  onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        //MenuInflater inflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.options_menu, menu);
-
-        SearchManager searchManager=(SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        searchMenuItem=menu.findItem(R.id.search);
-        searchView= (SearchView) searchMenuItem .getActionView();
-
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return true;
-            }
-        });
-        //return true;
     }
 }

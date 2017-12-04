@@ -2,6 +2,8 @@ package com.example.habittracker2017;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,13 +17,18 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Space;
 import android.widget.TextView;
 
 import org.mockito.internal.matchers.Null;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import static com.example.habittracker2017.UserManager.user;
 
 /**
@@ -44,6 +51,8 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         this.context = context;
         this.eventsList = eventsList;
         this.filteredEvents = eventsList;
+
+        getFilter();
     }
 
     //fix
@@ -105,6 +114,8 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
                 for (HabitEvent event : eventsList) {
                     if (event.getComment().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         tempList.add(event);
+                    } else if (event.getHabit().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        tempList.add(event);
                     }
                 }
                 filterResults.count = tempList.size();
@@ -153,7 +164,22 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         comment.setText(popEvent.getComment());
         ImageView image = (ImageView) layout.findViewById(R.id.popEvent_pic);
         if (popEvent.getPicture() != null) {
-            /*image.setImageBitmap(popEvent.getPicture());*/
+            image.setImageBitmap(popEvent.getPicture());
+        }
+        TextView location = (TextView) layout.findViewById(R.id.popEvent_location);
+        if (popEvent.getLocation()!=null){
+            List<Address> addresses;
+            Geocoder geocoder= new Geocoder(context, Locale.getDefault());
+            try{addresses=geocoder.getFromLocation(popEvent.getLocation().getLatitude(),popEvent.getLocation().getLongitude(),1);
+                String address=addresses.get(0).getAddressLine(0);
+                String city=addresses.get(0).getLocality();
+                String prov=addresses.get(0).getAdminArea();
+                String country=addresses.get(0).getCountryName();
+                String postalCode=addresses.get(0).getPostalCode();
+                location.setText(address);
+                location.append(" "+city+" "+prov+" "+country+" "+postalCode);
+            }
+            catch (IOException e){e.printStackTrace();}
         }
 
         changeStatusPopUp.setContentView(layout);

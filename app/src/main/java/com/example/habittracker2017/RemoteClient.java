@@ -67,6 +67,9 @@ class RemoteClient {
                         User user = result.getSourceAsObject(User.class);
                         if(user.getFollowers().contains(UserManager.user.getName())){
                             results.add(user);
+                            if(!UserManager.user.getFollowing().contains(user.getName())){
+                                UserManager.user.addFollowing(user.getName());
+                            }
                         }
                     }
                 }
@@ -94,7 +97,7 @@ class RemoteClient {
                 return results;
             }
 
-            String query = "{\"query\" : {\"term\" : { \"following\" : \"" + UserManager.user.getName() + "\" }}}";
+            String query = "{\"query\" : {\"term\" : { \"requests\" : \"" + UserManager.user.getName() + "\" }}}";
             Search search = new Search.Builder(query).addIndex(INDEX).addType("user").build();
 
             try {
@@ -138,6 +141,35 @@ class RemoteClient {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
             return true;
+        }
+    }
+
+    public static class searchUsername extends AsyncTask<String, Void, ArrayList<String>> {
+
+        /**
+         * This method takes a username, and returns usernames simular to it.
+         * @param name The username to check.
+         * @return Exixting usernames simular to the given username.
+         */
+        @Override
+        protected ArrayList<String> doInBackground(String... name) {
+            verifySettings();
+            ArrayList<String> names = new ArrayList<>();
+
+            String query = "{\"query\" : {\"fuzzy\" : { \"name\" : \"" + name[0] + "\" }}}";
+            Search search = new Search.Builder(query).addIndex(INDEX).addType("user").build();
+            try {
+                SearchResult result = client.execute(search);
+                if(result.isSucceeded()){
+                    for(User user: result.getSourceAsObjectList(User.class)){
+                        names.add(user.getName());
+                    }
+                }
+            }
+            catch (Exception e) {
+                Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+            return names;
         }
     }
 

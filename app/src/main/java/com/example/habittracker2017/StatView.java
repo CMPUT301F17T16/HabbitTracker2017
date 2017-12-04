@@ -62,6 +62,8 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
         position = this.getIntent().getIntExtra("Habit", 0);
         habit = viewTodayFragment.allHabits.get(position);
 
+        TextView completeText = (TextView) findViewById(R.id.complete);
+        TextView missText = (TextView) findViewById(R.id.miss);
         TextView statTitle = (TextView) findViewById(R.id.statsHeader);
         statTitle.setText("Statistics for " + habit.getTitle());
 
@@ -78,6 +80,8 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
         endDatePickerButton.setText(newEndDateString);
 
         completed = StatManager.completedStats(startDate,currentDay,habit);
+        completeText.setText("Missed: " + completed.get(2));
+        missText.setText("Completed: " + completed.get(3));
 
         /*
         draw pie chart
