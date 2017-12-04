@@ -119,7 +119,6 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
              * Try to create habit from parameters
              */
             try {
-                //createHabitManager.create(habitTitleName, habitStartDate, habitReason, habitHash,user.getName());
                 if (habitTitleName.equals("")){
                     Toast.makeText(getBaseContext(), "Please enter a proper title! ", Toast.LENGTH_SHORT).show();
                 }else if (habitStartDate == null){
@@ -127,10 +126,7 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
                 }else {
                     Habit habit = new Habit(habitTitleName, habitReason, habitStartDate, habitHash);
                     user.addHabit(habit);
-//                    viewManageHabits.allHabits.add(habit);
-//                    viewManageHabits.adapter.notifyDataSetChanged();
                     UserManager.save();
-                    saveToFile();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -138,21 +134,6 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
             finish();
         }
 
-    }
-    public void saveToFile(){
-        try{
-            FileOutputStream fos = openFileOutput(viewManageHabits.FILENAME, Context.MODE_PRIVATE);
-            OutputStreamWriter writer = new OutputStreamWriter(fos);
-            Gson gson = new Gson();
-            gson.toJson(viewManageHabits.allHabits, writer);
-            writer.flush();
-            fos.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
 

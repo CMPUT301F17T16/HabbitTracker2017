@@ -29,17 +29,15 @@ import static com.example.habittracker2017.UserManager.user;
 
 public class HabitTracker2017MainActivity extends AppCompatActivity{
 
-    private Context context;
+
     private SectionsPagerAdapter sectionspagerAdapter;
     private ViewPager viewPager;
-    protected static final String FILENAME ="habits.sav";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_tracker2017);
-        context = this;
 
 
         //Starts UserManager singleton, if it does not exist.

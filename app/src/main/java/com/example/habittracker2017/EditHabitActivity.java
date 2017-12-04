@@ -128,6 +128,7 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
                         if (DateUtils.isToday(habit.getLastEvent().getDate().getTime())) {
                             Toast.makeText(getBaseContext(), "You have already done this habit today!", Toast.LENGTH_LONG).show();
                         } else {
+                            position = viewTodayFragment.allHabits.indexOf(habit);
                             Intent intent = new Intent(getBaseContext(), CreateEventActivity.class);
                             intent.putExtra("Habit", position);
                             getBaseContext().startActivity(intent);
