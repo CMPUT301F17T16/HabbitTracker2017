@@ -16,5 +16,6 @@
     <string name="request_hint">Enter a username here</string>
     <string name="request_accept_button">Accept</string>
     <string name="event_change">Save changes</string>
+    <string name="event_location">Event location</string>
 
 </resources>
