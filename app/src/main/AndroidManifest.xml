@@ -48,6 +48,7 @@
         <activity android:name=".EditHabitActivity" />
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".StatView" />
+        <activity android:name=".OthersStatView"/>
         <activity android:name=".AddLocationActivity" />
         <activity android:name=".mapsActivity"></activity>
     </application>
