@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 import static com.example.habittracker2017.UserManager.user;
@@ -39,6 +41,7 @@ public class CreateEventActivity extends AppCompatActivity {
     private Location currentLocation = new Location("gps");
     private ImageView IMG;
     private Bitmap photo;
+    private String bitmapString;
     private final static int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private final static int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     private final static int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 3;
@@ -172,6 +175,8 @@ public class CreateEventActivity extends AppCompatActivity {
                         Log.d("Test", "This is convertedImage byte count!" + convertedImage.getByteCount());
 
                         habitevent.setPicture(convertedImage);
+                        bitmapString=getStringFromBitmap(convertedImage);
+                        habitevent.setBitmapString(bitmapString);
                     }
                 }
 
@@ -275,6 +280,18 @@ public class CreateEventActivity extends AppCompatActivity {
         int height = maxHeight;
 
         return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    private String getStringFromBitmap(Bitmap bitmapPicture) {
+
+        final int COMPRESSION_QUALITY = 100;
+        String encodedImage;
+        ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
+        bitmapPicture.compress(Bitmap.CompressFormat.PNG, COMPRESSION_QUALITY,
+                byteArrayBitmapStream);
+        byte[] b = byteArrayBitmapStream.toByteArray();
+        encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+        return encodedImage;
     }
 }
 

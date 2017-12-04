@@ -16,6 +16,7 @@ public class HabitEvent {
     private Location location;
     private Date date;
     private String habit;
+    private String bitmapString;
 
     /**
      * Creates a new event with a given comment.
@@ -27,6 +28,7 @@ public class HabitEvent {
         this.picture = null;
         this.location = null;
         this.date = new Date();
+        this.bitmapString=null;
     }
 
     /**
@@ -35,11 +37,12 @@ public class HabitEvent {
      * @param comment The comment to use.
      * @param picture The picture to use.
      */
-    HabitEvent(String comment, Bitmap picture){
+    HabitEvent(String comment, Bitmap picture, String bitmapString){
         this.comment = comment;
         this.picture = picture;
         this.location = null;
         this.date = new Date();
+        this.bitmapString=bitmapString;
     }
 
     /**
@@ -53,6 +56,7 @@ public class HabitEvent {
         this.picture = null;
         this.location = location;
         this.date = new Date();
+        this.bitmapString=null;
     }
 
     /**
@@ -62,11 +66,12 @@ public class HabitEvent {
      * @param picture The picture to use.
      * @param location The location to use.
      */
-    HabitEvent(String comment, Bitmap picture, Location location){
+    HabitEvent(String comment, Bitmap picture, Location location, String bitmapString){
         this.comment = comment;
         this.picture = picture;
         this.location = location;
         this.date = new Date();
+        this.bitmapString=bitmapString;
     }
 
 
@@ -91,6 +96,8 @@ public class HabitEvent {
         return habit;
     }
 
+    public String getBitmapString(){return bitmapString;}
+
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -110,4 +117,6 @@ public class HabitEvent {
     public void setHabit(String habit) {
         this.habit = habit;
     }
+
+    public void setBitmapString(String bitmapString){this.bitmapString=bitmapString;}
 }
