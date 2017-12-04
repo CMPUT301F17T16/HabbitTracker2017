@@ -1,9 +1,13 @@
 package com.example.habittracker2017;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +27,7 @@ import android.widget.TextView;
 import org.mockito.internal.matchers.Null;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -163,8 +168,8 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         final EditText comment = (EditText) layout.findViewById(R.id.event_comment);
         comment.setText(popEvent.getComment());
         ImageView image = (ImageView) layout.findViewById(R.id.popEvent_pic);
-        if (popEvent.getPicture() != null) {
-            image.setImageBitmap(popEvent.getPicture());
+        if (popEvent.getBitmapString() != null) {
+            image.setImageBitmap(getBitmapFromString(popEvent.getBitmapString()));
         }
         TextView location = (TextView) layout.findViewById(R.id.popEvent_location);
         if (popEvent.getLocation()!=null){
@@ -221,4 +226,11 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
             }
         });
     }
+    private Bitmap getBitmapFromString(String bitmapString) {
+
+        byte[] decodedString = Base64.decode(bitmapString, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return decodedByte;
+    }
+
 }
