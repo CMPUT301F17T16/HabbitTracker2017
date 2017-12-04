@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import static java.security.AccessController.getContext;
 
 /**
- *
+ *Adapter for other's activity tab
  *
  * @author team 16
  * @version 1.0
@@ -44,21 +44,42 @@ public class OthersEventsListAdapter extends BaseAdapter{
         this.context = context;
     }
 
+    /**
+     *
+     * @return number of followed users
+     */
     @Override
     public int getCount(){
         return followedUsers.size();
     }
 
+    /**
+     *
+     * @param position
+     * @return the followed user element at position
+     */
     @Override
     public Object getItem(int position){
         return followedUsers.get(position);
     }
 
+    /**
+     *
+     * @param position
+     * @return
+     */
     @Override
     public long getItemId(int position){
         return position;
     }
 
+    /**
+     * Inflate and set content of other's activity tab
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         if(convertView == null){

@@ -36,11 +36,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 
 /**
- *
+ *Show google map and marks events
  *
  * @author team 16
  * @version 1.0
- * @see AppCompatActivity
+ * @see viewMyHistory
  * @since 1.0
  */
 public class mapsActivity extends AppCompatActivity implements OnMapReadyCallback{
@@ -54,6 +54,11 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button highlightButton;
     private Boolean highlighted = false;
     private Location currentLocation;
+
+    /**
+     * Set up for displaying events that's either user's events or following's events
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +80,8 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         listener = new LocationListener() {
             @Override
             /**
-             *
+             *When location changed, update event to be displayed that's within 5km and not within 5km,
+             * so user can always see events that's within 5km
              * @param location
              */
             public void onLocationChanged(Location location) {
@@ -105,6 +111,10 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
 
+            /**
+             * Called when provider is disabled and requesting for location updates
+             * @param s
+             */
             @Override
             public void onProviderDisabled(String s) {
 
@@ -114,7 +124,9 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         };
     }
 
-
+    /**
+     * Get location of device. If get location request is not permitted, then location may not be uptodate or null
+     */
     private void getDeviceLocation() {
         /*
      * Before getting the device location, you must check location
@@ -140,7 +152,11 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-
+    /**
+     * Marking and highlighting events on map
+     * Able to highlight events within 5km or beyond 5km
+     * @param googleMap
+     */
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         highlighted = false;

@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- *
+ *Setup sub tabs of My Habit, includes Today's habit, My history and All habits tabs
  *
  * @author team 16
  * @version 1.0
@@ -32,6 +32,13 @@ import android.view.ViewGroup;
  */
 
 public class MyHabitFragment extends Fragment {
+    /**
+     * Setup sub tab container
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,13 +53,20 @@ public class MyHabitFragment extends Fragment {
 
     }
 
-
+    /**
+     * Adapter for sub tabs
+     */
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
+        /**
+         * Return Fragment tabs
+         * @param position
+         * @return Fragment tab
+         */
         @Override
         public Fragment getItem(int position) {
             switch (position) {
@@ -66,12 +80,21 @@ public class MyHabitFragment extends Fragment {
 
         }
 
+        /**
+         *
+         * @return the number of sub tabs
+         */
         @Override
         public int getCount() {
             // Show 3 total pages.
             return 3;
         }
 
+        /**
+         * Return tab's title
+         * @param position
+         * @return tab's title
+         */
         @Override
         public CharSequence getPageTitle(int position) {
 
