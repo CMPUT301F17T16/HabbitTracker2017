@@ -99,10 +99,11 @@ public class HabitTrackerUnitTest {
 
         Location location = null;
         Bitmap picture = null;
+        String bitmapString=null;
 
         HabitEvent eventL = new HabitEvent(comment, location);
-        HabitEvent eventP = new HabitEvent(comment, picture);
-        HabitEvent eventPL = new HabitEvent(comment, picture, location);
+        HabitEvent eventP = new HabitEvent(comment, picture,bitmapString);
+        HabitEvent eventPL = new HabitEvent(comment, picture, location,bitmapString);
         habit.addEvent(eventL);
         habit.addEvent(eventP);
         habit.addEvent(eventPL);
