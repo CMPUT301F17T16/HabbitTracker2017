@@ -26,7 +26,7 @@ public class HabitTests {
         String testTitle = "Title";
         Habit habit0 = new Habit(testTitle, "Reason", new Date(), testSchedule);
 
-        assertEquals("Title gotten is different from set title", habit0.getTitle(), testTitle);
+        assertEquals("Title gotten is different from set title", testTitle, habit0.getTitle());
     }
 
     @Test
@@ -37,7 +37,7 @@ public class HabitTests {
         String newTestTitle = "New Title";
         habit0.setTitle(newTestTitle);
 
-        assertEquals("Title did not update", habit0.getTitle(), newTestTitle);
+        assertEquals("Title did not update", newTestTitle, habit0.getTitle());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class HabitTests {
         String testReason = "test reason";
         Habit habit0 = new Habit("Title", testReason, new Date(), testSchedule);
 
-        assertEquals("Reason gotten is not the same as one given", habit0.getReason(), testReason);
+        assertEquals("Reason gotten is not the same as one given", testReason, habit0.getReason());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class HabitTests {
         Habit habit0 = new Habit("Title", testReason, new Date(), testSchedule);
         habit0.setReason(newTestReason);
 
-        assertEquals("habit reason did not update", habit0.getReason(), newTestReason);
+        assertEquals("habit reason did not update", newTestReason, habit0.getReason());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class HabitTests {
         Date testDate = new Date();
         Habit habit0 = new Habit("Title", "Reason", testDate, testSchedule);
 
-        assertEquals("not the same date", habit0.getStartDate(),testDate);
+        assertEquals("not the same date",testDate, habit0.getStartDate());
     }
 
     @Test
@@ -87,7 +87,7 @@ public class HabitTests {
         Habit habit0 = new Habit("Title", "Reason", originalDate, testSchedule);
         habit0.setStartDate(newDate);
 
-        assertEquals("Date did not update", habit0.getStartDate(), newDate);
+        assertEquals("Date did not update", newDate, habit0.getStartDate());
 
     }
 
@@ -97,7 +97,7 @@ public class HabitTests {
         newTestSchedule.put(1, true);
         Habit habit0 = new Habit("Title", "Reason", new Date(), newTestSchedule);
 
-        assertEquals("Schedule gotten is not the same as the one given", habit0.getSchedule(), newTestSchedule);
+        assertEquals("Schedule gotten is not the same as the one given", newTestSchedule, habit0.getSchedule());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class HabitTests {
         newTestSchedule.put(1,true);
         habit0.setSchedule(newTestSchedule);
 
-        assertEquals("Schedule did not update", habit0.getSchedule(), newTestSchedule);
+        assertEquals("Schedule did not update", newTestSchedule, habit0.getSchedule());
     }
 
 

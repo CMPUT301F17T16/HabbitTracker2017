@@ -74,23 +74,6 @@ public class HabitTrackerUnitTest {
         assertTrue(habit.getEvents().isEmpty());
     }
 
-    @Test
-    public void testBasicEventCreationAndDeletion() {
-        Habit habit = new Habit("Title", "Reason", new Date(), testSchedule);
-        String comment = "Test comment";
-        HabitEvent event = new HabitEvent(comment);
-        habit.addEvent(event);
-
-        assertTrue(habit.getEvents().contains(event));
-        assertEquals(event.getHabit(), habit);
-        assertEquals(event.getComment(), comment);
-        assertFalse(event.getDate().after(new Date(System.currentTimeMillis())));
-        assertTrue(event.getDate().after(new Date(System.currentTimeMillis() - 100))); //Or some other reasonable timeframe
-
-        //Tests delete
-        habit.deleteEvent(event);
-        assertFalse(habit.getEvents().contains(event));
-    }
 
     /*
     @Test
