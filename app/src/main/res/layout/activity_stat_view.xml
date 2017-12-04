@@ -121,20 +121,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="300dp"
-                android:orientation="vertical"
-                android:background="#F5FFFA">
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lineChart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-
-            </LinearLayout>
-
         </LinearLayout>
 
     </ScrollView>

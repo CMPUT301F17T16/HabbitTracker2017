@@ -71,36 +71,6 @@ public class StatManager {
 
     }
 
-    public static ArrayList<Entry> lineChartFill(Date startDate, Date endDate, Habit habit){
-        schedule = habit.getSchedule();
-        dueDates = daysBetween(startDate, endDate, schedule);
-        ArrayList<Entry> lineChartEntries = new ArrayList<>();
-
-        float pos = 0f;
-        events = habit.getEvents();
-        ArrayList<String> stringEvents = new ArrayList<>();
-        for (HabitEvent events : events) {
-            DateTime completedDay = new DateTime(events.getDate());
-            DateTimeFormatter fmt = DateTimeFormat.forPattern("DD-MM-yyyy");
-            String strCompletedDay = fmt.print(completedDay);
-            stringEvents.add(strCompletedDay);
-        }
-
-        for (String date : dueDates) {
-            if (stringEvents.contains(date)) {
-                Entry yes = new Entry(pos, 1f);
-                lineChartEntries.add(yes);
-                pos = pos + 1;
-                stringEvents.remove(date);
-            } else {
-                Entry no = new Entry(pos, 0f);
-                lineChartEntries.add(no);
-                pos = pos + 1;
-            }
-        }
-        return lineChartEntries;
-    }
-
     /**
      *
      * returns an array list with list of dates that the habit was due
