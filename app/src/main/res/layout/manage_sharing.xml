@@ -18,23 +18,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/requestInput"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:hint="@string/request_hint"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/requestButton"
-        app:layout_constraintEnd_toEndOf="@+id/requestButton"
-        app:layout_constraintStart_toStartOf="@+id/requestButton" />
-
     <ListView
         android:id="@+id/requestList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/requestInput"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/requestButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
