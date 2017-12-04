@@ -75,6 +75,7 @@ public class viewMyHistory extends Fragment {
         mapbutton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent mapIntent = new Intent(getContext(),mapsActivity.class);
+                mapIntent.putExtra("Caller","mine");
                 startActivity(mapIntent);
             }
         });
