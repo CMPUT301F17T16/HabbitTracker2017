@@ -1,3 +1,16 @@
+/*
+*RequestAdapter
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.content.Context;
@@ -12,11 +25,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Alex on 2017-12-01.
  * Adapts a list of strings indicating users who have requested access to the user's history to
  * a list with button to accept these requests.
+ *
+ * @author team 16
+ * @version 1.0
+ * @see ArrayAdapter
+ * @since 1.0
  */
-
 public class RequestAdapter<T> extends ArrayAdapter<String> {
     private static final String PRESSTEXT = "Done";             //The text a button displays after it has been pressed
 

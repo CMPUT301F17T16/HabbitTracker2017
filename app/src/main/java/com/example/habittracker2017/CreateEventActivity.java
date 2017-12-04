@@ -1,3 +1,16 @@
+/*
+*CreateEventActivity
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.content.Context;
@@ -24,7 +37,13 @@ import java.util.Date;
 import static com.example.habittracker2017.UserManager.user;
 
 /**
- * Created by hyuan2 on 2017-11-12.
+ * Activity for creating habit event
+ *
+ * @author team 16
+ * @version 1.0
+ * @see EditHabitActivity
+ * @see viewTodayFragment
+ * @since 1.0
  */
 
 public class CreateEventActivity extends AppCompatActivity {
@@ -48,6 +67,12 @@ public class CreateEventActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 1;
     private static final int ADD_NEW_LOCATION_CODE = 2;
 
+    /**
+     * Called when activity is created
+     * Functionality includes  add comment, location and photos and create the habit event for today's habit
+     * Request for user's permission when getting location and photo.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,6 +211,17 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Receive request code
+     * If getting photo request is granted, and there is picture to be added, then resize the image and set imageView so user can see the image
+     * he/she selects.
+     * If getting location request is granted, and user enters coordinates, coordinates are turned into address and display to user. Also sets
+     * event location
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -215,10 +251,20 @@ public class CreateEventActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Required, but not to use
+     */
     @Override
     public void onStart(){
         super.onStart();
     }
+
+    /**
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -274,6 +320,14 @@ public class CreateEventActivity extends AppCompatActivity {
             // permissions this app might request
         }
     }
+
+    /**
+     * Resize image to 65536 bytes
+     * @param image
+     * @param maxWidth
+     * @param maxHeight
+     * @return
+     */
     public Bitmap getResizedBitmap(Bitmap image, int maxWidth, int maxHeight) {
 
         int width = maxWidth;
@@ -282,6 +336,11 @@ public class CreateEventActivity extends AppCompatActivity {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
+    /**
+     * Turn bitmap format to string format
+     * @param bitmapPicture
+     * @return
+     */
     private String getStringFromBitmap(Bitmap bitmapPicture) {
 
         final int COMPRESSION_QUALITY = 100;

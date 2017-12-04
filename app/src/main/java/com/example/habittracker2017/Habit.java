@@ -1,3 +1,16 @@
+/*
+*Habit
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.provider.Settings;
@@ -10,9 +23,12 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * Created by Alex on 2017-10-20.
  * Represents a class of habits, used to organize habit events.
  * It also tracks if a event can be created from this habit at the given time.
+ * @author team 16
+ * @version 1.0
+ * @see HabitEvent
+ * @since 1.0
  */
 
 public class Habit {
@@ -45,6 +61,10 @@ public class Habit {
         events.add(event);
     }
 
+    /**
+     * Delete the event belong to this habit
+     * @param event The event to detach
+     */
     public void deleteEvent(HabitEvent event){
         events.remove(event);
     }
@@ -97,44 +117,88 @@ public class Habit {
         return this.title;       //This will probably get changed to a nicely formatted String later.
     }
 
+    /**
+     * Returns the title of this habit type
+     * @return Title of this habit type
+     */
     public String getTitle(){
         return title;
     }
 
+    /**
+     * Returns the reason of this habit type
+     * @return Reason of this habit type
+     */
     public String getReason(){
         return reason;
     }
 
+    /**
+     * Returns startDate of this habit type
+     * @return StartDate of this habit type
+     */
     public Date getStartDate() {
         return startDate;
     }
 
+    /**
+     * Returns startDate of this habit type in string and specified date format
+     * @return StartDate of this habit type in string and specified date format
+     */
     public String getStartDateString() {return new SimpleDateFormat("yyyy-MM-dd").format(startDate);}
 
+    /**
+     * Returns the schedule of this habit type
+     * @return Schedule of this habit type
+     */
     public HashMap<Integer, Boolean> getSchedule() {
         return schedule;
     }
 
+    /**
+     * Return events of this habit type
+     * @return Events of this habit type
+     */
     public ArrayList<HabitEvent> getEvents() {
         return events;
     }
 
+    /**
+     * Set title of this habit type
+     * @param title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Set reason of this habit type
+     * @param reason
+     */
     public void setReason(String reason) {
         this.reason = reason;
     }
 
+    /**
+     * Set startDate of this habit type
+     * @param startDate
+     */
     public void setStartDate(Date startDate) {      //Used in testing, do not delete
         this.startDate = startDate;
     }
 
+    /**
+     * Set schedule of this habit type
+     * @param schedule
+     */
     public void setSchedule(HashMap<Integer, Boolean> schedule) {
         this.schedule = schedule;
     }
 
+    /**
+     * Set event of this habit type
+     * @param events
+     */
     public void setEvents(ArrayList<HabitEvent> events) {
         this.events = events;
     }

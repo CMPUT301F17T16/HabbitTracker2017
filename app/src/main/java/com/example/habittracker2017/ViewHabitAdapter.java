@@ -1,3 +1,16 @@
+/*
+*ViewHabitAdapter
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.app.Dialog;
@@ -24,7 +37,12 @@ import java.util.Map;
 import static com.example.habittracker2017.UserManager.user;
 
 /**
- * Created by hyuan2 on 2017-11-12.
+ *
+ *
+ * @author team 16
+ * @version 1.0
+ * @see BaseAdapter
+ * @since 1.0
  */
 
 public class ViewHabitAdapter extends BaseAdapter implements ListAdapter {

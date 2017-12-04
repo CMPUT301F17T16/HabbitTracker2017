@@ -1,3 +1,16 @@
+/*
+*StatView
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.app.DatePickerDialog;
@@ -40,7 +53,6 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by jmark on 2017-12-01.
  * Passed start date of habit and calculates all scheduled days in between start date and end date
  * compares to habit events, if habit event exists for that date put it in completed array
  * if no habit event found for it put it in missed
@@ -49,6 +61,11 @@ import java.util.List;
  * todo: controller class
  * todo: calendar view
  * todo: changeable dates
+ *
+ * @author team 16
+ * @version 1.0
+ * @see AppCompatActivity
+ * @since 1.0
  */
 
 public class StatView extends AppCompatActivity implements View.OnClickListener {

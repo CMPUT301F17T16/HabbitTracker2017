@@ -1,3 +1,16 @@
+/*
+*FollowManagerAdapter
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.content.Context;
@@ -12,7 +25,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by jcowan on 12/2/17.
+ * Activities the viewHistory does, subclass of fragment
+ *
+ * @author team 16
+ * @version 1.0
+ * @see BaseAdapter
+ * @since 1.0
  */
 
 public class FollowManagerAdapter extends BaseAdapter implements ListAdapter{

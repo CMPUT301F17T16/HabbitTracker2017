@@ -1,3 +1,16 @@
+/*
+*UserManager
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.content.BroadcastReceiver;
@@ -17,11 +30,13 @@ import java.util.concurrent.ExecutionException;
 import com.google.gson.Gson;
 
 /**
- * Created by Alex on 2017-11-10.
  * This a singleton responsible for loading, saving, creating, and holding the current user's User object.
  * All habits and events for the current user can be accessed through it through UserManager.user.
+ *
+ * @author team 16
+ * @version 1.0
+ * @since 1.0
  */
-
 public class UserManager {
     private static UserManager instance;
     public static User user;

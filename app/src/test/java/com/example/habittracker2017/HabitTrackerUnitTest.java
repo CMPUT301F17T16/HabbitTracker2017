@@ -116,6 +116,8 @@ public class HabitTrackerUnitTest {
         assertEquals(eventPL.getLocation(), location);
         assertEquals(eventP.getPicture(), picture);
         assertEquals(eventPL.getPicture(), picture);
+        assertEquals(eventP.getBitmapString(),bitmapString);
+        assertEquals(eventPL.getBitmapString(),bitmapString);
     }
 
     @Test

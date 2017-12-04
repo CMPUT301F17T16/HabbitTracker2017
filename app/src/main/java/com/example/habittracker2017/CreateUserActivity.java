@@ -1,3 +1,16 @@
+/*
+*CreateUserActivity
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.content.Context;
@@ -11,12 +24,26 @@ import android.widget.TextView;
 
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Activity for creating user
+ *
+ * @author team 16
+ * @version 1.0
+ * @see AppCompatActivity
+ * @since 1.0
+ */
 public class CreateUserActivity extends AppCompatActivity {
     private EditText nameText;
     private Button doneButton;
     private TextView errorMessage;
     private Context context;
 
+    /**
+     * Called when activity created
+     * Set instance variables
+     * Set button onClickListener
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

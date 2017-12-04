@@ -1,3 +1,16 @@
+/*
+*HistoryAdapter
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.content.Context;
@@ -37,9 +50,13 @@ import java.util.Locale;
 import static com.example.habittracker2017.UserManager.user;
 
 /**
- * Created by jlin7 on 2017/11/12.
+ * Adaptor for viewMyHistory, also has filtering events functionality
+ *
+ * @author team 16
+ * @version 1.0
+ * @see viewMyHistory
+ * @since 1.0
  */
-
 public class HistoryAdapter extends BaseAdapter implements Filterable {
     private Context context;
     private ArrayList<HabitEvent> eventsList;
@@ -52,6 +69,11 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         TextView date;
     }
 
+    /**
+     * Constructor for HistoryAdapter
+     * @param context
+     * @param eventsList
+     */
     public HistoryAdapter(Context context, ArrayList<HabitEvent> eventsList) {
         this.context = context;
         this.eventsList = eventsList;
@@ -60,22 +82,42 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         getFilter();
     }
 
-    //fix
+    /**
+     * Get filteredEvents size
+     * @return size of filteredEvents list
+     */
     @Override
     public int getCount() {
         return filteredEvents.size();
     }
 
+    /**
+     * Get element in filteredEvents at index i
+     * @param i
+     * @return element in filteredEvents
+     */
     @Override
     public Object getItem(int i) {
         return filteredEvents.get(i);
     }
 
+    /**
+     *
+     * @param i
+     * @return 0
+     */
     @Override
     public long getItemId(int i) {
         return 0;
     }
 
+    /**
+     * Inflate view and set view contents
+     * @param position
+     * @param view
+     * @param parent
+     * @return view
+     */
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         final ViewHolder viewHolder;
@@ -100,6 +142,10 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
 
     }
 
+    /**
+     * Create one eventFilter object
+     * @return Filter
+     */
     @Override
     public Filter getFilter() {
         if (eventFilter == null) {
@@ -108,8 +154,19 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         return eventFilter;
     }
 
+    /**
+     * A filter that filter events
+     * @version 1.0
+     * @see Filter
+     * @since 1.0
+     */
     private class EventFilter extends Filter {
 
+        /**
+         * Filter events by Habit type and comments using user input keyword
+         * @param constraint
+         * @return FilterResults
+         */
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults filterResults = new FilterResults();
@@ -133,6 +190,11 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
             return filterResults;
         }
 
+        /**
+         * filterEvents is set to filter result for displaying the search result
+         * @param constraint
+         * @param results
+         */
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
@@ -141,15 +203,22 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
         }
     }
 
+    /**
+     * Receive all events that user created, update the eventList
+     * @param eventsList
+     */
     public void update(ArrayList<HabitEvent> eventsList) {
         this.eventsList = eventsList;
         this.filteredEvents = eventsList;
         this.notifyDataSetChanged();
-        /*Log.i("notify change","true");  //for debugging
-        Log.i("this eventList:",String.valueOf(this.eventsList.size()));
-        Log.i("filteredEvents:",String.valueOf(this.filteredEvents.size()));*/
     }
 
+    /**
+     * Inflate pop up window view, set view contents and display
+     * Shows the details of habit event at position "pos", able to edit event detail and delete the event
+     * @param context
+     * @param pos
+     */
     public void showDetailPopup(Context context, int pos) {
 
         final HabitEvent popEvent = filteredEvents.get(pos);
@@ -226,6 +295,12 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
             }
         });
     }
+
+    /**
+     * Turn bitmap in string format to bitmap format
+     * @param bitmapString
+     * @return
+     */
     private Bitmap getBitmapFromString(String bitmapString) {
 
         byte[] decodedString = Base64.decode(bitmapString, Base64.DEFAULT);

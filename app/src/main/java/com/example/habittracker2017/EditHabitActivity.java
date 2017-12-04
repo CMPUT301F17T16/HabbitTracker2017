@@ -1,3 +1,16 @@
+/*
+*EditHabitActivity
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.app.DatePickerDialog;
@@ -37,6 +50,15 @@ import java.util.List;
 
 import static com.example.habittracker2017.UserManager.user;
 
+
+/**
+ * Activity for edit details of habit and saves changes
+ *
+ * @author team 16
+ * @version 1.0
+ * @see viewManageHabits
+ * @since 1.0
+ */
 public class EditHabitActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText habitName;
     private TextView habitStart;
@@ -61,6 +83,12 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
     private int position;
     private Habit habit;
 
+    /**
+     * Called when activity created
+     * Set instance variables
+     * Set button onClick
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,6 +180,9 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
+    /**
+     * Set date checked, put into habitHash
+     */
     public void setHabitHash() {
         this.habitHash.put(1, sunday.isChecked());
         this.habitHash.put(2, monday.isChecked());
@@ -163,7 +194,12 @@ public class EditHabitActivity extends AppCompatActivity implements View.OnClick
         this.habitHash.put(1, sunday.isChecked());
     }
 
-
+    /**
+     * Do corresponding tasks when certain button pressed
+     * Set date
+     * Create habit from parameters. If required field is not given, then habit not created
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         if (v == datePicker){

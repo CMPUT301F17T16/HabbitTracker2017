@@ -1,3 +1,16 @@
+/*
+*manageSharing
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.content.Context;
@@ -25,7 +38,12 @@ import java.util.concurrent.ExecutionException;
 import static com.example.habittracker2017.UserManager.user;
 
 /**
- * Created by hyuan2 on 2017-11-12.
+ * Activities the viewHistory does, subclass of fragment
+ *
+ * @author team 16
+ * @version 1.0
+ * @see Fragment
+ * @since 1.0
  */
 
 public class manageSharing extends Fragment {
@@ -42,7 +60,11 @@ public class manageSharing extends Fragment {
     private ListView requestList,followerList,followingList;
     //boolean allowRefresh = false;
 
-
+    /**
+     *
+     * @param position
+     * @return
+     */
     public static manageSharing newInstance(int position) {
         manageSharing fragment = new manageSharing();
         Bundle args = new Bundle();
@@ -56,6 +78,10 @@ public class manageSharing extends Fragment {
 
     }
 
+    /**
+     * Required, but not to be used with fragment
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +91,13 @@ public class manageSharing extends Fragment {
 
     }
 
+    /**
+     * Inflate manage_sharing view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +106,13 @@ public class manageSharing extends Fragment {
         return view;
     }
 
+    /**
+     * Called when activity is created
+     * Set instance variables
+     * Set addRequest onClick
+     * Get requests, followers, following of this user, then set adapter for view
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
@@ -111,7 +151,9 @@ public class manageSharing extends Fragment {
         catch ( Exception e){e.printStackTrace();}
     }
 
-
+    /**
+     * On activity resume, update follower, following, request list to view
+     */
     public void onResume() {
         super.onResume();
         followers = UserManager.user.getFollowers();
@@ -130,6 +172,12 @@ public class manageSharing extends Fragment {
         }
     }
 
+    /**
+     *Inflate pop up window view, set pop up window button onClick
+     * Input user name to be searched and click Search to show matching users
+     * Click on user to be added then click OK to add to your following list
+     * Click Cancel to cancel request (or click outside the pop up window)
+     */
     private void openPopup(){
         LayoutInflater layoutInflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.activity_user_search_popup, null);

@@ -1,3 +1,16 @@
+/*
+*AddLocationActivity
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +36,13 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * AddLocationActivity lets user add location to the event they are creating
+ * @author team 16
+ * @version 1.0
+ * @see CreateEventActivity
+ * @since 1.0
+ */
 public class AddLocationActivity extends AppCompatActivity {
     private Button button;
     private Button B_new;
@@ -36,6 +56,10 @@ public class AddLocationActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
 
+    /**
+     * Called when activity created
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +79,7 @@ public class AddLocationActivity extends AppCompatActivity {
         listener = new LocationListener() {
             @Override
             /**
-             *
+             *Get location user enters and display one address
              * @param location
              */
             public void onLocationChanged(Location location) {
@@ -93,16 +117,31 @@ public class AddLocationActivity extends AppCompatActivity {
                 }
             }
 
+            /**
+             *
+             * @param s
+             * @param i
+             * @param bundle
+             */
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
 
             }
 
+            /**
+             *
+             * @param s
+             */
             @Override
             public void onProviderEnabled(String s) {
 
             }
 
+            /**
+             *Called when provider is disabled by the user
+             * Show setting to allow configuration of current location
+             * @param s
+             */
             @Override
             public void onProviderDisabled(String s) {
 
@@ -117,7 +156,12 @@ public class AddLocationActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     *Receive result for permission request
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {

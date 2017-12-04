@@ -1,3 +1,16 @@
+/*
+*viewMyHistory
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 
@@ -36,7 +49,12 @@ import java.util.Locale;
 import static com.example.habittracker2017.UserManager.user;
 
 /**
- * Created by jlin7 on 2017/11/12.
+ * Activities the viewHistory does, subclass of fragment
+ *
+ * @author team 16
+ * @version 1.0
+ * @see Fragment
+ * @since 1.0
  */
 
 public class viewMyHistory extends Fragment {
@@ -55,13 +73,27 @@ public class viewMyHistory extends Fragment {
         return fragment;
     }
 
+    /**
+     * Required empty public constructor
+     */
     public viewMyHistory(){}
 
+    /**
+     * Not to be used with fragment
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Called when the view is first created. Things to be showed and functionality provided when app starts.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,6 +114,10 @@ public class viewMyHistory extends Fragment {
         return view;
     }
 
+    /**
+     * Called when activity is created, views and functionality provided.
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
@@ -121,6 +157,10 @@ public class viewMyHistory extends Fragment {
 
     }
 
+    /**
+     * Called when activity is resumed.
+     * Update events shown in history
+     */
     @Override
     public void onResume(){
         super.onResume();

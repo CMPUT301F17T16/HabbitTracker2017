@@ -1,3 +1,16 @@
+/*
+*createHabit
+*
+* version 1.0
+*
+* Dec 3, 2017
+*
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
+*You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
+*
+*/
+
 package com.example.habittracker2017;
 
 import android.app.DatePickerDialog;
@@ -27,6 +40,14 @@ import java.util.HashMap;
 
 import static com.example.habittracker2017.UserManager.user;
 
+/**
+ * Activity for create habit
+ *
+ * @author team 16
+ * @version 1.0
+ * @see viewManageHabits
+ * @since 1.0
+ */
 public class createHabit extends AppCompatActivity implements View.OnClickListener {
 
     private EditText habitName;
@@ -48,6 +69,12 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
 
 
     HashMap<Integer, Boolean> habitHash = new HashMap<Integer, Boolean>();
+
+    /**
+     * Called when activity is created
+     * Set instance variables
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +98,10 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
         sunday = (CheckBox) findViewById(R.id.sunday);
 
     }
+
+    /**
+     * Set date checked, put into habitHash
+     */
     public void setHabitHash() {
         this.habitHash.put(1, sunday.isChecked());
         this.habitHash.put(2, monday.isChecked());
@@ -82,7 +113,12 @@ public class createHabit extends AppCompatActivity implements View.OnClickListen
         this.habitHash.put(1, sunday.isChecked());
     }
 
-
+    /**
+     * Do corresponding tasks when certain button pressed
+     * Set date
+     * Create habit from parameters. If required field is not given, then habit not created
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         if (v == datePicker){
