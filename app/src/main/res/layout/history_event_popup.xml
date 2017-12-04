@@ -50,7 +50,7 @@
             android:id="@+id/popEvent_pic"
             android:layout_width="180dp"
             android:layout_height="180dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/no_image_found"
             android:scaleType="centerCrop"
             android:contentDescription="@string/event_pic"
             android:layout_marginStart="10dp"

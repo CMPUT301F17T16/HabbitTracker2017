@@ -114,6 +114,8 @@ public class HistoryAdapter extends BaseAdapter implements Filterable {
                 for (HabitEvent event : eventsList) {
                     if (event.getComment().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         tempList.add(event);
+                    } else if (event.getHabit().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        tempList.add(event);
                     }
                 }
                 filterResults.count = tempList.size();
