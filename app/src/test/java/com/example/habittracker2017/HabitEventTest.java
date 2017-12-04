@@ -1,6 +1,7 @@
 package com.example.habittracker2017;
 
 import android.location.Location;
+import android.location.LocationManager;
 
 import org.junit.Test;
 
@@ -14,7 +15,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by jmark on 2017-12-04.
+ * Unit test for Habit event
+ *
+ * @author team 16
+ * @version 1.0
+ * @see HabitEvent
+ * @since 1.0
  */
 
 public class HabitEventTest {
@@ -72,6 +78,19 @@ public class HabitEventTest {
         HabitEvent event = new HabitEvent(comment, testLocation);
 
         assertEquals("wrong location gotten", testLocation, event.getLocation());
+    }
+
+    @Test
+    public void testSetLocation(){
+        String comment = "Test comment";
+        Location testLocation=new Location(LocationManager.GPS_PROVIDER);
+        testLocation.setLatitude(53.521);
+        testLocation.setLongitude(-113.521);
+
+        HabitEvent event = new HabitEvent(comment, testLocation);
+
+        assertEquals("Wrong location set",testLocation,event.getLocation());
+
     }
 
     @Test
