@@ -199,7 +199,6 @@ public class CreateEventActivity extends AppCompatActivity {
                         convertedImage.getByteCount();
                         Log.d("Test", "This is convertedImage byte count!" + convertedImage.getByteCount());
 
-                        habitevent.setPicture(convertedImage);
                         bitmapString=getStringFromBitmap(convertedImage);
                         habitevent.setBitmapString(bitmapString);
                     }

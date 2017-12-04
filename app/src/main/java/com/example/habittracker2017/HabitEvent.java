@@ -28,7 +28,6 @@ import java.util.Date;
 
 public class HabitEvent {
     private String comment;
-    private Bitmap picture;
     private Location location;
     private Date date;
     private String habit;
@@ -41,7 +40,6 @@ public class HabitEvent {
      */
     HabitEvent(String comment){
         this.comment = comment;
-        this.picture = null;
         this.location = null;
         this.date = new Date();
         this.bitmapString=null;
@@ -51,11 +49,10 @@ public class HabitEvent {
      * Creates a new event with a given comment and picture.
      * After creating an event, it must be associated with a habit with Habit.addEvent.
      * @param comment The comment to use.
-     * @param picture The picture to use.
+     * @param bitmapString The picture to use.
      */
-    HabitEvent(String comment, Bitmap picture, String bitmapString){
+    HabitEvent(String comment, String bitmapString){
         this.comment = comment;
-        this.picture = picture;
         this.location = null;
         this.date = new Date();
         this.bitmapString=bitmapString;
@@ -69,7 +66,6 @@ public class HabitEvent {
      */
     HabitEvent(String comment, Location location){
         this.comment = comment;
-        this.picture = null;
         this.location = location;
         this.date = new Date();
         this.bitmapString=null;
@@ -79,12 +75,11 @@ public class HabitEvent {
      * Creates a new event with a given comment, picture, and location.
      * After creating an event, it must be associated with a habit with Habit.addEvent.
      * @param comment The comment to use.
-     * @param picture The picture to use.
+     * @param bitmapString The picture to use.
      * @param location The location to use.
      */
-    HabitEvent(String comment, Bitmap picture, Location location, String bitmapString){
+    HabitEvent(String comment, Location location, String bitmapString){
         this.comment = comment;
-        this.picture = picture;
         this.location = location;
         this.date = new Date();
         this.bitmapString=bitmapString;
@@ -97,14 +92,6 @@ public class HabitEvent {
      */
     public String getComment() {
         return comment;
-    }
-
-    /**
-     * Returns picture of this habit event
-     * @return Picture of this habit event
-     */
-    public Bitmap getPicture() {
-        return picture;
     }
 
     /**
@@ -143,14 +130,6 @@ public class HabitEvent {
      */
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    /**
-     * Set picture of this habit event
-     * @param picture
-     */
-    public void setPicture(Bitmap picture) {
-        this.picture = picture;
     }
 
     /**
