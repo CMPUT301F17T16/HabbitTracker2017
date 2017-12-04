@@ -2,6 +2,8 @@ package com.example.habittracker2017;
 
 import android.util.Log;
 
+import com.github.mikephil.charting.data.Entry;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by jmark on 2017-12-02.
@@ -21,8 +24,6 @@ public class StatManager {
     private static HashMap<Integer, Boolean> schedule;
     private static ArrayList<String> dueDates;
     private static ArrayList<HabitEvent> events;
-    private Date startDate;
-    private Date endDate;
 
     /**
      * returns an array list with floats of
@@ -42,9 +43,6 @@ public class StatManager {
         dueDates = daysBetween(startDate, endDate, schedule);
         int maxDays = dueDates.size();
 
-        for (String day: dueDates){
-            Log.i("days",day);
-        }
         /*
         Find number of missed days by removing the amount of days completed from the valid days list
         and finding the number of remaining days
@@ -73,6 +71,36 @@ public class StatManager {
 
     }
 
+    public static ArrayList<Entry> lineChartFill(Date startDate, Date endDate, Habit habit){
+        schedule = habit.getSchedule();
+        dueDates = daysBetween(startDate, endDate, schedule);
+        ArrayList<Entry> lineChartEntries = new ArrayList<>();
+
+        float pos = 0f;
+        events = habit.getEvents();
+        ArrayList<String> stringEvents = new ArrayList<>();
+        for (HabitEvent events : events) {
+            DateTime completedDay = new DateTime(events.getDate());
+            DateTimeFormatter fmt = DateTimeFormat.forPattern("DD-MM-yyyy");
+            String strCompletedDay = fmt.print(completedDay);
+            stringEvents.add(strCompletedDay);
+        }
+
+        for (String date : dueDates) {
+            if (stringEvents.contains(date)) {
+                Entry yes = new Entry(pos, 1f);
+                lineChartEntries.add(yes);
+                pos = pos + 1;
+                stringEvents.remove(date);
+            } else {
+                Entry no = new Entry(pos, 0f);
+                lineChartEntries.add(no);
+                pos = pos + 1;
+            }
+        }
+        return lineChartEntries;
+    }
+
     /**
      *
      * returns an array list with list of dates that the habit was due
@@ -82,7 +110,7 @@ public class StatManager {
      * @param daysOfWeek
      * @return
      */
-    private static ArrayList<String> daysBetween(Date begin, Date end, HashMap<Integer, Boolean> daysOfWeek){
+    public static ArrayList<String> daysBetween(Date begin, Date end, HashMap<Integer, Boolean> daysOfWeek){
         ArrayList<String> days = new ArrayList<>();
 
         DateTime startDay = new DateTime(begin);

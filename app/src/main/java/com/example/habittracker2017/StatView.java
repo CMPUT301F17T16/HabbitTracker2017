@@ -10,10 +10,19 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.joda.time.DateTime;
@@ -56,6 +65,7 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
     private int month;
     private int day;
     private PieChart chart;
+    private LineChart lineChart;
 
 
     @Override
@@ -88,6 +98,7 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
         draw pie chart and textViews
          */
         pieChartDraw(completed);
+        drawLineChart(startDate, currentDay, habit);
 
 
     }
@@ -114,6 +125,7 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
                     }
                     completed = StatManager.completedStats(startDate,currentDay,habit);
                     pieChartDraw(completed);
+                    drawLineChart(startDate, currentDay, habit);
                 }
             }, year, month, day);
             datePickerDialog.show();
@@ -139,6 +151,7 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
                     currentDay = new Date(currentDay.getTime() + (1000 * 60 * 60 * 24));
                     completed = StatManager.completedStats(startDate,currentDay,habit);
                     pieChartDraw(completed);
+                    drawLineChart(startDate, currentDay, habit);
                 }
             }, year, month, day);
             datePickerDialog.show();
@@ -184,5 +197,39 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
         chart.setData(data);
         chart.animateXY(1000, 1000);
         chart.invalidate();
+    }
+
+    private void drawLineChart(Date startDate, Date currentDay, Habit habit){
+
+        lineChart = (LineChart) findViewById(R.id.lineChart);
+        ArrayList<Entry> entries = new ArrayList<>();
+        ArrayList<String> daysDue = new ArrayList<>();
+        ArrayList<String> daysDueNew = new ArrayList<>();
+        daysDue = StatManager.daysBetween(startDate, currentDay, habit.getSchedule());
+        entries = StatManager.lineChartFill(startDate,currentDay,habit);
+
+        //for String
+        LineDataSet habitsSet = new LineDataSet(entries, "Habits");
+        habitsSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        final ArrayList<String> finalDaysDue = daysDue;
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return finalDaysDue.get((int) value);
+            }
+        };
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+        xAxis.setValueFormatter(formatter);
+
+        List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(habitsSet);
+
+        LineData data = new LineData(dataSets);
+        lineChart.setData(data);
+        lineChart.invalidate();
+
     }
 }
