@@ -66,7 +66,7 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Get the SupportMapFragment and request notification
         // when the map is ready to be used.
         highlightButton = (Button) findViewById(R.id.Highlight);
-        if (getIntent().getStringExtra("Caller") == "mine"){
+        if (getIntent().getStringExtra("Caller").equals("mine")){
             toBeDisplayed = viewMyHistory.allEvents;
         }else{
             toBeDisplayed = OthersFragment.allEvents;
@@ -181,7 +181,7 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         latLng = new LatLng(latitude,longitude);
         googleMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,8));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
 
         highlightButton.setOnClickListener(new View.OnClickListener() {
             @Override
