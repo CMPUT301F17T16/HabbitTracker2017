@@ -45,7 +45,7 @@ public class OthersFragment extends Fragment {
         if(currentUser == null){
             return view;
         }
-        ArrayList<String> followedUserNames = currentUser.getFollowing();
+        ArrayList<String> followedUserNames = currentUser.getRequests();
 
         //Load in followed users
         RemoteClient.loadUsers task = new RemoteClient.loadUsers();

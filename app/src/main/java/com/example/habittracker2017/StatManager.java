@@ -30,6 +30,9 @@ public class StatManager {
         dueDates = daysBetween(startDate, endDate, schedule);
         int maxDays = dueDates.size();
 
+        for (String day: dueDates){
+            Log.i("days",day);
+        }
         /*
         Find number of missed days by removing the amount of days completed from the valid days list
         and finding the number of remaining days
@@ -52,6 +55,8 @@ public class StatManager {
         ArrayList<Float> completedPercent = new ArrayList<>();
         completedPercent.add(complete);
         completedPercent.add(miss);
+        completedPercent.add((float)missedDays);//number of missed days
+        completedPercent.add((float)maxDays-missedDays); // number of complete days
         return completedPercent;
 
     }
@@ -73,7 +78,7 @@ public class StatManager {
         DateTimeFormatter formater = DateTimeFormat.forPattern("DD-MM-yyyy");
 
 
-        while (startDay.isBefore(endDay.plusDays(1))){
+        while (startDay.isBefore(endDay)){
             if ( startDay.getDayOfWeek() == DateTimeConstants.MONDAY && daysOfWeek.get(2)== Boolean.TRUE){
                 String strStartDay = formater.print(startDay);
                 days.add(strStartDay);
