@@ -15,7 +15,8 @@ HabitTracker2017 was developed by group CMPUT301F17T16 for CMPUT 301 (Introducti
 * Shu-Ting Lin
 * Jonah Cowan
 
-## [Promotional Video] (https://www.youtube.com/watch?v=32f8zIlZr5E&feature=youtu.be)
+## Promotional Video
+A promotional video for HabitTracker2017 can be found [here](https://www.youtube.com/watch?v=32f8zIlZr5E&feature=youtu.be)
 
 ## LICENSE
 This project is open-sourced software licensed under the MIT License.
