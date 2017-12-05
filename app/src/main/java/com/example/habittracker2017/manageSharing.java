@@ -149,8 +149,7 @@ public class manageSharing extends Fragment {
 //
 //            followerList.setAdapter(adapter1);
 //            followingList.setAdapter(adapter2);
-        }
-        catch ( Exception e){e.printStackTrace();}
+
         if (followers.size()>0) {
             followerList.setText("");
             for (String otherUser : followers) {
@@ -162,7 +161,8 @@ public class manageSharing extends Fragment {
 //        for (String otherUser: following){
 //            followingList.append(otherUser+"\n");
 //        }
-
+        }
+        catch ( Exception e){e.printStackTrace();}
     }
 
     /**

@@ -54,6 +54,7 @@ public class OthersStatView extends AppCompatActivity{
              Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
          }
 
+         try{
          User followed = followedUser.get(0);
 
          Habit habit = followed.getHabits().get(habitLocation);
@@ -73,6 +74,9 @@ public class OthersStatView extends AppCompatActivity{
          ArrayList<Float> completed = StatManager.completedStats(startDate,currentDate,habit);
 
          pieChartDraw(completed);
+         }catch(Exception e){
+             Log.i("Error", "No user currently exists.");
+         }
     }
 
 
