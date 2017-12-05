@@ -27,7 +27,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile 'com.jayway.android.robotium:robotium:5.6.3'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:design:26.1.0'
@@ -38,9 +37,4 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     compile 'joda-time:joda-time:2.9.9'
     compile 'com.jayway.android.robotium:robotium-solo:5.6.3'
-    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
-    androidTestCompile 'com.android.support.test:rules:1.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation 'com.android.support.test.espresso:espresso-contrib:3.0.1'
 }
