@@ -33,6 +33,8 @@ import io.searchbox.core.SearchResult;
  *
  * @author team 16
  * @version 1.0
+ * @see User
+ * @see UserManager
  * @since 1.0
  */
 
@@ -44,6 +46,11 @@ class RemoteClient {
     private static final String INDEX = "cmput301f17t16_habittracker2017";
 
     public static class saveUser extends AsyncTask<User, Void, Void> {
+        /**
+         * This method saves all data of the user
+         * @param user
+         * @return
+         */
         @Override
         protected Void doInBackground(User... user) {
             verifySettings();
@@ -213,6 +220,9 @@ class RemoteClient {
         }
     }
 
+    /**
+     * Check if client is set
+     */
     private static void verifySettings() {
         if (client == null) {
             DroidClientConfig.Builder builder = new DroidClientConfig.Builder(DATABASE);

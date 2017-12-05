@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- *
+ *This class is responsible for habit statistic
  *
  * @author team 16
  * @version 1.0

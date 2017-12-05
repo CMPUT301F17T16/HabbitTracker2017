@@ -37,6 +37,11 @@ public class FollowManagerAdapter extends BaseAdapter implements ListAdapter{
     private ArrayList<String> list = new ArrayList<>();
     private Context context;
 
+    /**
+     * Constructor  for FollowManagerAdapter
+     * @param list
+     * @param context
+     */
     public FollowManagerAdapter(ArrayList<String> list,Context context){
         this.list = list;
         this.context = context;

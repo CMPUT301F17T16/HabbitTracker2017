@@ -25,6 +25,8 @@ import io.searchbox.annotations.JestId;
  *
  * @author team 16
  * @version 1.0
+ * @see Habit
+ * @see HabitEvent
  * @since 1.0
  */
 public class User {

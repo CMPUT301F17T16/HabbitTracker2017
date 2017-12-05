@@ -33,9 +33,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Jonah Cowan on 2017-12-03.
+ * This activity is for viewing followings habit stat
+ *
+ * @author team 16
+ * @version 1.0
+ * @see StatManager
+ * @see RemoteClient
+ * @see User
+ * @since 1.0
  */
-
 public class OthersStatView extends AppCompatActivity{
 
     private String userName;
@@ -48,6 +54,10 @@ public class OthersStatView extends AppCompatActivity{
     private Button endDatePickerButton;
     private PieChart chart;
 
+    /**
+     * Setup Statview contents for selected following's habit, and draw the pie chart
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -93,7 +103,10 @@ public class OthersStatView extends AppCompatActivity{
     }
 
 
-
+    /**
+     * Creates the pieChart and the writes the amount of completed and missed habits
+     * @param chartData
+     */
     private void pieChartDraw(ArrayList<Float> chartData){
 
         completeText = (TextView) findViewById(R.id.complete);

@@ -44,7 +44,9 @@ import static com.example.habittracker2017.UserManager.user;
  *
  * @author team 16
  * @version 1.0
- * @see Fragment
+ * @see CreateEventActivity
+ * @see User
+ * @see ViewHabitAdapter
  * @since 1.0
  */
 
@@ -63,7 +65,10 @@ public class viewTodayFragment extends Fragment {
         return fragment;
     }
 
-
+    /**
+     * Not to be used with fragment
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +77,13 @@ public class viewTodayFragment extends Fragment {
         }
     }
 
+    /**
+     * Inflate today's habit view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,6 +91,13 @@ public class viewTodayFragment extends Fragment {
 
         return view;
     }
+
+    /**
+     *When activity created, get all user habits and sort out today's habit for display
+     * If today's habit have not yet create an event, then click on the habit to open create event activity
+     * If the an event has already been created for the habit, then user is not allowed to create another event for that habit
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
@@ -110,6 +129,10 @@ public class viewTodayFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * Refresh the fragment view by detaching the old one and attaching updated one
+     */
     @Override
     public void onResume() {
         super.onResume();

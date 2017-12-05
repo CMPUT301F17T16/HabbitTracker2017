@@ -28,11 +28,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- *
+ *Other's Activities fragment shows a list of other users that this user is following
+ * and each user followed contains a list of their habits and the habit's most recent event
  *
  * @author team 16
  * @version 1.0
- * @see Fragment
+ * @see User
+ * @see UserManager
+ * @see mapsActivity
+ * @see OthersStatView
+ * @see ExpandableListAdapter
  * @since 1.0
  */
 
@@ -56,10 +61,17 @@ public class OthersFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Required empty constructor
+     */
     public OthersFragment() {
 
     }
 
+    /**
+     * Required, but not to be used with fragment
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +80,13 @@ public class OthersFragment extends Fragment {
         }
     }
 
+    /**
+     * Inflate the expandable list for Other's Activities view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,7 +96,15 @@ public class OthersFragment extends Fragment {
         return view;
     }
 
-
+    /**
+     * When activity created, load all following users of current user
+     * Get each following user's all habit, and the habit's latest event
+     * There is expandable list for every following user for list of their habits
+     * When click on the habit, OthersStatView Activity is called to show habit stat
+     * Click on habit's event button to show its most recent event
+     * Click on the map button to show following's event around current user location
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

@@ -37,7 +37,7 @@ import java.util.Map;
 import static com.example.habittracker2017.UserManager.user;
 
 /**
- *
+ *Adaptor for habit
  *
  * @author team 16
  * @version 1.0
@@ -49,22 +49,52 @@ public class ViewHabitAdapter extends BaseAdapter implements ListAdapter {
     private ArrayList<Habit> list = new ArrayList<Habit>();
     private Context context;
 
+    /**
+     * Constructor for ViewHabitAdapter
+     * @param list habits for display
+     * @param context
+     */
     public ViewHabitAdapter(ArrayList<Habit> list, Context context){
         this.list = list;
         this.context = context;
     }
+
+    /**
+     *
+     * @return size of list
+     */
     @Override
     public int getCount(){
         return list.size();
     }
+
+    /**
+     *
+     * @param pos
+     * @return element of list at pos
+     */
     @Override
     public Object getItem(int pos){
         return list.get(pos);
     }
+
+    /**
+     *
+     * @param pos
+     * @return
+     */
     @Override
     public long getItemId(int pos) {
         return 0;
     }
+
+    /**
+     * Inflate view for list item, and set view content for display
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return view
+     */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
@@ -79,6 +109,9 @@ public class ViewHabitAdapter extends BaseAdapter implements ListAdapter {
         return view;
     }
 
+    /**
+     * This method sorts out Habits that is due today from all habits of user
+     */
     public void sortTodayHabit(){
         ArrayList<Habit> newList = new ArrayList<Habit>();
         for (int i = 0;i<list.size();i++ ){

@@ -37,11 +37,13 @@ import java.util.ArrayList;
 import static com.example.habittracker2017.UserManager.user;
 
 /**
- * Activities the viewHistory does, subclass of fragment
+ * This is All Habit's fragment, able to view a list of habits of user, create a new habit, edit habit when clicked on the habit
  *
  * @author team 16
  * @version 1.0
- * @see Fragment
+ * @see EditHabitActivity
+ * @see ViewHabitAdapter
+ * @see User
  * @since 1.0
  */
 
@@ -63,11 +65,23 @@ public class viewManageHabits extends Fragment {
     public viewManageHabits(){
         // Required empty public constructor
     }
+
+    /**
+     * Required, but not to be used with fragment
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Inflate All habits view
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,6 +91,11 @@ public class viewManageHabits extends Fragment {
         return view;
     }
 
+    /**
+     * Get all habits of user to display.
+     * When a habit is clicked, start the EditHabitActivity
+     * @param savedInstanceState
+     */
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
@@ -96,7 +115,9 @@ public class viewManageHabits extends Fragment {
             }
         });
     }
-
+    /**
+     * Refresh the fragment view by detaching the old one and attaching updated one
+     */
     @Override
     public void onResume() {
         super.onResume();

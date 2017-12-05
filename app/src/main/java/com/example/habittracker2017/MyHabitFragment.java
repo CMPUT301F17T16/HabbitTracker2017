@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- *Setup sub tabs of My Habit, includes Today's habit, My history and All habits tabs
+ *Setup sub tabs for My Habit, includes Today's habit, My history and All habits tabs
  *
  * @author team 16
  * @version 1.0

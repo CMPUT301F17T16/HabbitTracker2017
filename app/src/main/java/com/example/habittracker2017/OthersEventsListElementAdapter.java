@@ -5,7 +5,7 @@
 *
 * Dec 3, 2017
 *
-*Copyright (c) 2017 Team 16 (Jonah Cowan, Alexander Mackenzie, Hao Yuan, Jacy Mark, Shu-Ting Lin), CMPUT301, University of Alberta - All Rights Reserved.
+*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
 *You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
 *You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
 *
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import static java.security.AccessController.getContext;
 
 /**
- *
+ *Adaptor for other's event list
  *
  * @author team 16
  * @version 1.0
@@ -41,26 +41,54 @@ public class OthersEventsListElementAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<Habit> habits;
 
+    /**
+     * Constructor for OthersEventsListElementAdapter
+     * @param context
+     * @param habits
+     */
     public OthersEventsListElementAdapter(Context context, ArrayList<Habit> habits){
         this.habits = habits;
         this.context = context;
     }
 
+    /**
+     *
+     * @return size of habit arraylist
+     */
     @Override
     public int getCount(){
         return habits.size();
     }
 
+    /**
+     *
+     * @param position
+     * @return element in habit array at position
+     */
     @Override
     public Object getItem(int position){
         return habits.get(position);
     }
 
+    /**
+     *
+     * @param position
+     * @return position
+     */
     @Override
     public long getItemId(int position){
         return position;
     }
 
+    /**
+     *Inflate and set content of following's habit list
+     * Set eventsButton onClick to show the habit's most recent event and the stat
+     * Remind user if there is no habit event for the habit selected
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return view
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {

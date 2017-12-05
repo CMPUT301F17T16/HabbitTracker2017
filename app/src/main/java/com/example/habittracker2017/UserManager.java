@@ -35,6 +35,8 @@ import com.google.gson.Gson;
  *
  * @author team 16
  * @version 1.0
+ * @see User
+ * @see RemoteClient
  * @since 1.0
  */
 public class UserManager {
@@ -122,6 +124,9 @@ public class UserManager {
         }
     }
 
+    /**
+     * Delete user from file and remote database
+     */
     public void deleteUser(){
         RemoteClient.deleteUser task = new RemoteClient.deleteUser();
         task.execute();
@@ -136,6 +141,9 @@ public class UserManager {
         }
     }
 
+    /**
+     * Method for saving user's data to remote database if there is pendingSave and has network connection
+     */
     private void checkPendingSave(){
         if(pendingSave && InternetStatus.CheckInternetConnection(context)){
             new RemoteClient.saveUser().execute(user);
@@ -143,9 +151,4 @@ public class UserManager {
         }
     }
 
-    public static void load(){
-        if(true){
-
-        }
-    }
 }

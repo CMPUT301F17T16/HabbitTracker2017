@@ -58,13 +58,9 @@ import java.util.List;
  * if no habit event found for it put it in missed
  * pie chart vals are completed/(completed + missed) and missed/(completed+missed)
  *
- * todo: controller class
- * todo: calendar view
- * todo: changeable dates
- *
  * @author team 16
  * @version 1.0
- * @see AppCompatActivity
+ * @see StatManager
  * @since 1.0
  */
 
@@ -83,9 +79,11 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
     private int month;
     private int day;
     private PieChart chart;
-    private LineChart lineChart;
 
-
+    /**
+     *Setup Statview contents for selected habit, and draw the pie chart
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +117,11 @@ public class StatView extends AppCompatActivity implements View.OnClickListener 
 
     }
 
+    /**
+     * Sets DatePicker button onclick for selecting start and end date.
+     * Once date selected, redraw the pie chart stat.
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         if (v == startDatePickerButton) {

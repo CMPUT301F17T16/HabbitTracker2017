@@ -39,6 +39,11 @@ public class OthersEventsListAdapter extends BaseAdapter{
     private Context context;
     private ArrayList<User> followedUsers;
 
+    /**
+     * Constructor for OthersEventsListAdapter
+     * @param context
+     * @param followedUsers
+     */
     public OthersEventsListAdapter(Context context, ArrayList<User> followedUsers){
         this.followedUsers = followedUsers;
         this.context = context;

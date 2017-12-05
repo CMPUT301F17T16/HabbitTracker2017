@@ -36,10 +36,24 @@ import java.util.ArrayList;
 public class RequestAdapter<T> extends ArrayAdapter<String> {
     private static final String PRESSTEXT = "Done";             //The text a button displays after it has been pressed
 
+    /**
+     * Constructor for RequestAdapter
+     * @param context
+     * @param element
+     * @param list
+     */
     public RequestAdapter(Context context, int element, ArrayList<String> list){
         super(context, element, list);
     }
 
+    /**
+     * Inflate the request list view
+     * Set acceptButton onClick. Accept follower's request by clicking acceptButton
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

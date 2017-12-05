@@ -49,11 +49,13 @@ import java.util.Locale;
 import static com.example.habittracker2017.UserManager.user;
 
 /**
- * Activities the viewHistory does, subclass of fragment
+ * This is My history fragment, able to view history events, search for events and open mapsActivity to show event locations
  *
  * @author team 16
  * @version 1.0
- * @see Fragment
+ * @see HistoryAdapter
+ * @see mapsActivity
+ * @see User
  * @since 1.0
  */
 
