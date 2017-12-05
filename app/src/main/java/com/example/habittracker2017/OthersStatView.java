@@ -66,21 +66,22 @@ public class OthersStatView extends AppCompatActivity{
          userName = this.getIntent().getStringExtra("Username");
          habitLocation = this.getIntent().getIntExtra("habitLocation",0);
 
-         ArrayList<String> following = new ArrayList<>();
-         following.add(userName);
-         RemoteClient.loadUsers task = new RemoteClient.loadUsers();
-         task.execute(following);
-         ArrayList<User> followedUser = new ArrayList<>();
-         try{
-             followedUser = task.get();
-         }catch(Exception e){
-             Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
-         }
+//         ArrayList<String> following = new ArrayList<>();
+//         following.add(userName);
+//         RemoteClient.loadUsers task = new RemoteClient.loadUsers();
+//         task.execute(following);
+//         ArrayList<User> followedUser = new ArrayList<>();
+//         try{
+//             followedUser = task.get();
+//         }catch(Exception e){
+//             Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+//         }
 
          try{
-         User followed = followedUser.get(0);
+//         User followed = followedUser.get(0);
 
-         Habit habit = followed.getHabits().get(habitLocation);
+//         Habit habit = followed.getHabits().get(habitLocation);
+            Habit habit = OthersFragment.userHabits.get(userName).get(habitLocation);
          currentDate = Calendar.getInstance().getTime();
          startDate = habit.getStartDate();
 

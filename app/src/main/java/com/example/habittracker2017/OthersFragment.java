@@ -50,7 +50,7 @@ public class OthersFragment extends Fragment {
     private ExpandableListView expandableListView;
     private ArrayList<Habit> habits;
 //    private ArrayList<String> habitTitles = new ArrayList<>();
-    private HashMap<String, ArrayList<Habit>> userHabits = new HashMap<>();
+    protected static HashMap<String, ArrayList<Habit>> userHabits = new HashMap<>();
 
     public static OthersFragment newInstance(int position) {
         OthersFragment fragment = new OthersFragment();

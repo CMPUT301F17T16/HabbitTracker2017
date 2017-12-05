@@ -166,22 +166,26 @@ public class mapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         currentLocation.setLongitude(longitude);
         currentLocation.setLatitude(latitude);
         for (HabitEvent event : toBeDisplayed) {
-            if (event.getLocation() != null) {
-                if (currentLocation.distanceTo(event.getLocation()) <= 5000) {
-                    toBeHighlighted.add(event);
-                } else {
-                    notWithIn5KM.add(event);
+            if (event == null){
+                toBeDisplayed.remove(event);
+            }else {
+                if (event.getLocation() != null) {
+                    if (currentLocation.distanceTo(event.getLocation()) <= 5000) {
+                        toBeHighlighted.add(event);
+                    } else {
+                        notWithIn5KM.add(event);
+                    }
+                    latLng = new LatLng(event.getLocation().getLatitude(), event.getLocation().getLongitude());
+                    googleMap.addMarker(new MarkerOptions().position(latLng)
+                            .title(event.getComment())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_normal)));
                 }
-                latLng = new LatLng(event.getLocation().getLatitude(), event.getLocation().getLongitude());
-                googleMap.addMarker(new MarkerOptions().position(latLng)
-                        .title(event.getComment())
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_normal)));
             }
         }
         latLng = new LatLng(latitude,longitude);
         googleMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,15));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,12));
 
         highlightButton.setOnClickListener(new View.OnClickListener() {
             @Override
