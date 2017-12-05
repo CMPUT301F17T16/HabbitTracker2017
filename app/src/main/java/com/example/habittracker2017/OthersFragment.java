@@ -98,6 +98,10 @@ public class OthersFragment extends Fragment {
             } catch (Exception e) {
                 Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
+            followedUserNames = new ArrayList<String>();
+            for (User user : followedUsers){
+                followedUserNames.add(user.getName());
+            }
 
             expandableListView = (ExpandableListView) getView().findViewById(R.id.mainList);
 
