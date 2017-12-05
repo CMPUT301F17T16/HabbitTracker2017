@@ -153,18 +153,6 @@ public class OthersFragment extends Fragment {
             expandableListView.setAdapter(adapter);
 
 
-            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
-                    Intent intent = new Intent(getContext(), OthersStatView.class);
-                    intent.putExtra("Username", followedUserNames.get(groupPosition));
-                    intent.putExtra("habitLocation", childPosition);
-
-                    getContext().startActivity(intent);
-                    return false;
-                }
-            });
-
         }else {Toast.makeText(getContext(), "Cannot load user object!", Toast.LENGTH_LONG).show();}
 
         FloatingActionButton mapbutton = getView().findViewById(R.id.map);
