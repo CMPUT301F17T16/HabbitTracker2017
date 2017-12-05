@@ -5,7 +5,7 @@
 *
 * Dec 3, 2017
 *
-*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*Copyright (c) 2017 Team 16 (Jonah Cowan, Alexander Mackenzie, Hao Yuan, Jacy Mark, Shu-Ting Lin), CMPUT301, University of Alberta - All Rights Reserved.
 *You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
 *You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
 *
@@ -40,7 +40,7 @@ import java.util.Date;
 import static com.example.habittracker2017.UserManager.user;
 
 /**
- *
+ *This is Today's habit fragment , can view a list of habits that are due today, and able to create habit event when clicked on habit
  *
  * @author team 16
  * @version 1.0

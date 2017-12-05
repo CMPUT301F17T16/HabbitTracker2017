@@ -5,7 +5,7 @@
 *
 * Dec 3, 2017
 *
-*Copyright (c) 2017 Team 16, CMPUT301, University of Alberta - All Rights Reserved.
+*Copyright (c) 2017 Team 16, CMPUT301 (Jonah Cowan, Alexander Mackenzie, Hao Yuan, Jacy Mark, Shu-Ting Lin), University of Alberta - All Rights Reserved.
 *You may use, distribute, or modify this code under terms and conditions of the Code of Student Behavior at University of Alberta.
 *You can find a copy of the license in this project. Otherwise please contact contact@abc.ca.
 *
