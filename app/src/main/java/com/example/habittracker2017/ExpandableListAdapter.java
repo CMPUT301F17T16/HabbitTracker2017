@@ -14,16 +14,36 @@
 package com.example.habittracker2017;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+
+import static com.example.habittracker2017.UserManager.user;
 
 /**
  * Created by Jonah Cowan on 2017-12-03.
@@ -43,6 +63,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private ArrayList<String> userNames;
     private HashMap<String, ArrayList<Habit>> habits;
+    private PopupWindow changeStatusPopUp;
 
     public ExpandableListAdapter(Context context, ArrayList<String> userNames, HashMap<String, ArrayList<Habit>> habits) {
         this.context = context;
@@ -61,7 +82,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent){
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent){
         final String childText = (String)getChild(groupPosition,childPosition);
 
         if(convertView == null){
@@ -69,8 +90,29 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.expandable_list_child,null);
         }
 
+        Button viewStat = (Button) convertView.findViewById(R.id.button_stat);
+        Button viewEvent = (Button) convertView.findViewById(R.id.button_event);
+
         TextView listItem = (TextView) convertView.findViewById(R.id.listItem);
         listItem.setText(childText);
+
+        viewEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDetailPopup(v.getContext(),habits.get(userNames.get(groupPosition)).get(childPosition));
+            }
+        });
+
+        viewStat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), OthersStatView.class);
+                intent.putExtra("Username", userNames.get(groupPosition));
+                intent.putExtra("habitLocation", childPosition);
+
+                v.getContext().startActivity(intent);
+            }
+        });
         return convertView;
     }
 
@@ -119,4 +161,81 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    /**
+     * Inflate pop up window view, set view contents and display
+     * Shows the details of habit event at position "pos", able to edit event detail and delete the event
+     * @param context
+     * @param habit
+     */
+    public void showDetailPopup(Context context, Habit habit) {
+
+        final HabitEvent popEvent = habit.getLastEvent();
+
+        if (popEvent!=null) {
+
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View layout = layoutInflater.inflate(R.layout.history_event_popup, null);
+
+            changeStatusPopUp = new PopupWindow(context);
+            TextView name = (TextView) layout.findViewById(R.id.habit_name);
+            name.setText(popEvent.getHabit());
+            TextView date = (TextView) layout.findViewById(R.id.popEvent_date);
+            DateFormat simpleDate = new SimpleDateFormat("yyyy-MM-dd");
+            String popDate = simpleDate.format(popEvent.getDate());
+            date.setText(popDate);
+            final EditText comment = (EditText) layout.findViewById(R.id.event_comment);
+            comment.setText(popEvent.getComment());
+            comment.setKeyListener(null);
+            ImageView image = (ImageView) layout.findViewById(R.id.popEvent_pic);
+            if (popEvent.getBitmapString() != null) {
+                image.setImageBitmap(getBitmapFromString(popEvent.getBitmapString()));
+            }
+            TextView location = (TextView) layout.findViewById(R.id.popEvent_location);
+            if (popEvent.getLocation() != null) {
+                List<Address> addresses;
+                Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+                try {
+                    addresses = geocoder.getFromLocation(popEvent.getLocation().getLatitude(), popEvent.getLocation().getLongitude(), 1);
+                    String address = addresses.get(0).getAddressLine(0);
+                    String city = addresses.get(0).getLocality();
+                    String prov = addresses.get(0).getAdminArea();
+                    String country = addresses.get(0).getCountryName();
+                    String postalCode = addresses.get(0).getPostalCode();
+                    location.setText(address);
+                    location.append(" " + city + " " + prov + " " + country + " " + postalCode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            changeStatusPopUp.setContentView(layout);
+            changeStatusPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+            changeStatusPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+            changeStatusPopUp.setFocusable(true);
+
+            changeStatusPopUp.setBackgroundDrawable(new BitmapDrawable());
+
+            changeStatusPopUp.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            Button delete = layout.findViewById(R.id.event_delete);
+            Button save = (Button) layout.findViewById(R.id.event_change);
+            delete.setVisibility(View.GONE);
+            save.setVisibility(View.GONE);
+        }else {
+            Toast.makeText(context, "This habit does not have a habit event!", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    /**
+     * Turn bitmap in string format to bitmap format
+     * @param bitmapString
+     * @return
+     */
+    private Bitmap getBitmapFromString(String bitmapString) {
+
+        byte[] decodedString = Base64.decode(bitmapString, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return decodedByte;
+    }
 }

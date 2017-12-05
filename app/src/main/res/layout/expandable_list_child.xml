@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="55dip"
-    android:orientation="vertical" >
-
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
     <TextView
         android:id="@+id/listItem"
-        android:layout_width="fill_parent"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:textSize="17dip"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft" />
-
+        android:gravity="start"
+        android:paddingLeft="5dip"
+        android:layout_weight="0.6"
+        android:paddingRight="5dip"
+        android:textColor="#000000"
+        android:textSize="17sp" />
+    <Button
+        android:id="@+id/button_event"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_weight="0.2"
+        android:textSize="12sp"
+        android:textAlignment="center"
+        android:text="Latest Event"
+        android:gravity="end" />
+    <Button
+        android:id="@+id/button_stat"
+        android:layout_width="30dp"
+        android:layout_weight="0.2"
+        android:layout_height="50dp"
+        android:textSize="12sp"
+        android:text="View Stat"
+        android:layout_gravity="end"
+        />
 </LinearLayout>
+
+
+
+
