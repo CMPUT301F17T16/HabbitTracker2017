@@ -100,8 +100,8 @@ public class OthersFragment extends Fragment {
      * When activity created, load all following users of current user
      * Get each following user's all habit, and the habit's latest event
      * There is expandable list for every following user for list of their habits
-     * When click on the habit, OthersStatView Activity is called to show habit stat
-     * Click on habit's event button to show its most recent event
+     * When click on View Stat button, OthersStatView Activity is called to show habit stat
+     * Click on habit's event button to show its most recent event with informative details
      * Click on the map button to show following's event around current user location
      * @param savedInstanceState
      */

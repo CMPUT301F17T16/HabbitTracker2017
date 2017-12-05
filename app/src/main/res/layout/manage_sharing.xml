@@ -67,7 +67,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal"
                 android:text="You Are Followed By:"
-                android:textColor="#66ccff"
+                android:textColor="#6849b6"
                 android:textSize="16dp" />
 
 
@@ -94,7 +94,7 @@
                 android:id="@+id/followedList"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#66ccff"
+                android:textColor="#6849b6"
                 android:gravity="center_horizontal"
                 android:text="No one!"
                 android:layout_weight="1" />
