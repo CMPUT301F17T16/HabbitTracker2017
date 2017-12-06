@@ -13,10 +13,12 @@
 
 package com.example.habittracker2017;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +47,7 @@ public class OthersFragment extends Fragment {
 
     private ArrayList<User> followedUsers;
     ArrayList<String> followedUserNames;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     protected static ArrayList<HabitEvent> allEvents = new ArrayList<HabitEvent>();
     private ExpandableListAdapter adapter;
     private ExpandableListView expandableListView;
@@ -91,6 +94,68 @@ public class OthersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.expandable_list, container, false);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh1);
+
+        final Context Viewcontext = getContext();
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                User currentUser = UserManager.user;
+                if(currentUser != null) {
+
+                    followedUserNames = currentUser.getRequests();
+
+                    //Load in followed users
+                    RemoteClient.loadUsers task = new RemoteClient.loadUsers();
+                    task.execute(followedUserNames);
+                    followedUsers = new ArrayList<>();
+                    try {
+                        followedUsers = task.get();
+                    } catch (Exception e) {
+                        Log.i("Error", "Something went wrong when we tried to communicate with the elasticsearch server!");
+                    }
+                    followedUserNames = new ArrayList<String>();
+                    for (User user : followedUsers){
+                        followedUserNames.add(user.getName());
+                    }
+
+                    expandableListView = (ExpandableListView) getView().findViewById(R.id.mainList);
+
+//        ArrayList<String> habitTitles = new ArrayList<>();
+                    userHabits = new HashMap<>();
+
+                    for (int i = 0; i < followedUsers.size(); i++) {
+                        habits = followedUsers.get(i).getHabits();
+                        for (Habit habit : habits) {
+                            allEvents.add(habit.getLastEvent());
+                        }
+/*            habitTitles.clear();
+            for(int j=0;j<habits.size();j++){
+                habitTitles.add(habits.get(j).getTitle());
+            }*/
+                        userHabits.put(followedUserNames.get(i), habits);
+
+                    }
+
+                    adapter = new ExpandableListAdapter(getContext(), followedUserNames, userHabits);
+
+                    expandableListView.setAdapter(adapter);
+
+
+                }else {Toast.makeText(getContext(), "Cannot load user object!", Toast.LENGTH_LONG).show();}
+
+                FloatingActionButton mapbutton = getView().findViewById(R.id.map);
+                mapbutton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent mapIntent = new Intent(getContext(),mapsActivity.class);
+                        mapIntent.putExtra("Caller","others");
+                        startActivity(mapIntent);
+                    }
+                });
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
 
         return view;

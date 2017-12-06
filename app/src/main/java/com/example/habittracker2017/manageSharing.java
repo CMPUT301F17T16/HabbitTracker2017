@@ -18,6 +18,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static com.example.habittracker2017.UserManager.user;
+import static com.github.mikephil.charting.charts.Chart.LOG_TAG;
 
 /**
  * Activities the viewHistory does, subclass of fragment
@@ -55,6 +57,8 @@ public class manageSharing extends Fragment {
     private ArrayList<String> following;
     private ArrayList<String> requests;
     private String selection;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Button addRequest;
     private ListView requestList;
@@ -86,10 +90,10 @@ public class manageSharing extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
            /* mPosition = getArguments().getInt("position");*/
         }
-
     }
 
     /**
@@ -103,6 +107,37 @@ public class manageSharing extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.manage_sharing, container, false);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+
+        final Context Viewcontext = getContext();
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                followers = UserManager.user.getFollowers();
+                following = UserManager.user.getFollowing();
+                if (followers.size()>0) {
+                    followerList.setText("");
+                    for (String otherUser : followers) {
+                        followerList.append(otherUser + "\n");
+                    }
+                    followerList.append("----------------------------------------------------------------");
+                }
+                RemoteClient.checkRequests task = new RemoteClient.checkRequests();
+                task.execute();
+                try {
+                    requests.clear();
+                    requests.addAll(task.get());
+                    adapter = new RequestAdapter<>(Viewcontext, R.layout.request_list_item, requests);
+                    requestList.setAdapter(adapter);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         return view;
     }
@@ -191,12 +226,14 @@ public class manageSharing extends Fragment {
         try {
             requests.clear();
             requests.addAll(task.get());
-            adapter.notifyDataSetChanged();
+            adapter = new RequestAdapter<>(this.getContext(), R.layout.request_list_item, requests);
+            requestList.setAdapter(adapter);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override

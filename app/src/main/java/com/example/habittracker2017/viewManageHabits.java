@@ -87,7 +87,6 @@ public class viewManageHabits extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.manage_habits, container, false);
 
-
         return view;
     }
 
